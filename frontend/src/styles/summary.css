@@ -1,0 +1,130 @@
+/* Doctor Summary Page */
+
+.summary-page-container {
+    padding: 40px clamp(24px, 5vw, 80px);
+    background: #f8fafc;
+    min-height: calc(100vh - 84px);
+    font-family: 'Raleway', sans-serif;
+    color: #1e293b;
+}
+
+.summary-card {
+    background: white;
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    margin: 0 auto 32px;
+    max-width: 900px;
+}
+
+.summary-header {
+    text-align: center;
+    border-bottom: 2px solid var(--line);
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+}
+
+.summary-header h1 {
+    font-size: 32px;
+    color: var(--deep);
+    margin: 0 0 8px 0;
+}
+
+.summary-header p {
+    color: #64748b;
+    margin: 0;
+}
+
+.summary-section {
+    margin-bottom: 32px;
+}
+
+.summary-section h2 {
+    font-size: 20px;
+    color: var(--maroon);
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.summary-item {
+    background: #f8fafc;
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.summary-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #64748b;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.summary-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.summary-image {
+    max-width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-top: 16px;
+    border: 1px solid #e2e8f0;
+}
+
+.btn-print {
+    background: var(--maroon);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+    transition: opacity 0.2s;
+}
+
+.btn-print:hover {
+    opacity: 0.9;
+}
+
+/* Print CSS */
+@media print {
+    body {
+        background: white !important;
+    }
+    .summary-page-container {
+        padding: 0;
+        background: white;
+    }
+    .summary-card {
+        box-shadow: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        max-width: 100%;
+    }
+    .no-print {
+        display: none !important;
+    }
+    .summary-section {
+        page-break-inside: avoid;
+    }
+}

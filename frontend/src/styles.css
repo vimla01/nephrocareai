@@ -1,0 +1,16 @@
+@import './styles/base.css';
+@import './styles/home.css';
+@import './styles/food.css';
+@import './styles/prediction.css';
+@import './styles/auth.css';
+@import './styles/dashboard.css';
+@import './styles/ultrasound.css';
+@import './styles/wearable.css';
+@import './styles/footer.css';
+@import './styles/responsive.css';
+
+/* Enforce Raleway globally across all pages and elements */
+*, *::before, *::after, code, pre, kbd, samp, .logs-terminal, .logs-terminal * {
+    font-family: 'Raleway', sans-serif !important;
+}
+

@@ -1,0 +1,466 @@
+/* Wearable Page & Digital Twin Dashboard Styles */
+
+.wearable-page-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 80px 24px 88px;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: #1f2937;
+}
+
+.wearable-header {
+    margin-bottom: 32px;
+}
+
+.wearable-header h1 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: clamp(28px, 3vw, 38px);
+    color: #083b66;
+    margin: 0 0 8px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.wearable-header p {
+    color: #4b5563;
+    font-size: 16px;
+    margin: 0;
+}
+
+/* Page Layout */
+.wearable-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 28px;
+    margin-bottom: 32px;
+    align-items: start;
+}
+
+@media (max-width: 1024px) {
+    .wearable-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Card Styling */
+.wearable-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.wearable-card h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    color: #083b66;
+    margin: 0 0 20px;
+    font-weight: 700;
+    border-bottom: 1px solid #f3f4f6;
+    padding-bottom: 12px;
+}
+
+/* Digital Twin Kidney Glow Section */
+.digital-twin-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+.twin-visualization {
+    position: relative;
+    width: 260px;
+    height: 220px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.kidney-svg-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.kidney-svg {
+    width: 100px;
+    height: 150px;
+    transition: filter 0.5s ease, fill 0.5s ease;
+}
+
+/* Glow Keyframe Animations */
+@keyframes kidney-pulse-low {
+    0% { filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.4)); }
+    50% { filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.8)); }
+    100% { filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.4)); }
+}
+
+@keyframes kidney-pulse-mod {
+    0% { filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.4)); }
+    50% { filter: drop-shadow(0 0 25px rgba(245, 158, 11, 0.9)); }
+    100% { filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.4)); }
+}
+
+@keyframes kidney-pulse-high {
+    0% { filter: drop-shadow(0 0 10px rgba(160, 20, 50, 0.5)); }
+    50% { filter: drop-shadow(0 0 35px rgba(160, 20, 50, 1)); }
+    100% { filter: drop-shadow(0 0 10px rgba(160, 20, 50, 0.5)); }
+}
+
+.kidney-glow-low {
+    animation: kidney-pulse-low 2.5s infinite ease-in-out;
+    fill: #10b981;
+}
+
+.kidney-glow-mod {
+    animation: kidney-pulse-mod 2s infinite ease-in-out;
+    fill: #f59e0b;
+}
+
+.kidney-glow-high {
+    animation: kidney-pulse-high 1.2s infinite ease-in-out;
+    fill: #a01432;
+}
+
+/* Stress Score Panel */
+.stress-metrics-panel {
+    text-align: center;
+    width: 100%;
+}
+
+.stress-index-value {
+    font-size: 54px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 4px;
+    transition: color 0.5s ease;
+}
+
+.stress-label {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #6b7280;
+    margin-bottom: 16px;
+}
+
+.stress-progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+
+.stress-progress-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.5s ease;
+}
+
+/* Quick Metrics Row */
+.twin-quick-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    width: 100%;
+}
+
+.quick-metric-tile {
+    background: #f9fafb;
+    border: 1px solid #f3f4f6;
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.quick-metric-tile span {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #6b7280;
+    letter-spacing: 0.5px;
+}
+
+.quick-metric-tile strong {
+    font-size: 15px;
+    color: #083b66;
+}
+
+/* Interactive Hardware Schematic */
+.hardware-schematic-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.esp32-visual-board {
+    background: #1e293b;
+    border: 3px solid #475569;
+    border-radius: 16px;
+    padding: 24px 16px;
+    width: 100%;
+    max-width: 320px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    color: white;
+    font-family: monospace;
+    position: relative;
+}
+
+.esp32-visual-board::before {
+    content: "ESP32 DEVKIT V1";
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: #94a3b8;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.esp32-usb-port {
+    width: 50px;
+    height: 12px;
+    background: #475569;
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+.schematic-pins-layout {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.pin-column {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.esp32-pin {
+    font-size: 10px;
+    background: #334155;
+    padding: 3px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+    user-select: none;
+}
+
+.esp32-pin:hover, .esp32-pin.active-pin {
+    background: #3b82f6;
+    border-color: #60a5fa;
+    transform: scale(1.08);
+}
+
+.pin-info-detail-box {
+    margin-top: 24px;
+    width: 100%;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.pin-info-detail-box h4 {
+    margin: 0 0 6px;
+    color: #0f172a;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.pin-info-detail-box p {
+    margin: 0 0 10px;
+    font-size: 13px;
+    color: #475569;
+    line-height: 1.4;
+}
+
+.pin-info-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    background: #eff6ff;
+    color: #1d4ed8;
+    padding: 2px 8px;
+    border-radius: 999px;
+}
+
+/* Simulation / Patient Scenario Panel */
+.scenario-selector-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 480px) {
+    .scenario-selector-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.scenario-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    background: white;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s ease;
+}
+
+.scenario-btn:hover {
+    border-color: #cbd5e1;
+    background: #f8fafc;
+}
+
+.scenario-btn.active {
+    border-color: #083b66;
+    background: #f0f7ff;
+    box-shadow: 0 0 0 2px rgba(8, 59, 102, 0.15);
+}
+
+.scenario-btn strong {
+    font-size: 14px;
+    color: #0f172a;
+    margin-bottom: 3px;
+}
+
+.scenario-btn span {
+    font-size: 11px;
+    color: #64748b;
+}
+
+/* Real-time Alerts Banner */
+.alerts-status-box {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.alert-message-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.alert-message-card.danger {
+    background: rgba(160, 20, 50, 0.08);
+    border: 1px solid rgba(160, 20, 50, 0.15);
+    color: #a01432;
+}
+
+.alert-message-card.warning {
+    background: rgba(245, 158, 11, 0.08);
+    border: 1px solid rgba(245, 158, 11, 0.15);
+    color: #c2410c;
+}
+
+.alert-message-card.success {
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.15);
+    color: #065f46;
+}
+
+.alert-message-card strong {
+    display: block;
+    margin-bottom: 2px;
+    font-weight: 700;
+}
+
+/* Clinical Caveat Section */
+.clinical-disclaimer-box {
+    margin-top: 14px;
+    padding: 12px 16px;
+    background: #fffbeb;
+    border: 1px solid #fef3c7;
+    border-radius: 12px;
+    color: #b45309;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.clinical-disclaimer-box strong {
+    font-weight: 700;
+}
+
+/* Graph Trend Section */
+.charts-section-title {
+    font-size: 22px;
+    color: #083b66;
+    margin: 32px 0 16px;
+    font-weight: 700;
+}
+
+.wearable-charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+@media (max-width: 768px) {
+    .wearable-charts-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.chart-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.chart-card h3 {
+    margin: 0 0 16px;
+    font-size: 16px;
+    color: #083b66;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chart-card h3 span {
+    font-size: 12px;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.chart-container-wrapper {
+    width: 100%;
+    height: 220px;
+}
