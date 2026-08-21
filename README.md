@@ -79,16 +79,11 @@ graph TD
         Predict -->|XGBoost Risk Score| Screen[2. Clinical Stage Screening]
         Screen -->|Calculated GFR & Stage G1-G5| Diet[3. Personalized Diet & Meal Planner]
 
-        Start --> Wear[4. Wearable Twin Telemetry]
-        Wear -->|Real-Time Biometrics| Stress[5. AI Kidney Stress Index]
-        Stress -->|Exceeds Threshold| Whatsapp[6. WhatsApp Emergency Alert]
+        Start --> Voice[4. Voice Prescription Upload]
+        Voice -->|Whisper & Gemini Parsing| Alerts[5. Automatic Medication Alerts]
 
-        Start --> Voice[7. Voice Prescription Upload]
-        Voice -->|Whisper & Gemini Parsing| Alerts[8. Automatic Medication Alerts]
-        Alerts --> Whatsapp
-
-        Start --> US[9. AI Ultrasound Scan Hub]
-        US -->|CNN Classification & Gemini Report| Summary[10. Aggregated Doctor Summary Report]
+        Start --> US[6. AI Ultrasound Scan Hub]
+        US -->|CNN Classification & Gemini Report| Summary[7. Aggregated Doctor Summary Report]
     end
 ```
 
