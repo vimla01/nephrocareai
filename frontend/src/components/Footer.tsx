@@ -88,9 +88,6 @@ export function Footer({ showPage, scrollTo, addToast }: FooterProps) {
           <button type="button" onClick={() => showPage('lab-report')}>
             <Activity size={14} /> Lab Report Reader
           </button>
-          <button type="button" onClick={() => showPage('wearable')}>
-            <Activity size={14} /> Wearable Digital Twin
-          </button>
           <button type="button" onClick={() => showPage('voice-assist')}>
             <Activity size={14} /> Voice Assist Intake
           </button>

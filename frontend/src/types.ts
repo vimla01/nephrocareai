@@ -1,4 +1,4 @@
-export type Page = 'home' | 'ckd-prediction' | 'food-tools' | 'login' | 'signup' | 'dashboard' | 'ultrasound' | 'doctor-summary' | 'alerts' | 'lab-report' | 'wearable' | 'chatbot' | 'settings' | 'voice-assist'
+export type Page = 'home' | 'ckd-prediction' | 'food-tools' | 'login' | 'signup' | 'dashboard' | 'ultrasound' | 'doctor-summary' | 'alerts' | 'lab-report' | 'chatbot' | 'settings' | 'voice-assist'
 
 export type PredictionForm = {
   age: number | ''
@@ -93,31 +93,6 @@ export type WhatsAppLog = {
   title: string;
   message: string;
   status: 'Sent' | 'Simulated' | 'Failed';
-}
-
-export type TelemetryData = {
-  timestamp: string;
-  heart_rate: number;
-  hrv: number;
-  spo2: number;
-  skin_temp: number;
-  sweat_conductivity: number;
-  bioimpedance: number;
-  ecg_anomaly: boolean;
-  kidney_stress_index: number;
-  electrolyte_risk: 'Low' | 'Moderate' | 'High';
-  hydration_status: 'Hydrated' | 'Mild Dehydration' | 'Severe Dehydration';
-  fluid_retention: 'Normal' | 'Mild Retention' | 'Severe Retention';
-  hyperkalemia_pattern: boolean;
-  t_wave_amplitude?: number;
-  qrs_amplitude?: number;
-}
-
-export type WearableResponse = {
-  current: TelemetryData;
-  history: TelemetryData[];
-  scenario: string;
-  hardware_active: boolean;
 }
 
 export type StageProgressionResult = {

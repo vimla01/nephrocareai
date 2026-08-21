@@ -104,7 +104,6 @@ export function Header({ mobileOpen, featuresOpen, setMobileOpen, setFeaturesOpe
       <button className="nav-link feature-trigger" onClick={() => setFeaturesOpen(!featuresOpen)} aria-expanded={featuresOpen}>Features <span className={featuresOpen ? 'chevron up' : 'chevron'}>⌄</span></button>
       <button className="nav-link" onClick={() => scrollTo('about')}>About</button>
       <button className="nav-link" onClick={() => scrollTo('resources')}>Resources</button>
-      <button className="nav-link" onClick={() => showPage('wearable')}>Wearable Twin</button>
     </nav>
     <div className="header-right-container" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
       <div className="header-actions">
@@ -301,7 +300,6 @@ export function Header({ mobileOpen, featuresOpen, setMobileOpen, setFeaturesOpe
       <button type="button" onClick={() => showPage('ckd-prediction')}>Risk Calculator</button>
       <button type="button" onClick={() => showPage('food-tools')}>Food Tools</button>
       <button type="button" onClick={() => showPage('ultrasound')}>Ultrasound Scan</button>
-      <button type="button" onClick={() => showPage('wearable')}>Wearable Twin</button>
       <button type="button" onClick={() => showPage('dashboard')}>Dashboard</button>
       <button type="button" onClick={() => showPage('voice-assist')}>Voice Assist</button>
       <button type="button" onClick={() => scrollTo('about')}>About</button>

@@ -13,7 +13,6 @@ import { DashboardPage } from './pages/DashboardPage'
 import { UltrasoundPage } from './pages/UltrasoundPage'
 import { DoctorSummaryPage } from './pages/DoctorSummaryPage'
 import { AlertsPage } from './pages/AlertsPage'
-import { WearablePage } from './pages/WearablePage'
 import { LabReportPage } from './pages/LabReportPage'
 import { ChatbotPage } from './pages/ChatbotPage'
 import { SettingsPage } from './pages/SettingsPage'
@@ -560,7 +559,6 @@ function App() {
     />}
     {page === 'doctor-summary' && <DoctorSummaryPage showPage={showPage} user={user} />}
     {page === 'alerts' && <AlertsPage showPage={showPage} user={user} addToast={addToast} />}
-    {page === 'wearable' && <WearablePage />}
     {page === 'chatbot' && <ChatbotPage showPage={showPage} user={user} form={form} />}
     {page === 'settings' && <SettingsPage showPage={showPage} user={user} />}
     {page === 'voice-assist' && <VoiceAssistPage showPage={showPage} user={user} />}

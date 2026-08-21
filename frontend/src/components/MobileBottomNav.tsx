@@ -34,15 +34,7 @@ export function MobileBottomNav({ showPage, currentPage }: MobileBottomNavProps)
         <span>Diet</span>
       </button>
 
-      <button 
-        className={`mobile-nav-btn twin-btn ${currentPage === 'wearable' ? 'active' : ''}`}
-        onClick={() => showPage('wearable')}
-      >
-        <Icon name="clock" size={20} />
-        <span>Twin</span>
-      </button>
-
-      <button 
+      <button
         className={`mobile-nav-btn dash-btn ${currentPage === 'dashboard' ? 'active' : ''}`}
         onClick={() => showPage('dashboard')}
       >

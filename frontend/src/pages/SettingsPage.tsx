@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import {
-  User, Bell, Shield, Activity, Pill, Utensils, Smartphone,
+  User, Bell, Shield, Activity, Pill, Utensils,
   ChevronRight, Moon, Sun, Save, CheckCircle, AlertTriangle,
   Phone, Mail, Globe, Clock, Trash2, Download, Upload, Lock,
-  Eye, EyeOff, HelpCircle, Info
+  Eye, EyeOff, HelpCircle
 } from 'lucide-react'
 import '../styles/settings.css'
 import { API_BASE_URL } from '../constants'
@@ -14,7 +14,6 @@ type SettingsSection =
   | 'health'
   | 'medications'
   | 'diet'
-  | 'wearable'
   | 'privacy'
   | 'data'
 
@@ -66,7 +65,6 @@ export function SettingsPage({ user, showPage }: SettingsPageProps) {
   const [medReminder, setMedReminder] = useState(() => localStorage.getItem('nephrocare_med_reminder') === 'true')
   const [foodReminder, setFoodReminder] = useState(() => localStorage.getItem('nephrocare_food_reminder') === 'true')
   const [labReminder, setLabReminder] = useState(() => localStorage.getItem('nephrocare_lab_reminder') === 'true')
-  const [wearableAlerts, setWearableAlerts] = useState(() => localStorage.getItem('nephrocare_wearable_alerts') !== 'false')
   const [whatsappAlerts, setWhatsappAlerts] = useState(() => (localStorage.getItem('nephrocare_whatsapp_enabled') || localStorage.getItem('nephrocare_whatsapp_alerts')) === 'true')
   const [emailAlerts, setEmailAlerts] = useState(() => localStorage.getItem('nephrocare_email_alerts') !== 'false')
 
@@ -119,7 +117,6 @@ export function SettingsPage({ user, showPage }: SettingsPageProps) {
              if (p.medReminder !== undefined) setMedReminder(p.medReminder)
              if (p.foodReminder !== undefined) setFoodReminder(p.foodReminder)
              if (p.labReminder !== undefined) setLabReminder(p.labReminder)
-             if (p.wearableAlerts !== undefined) setWearableAlerts(p.wearableAlerts)
              if (p.whatsappAlerts !== undefined) setWhatsappAlerts(p.whatsappAlerts)
              if (p.emailAlerts !== undefined) setEmailAlerts(p.emailAlerts)
              if (p.darkMode !== undefined) setDarkMode(p.darkMode)
@@ -204,7 +201,7 @@ export function SettingsPage({ user, showPage }: SettingsPageProps) {
       const payload = {
         ...profile,
         preferences: {
-          medReminder, foodReminder, labReminder, wearableAlerts, whatsappAlerts, emailAlerts,
+          medReminder, foodReminder, labReminder, whatsappAlerts, emailAlerts,
           darkMode, egfrUnit, weightUnit, tempUnit, language, reminderFreq, reminderTime1, reminderTime2,
           dietRestriction, dailyCalories, fluidLimit, shareWithDoctor, anonymousAnalytics, twoFactor
         }
@@ -222,7 +219,6 @@ export function SettingsPage({ user, showPage }: SettingsPageProps) {
     localStorage.setItem('nephrocare_med_reminder', String(medReminder))
     localStorage.setItem('nephrocare_food_reminder', String(foodReminder))
     localStorage.setItem('nephrocare_lab_reminder', String(labReminder))
-    localStorage.setItem('nephrocare_wearable_alerts', String(wearableAlerts))
     localStorage.setItem('nephrocare_whatsapp_enabled', String(whatsappAlerts))
     localStorage.setItem('nephrocare_whatsapp_alerts', String(whatsappAlerts))
     localStorage.setItem('nephrocare_email_alerts', String(emailAlerts))
@@ -311,7 +307,6 @@ export function SettingsPage({ user, showPage }: SettingsPageProps) {
     { id: 'notifications', label: 'Notifications',  icon: <Bell size={18} />,        desc: 'Reminders & alerts' },
     { id: 'medications',   label: 'Medications',    icon: <Pill size={18} />,        desc: 'Medication schedule & reminders' },
     { id: 'diet',          label: 'Diet & Fluids',  icon: <Utensils size={18} />,    desc: 'Dietary restrictions & goals' },
-    { id: 'wearable',      label: 'Wearable',       icon: <Smartphone size={18} />,  desc: 'Device & telemetry settings' },
     { id: 'privacy',       label: 'Privacy',        icon: <Shield size={18} />,      desc: 'Password, 2FA & data clearing' },
   ]
 
@@ -462,14 +457,6 @@ export function SettingsPage({ user, showPage }: SettingsPageProps) {
                   onChange={setLabReminder}
                   color="amber"
                 />
-                <ToggleRow
-                  icon={<Smartphone size={16} />}
-                  label="Wearable Anomaly Alerts"
-                  desc="Instant notifications for abnormal heart rate, SpO2, or kidney stress"
-                  value={wearableAlerts}
-                  onChange={setWearableAlerts}
-                  color="red"
-                />
               </div>
 
               <div className="settings-toggle-group">
@@ -597,64 +584,6 @@ export function SettingsPage({ user, showPage }: SettingsPageProps) {
                     {nutrient}
                   </div>
                 ))}
-              </div>
-            </div>
-          )}
-
-          {/* ─── WEARABLE ─── */}
-          {activeSection === 'wearable' && (
-            <div className="settings-section">
-              <div className="settings-section-header">
-                <Smartphone size={20} />
-                <div>
-                  <h2>Wearable Twin Settings</h2>
-                  <p>Configure how the digital wearable twin collects and processes your telemetry data.</p>
-                </div>
-              </div>
-
-              <div className="settings-wearable-status">
-                <div className="wearable-dot active"></div>
-                <div>
-                  <div style={{ fontWeight: 600 }}>NephroCare Wearable Twin</div>
-                  <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Simulated stream active — update interval: 5s</div>
-                </div>
-                <span className="wearable-status-badge">Connected</span>
-              </div>
-
-              <div className="settings-toggle-group">
-                <h3 className="settings-group-title">Alert Thresholds</h3>
-                <ToggleRow
-                  icon={<Activity size={16} />}
-                  label="Wearable Anomaly Alerts"
-                  desc="Notify when SpO2 drops below 92% or HR exceeds 94 BPM"
-                  value={wearableAlerts}
-                  onChange={setWearableAlerts}
-                  color="red"
-                />
-              </div>
-
-              <div className="settings-grid-2" style={{ marginTop: '20px' }}>
-                <div className="settings-stat-card">
-                  <div className="settings-stat-label">Heart Rate Threshold</div>
-                  <div className="settings-stat-value">94 <span>BPM</span></div>
-                </div>
-                <div className="settings-stat-card">
-                  <div className="settings-stat-label">SpO₂ Minimum</div>
-                  <div className="settings-stat-value">92 <span>%</span></div>
-                </div>
-                <div className="settings-stat-card">
-                  <div className="settings-stat-label">Kidney Stress Alert</div>
-                  <div className="settings-stat-value">&gt; 70 <span>/100</span></div>
-                </div>
-                <div className="settings-stat-card">
-                  <div className="settings-stat-label">Skin Temp Alert</div>
-                  <div className="settings-stat-value">38.5 <span>°C</span></div>
-                </div>
-              </div>
-
-              <div className="settings-info-card">
-                <Info size={15} />
-                <span>Thresholds are medically calibrated for CKD patients. Contact your nephrologist before adjusting.</span>
               </div>
             </div>
           )}
