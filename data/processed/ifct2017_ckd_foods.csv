@@ -1,0 +1,528 @@
+food_name,category,protein_g,energy_kcal,potassium_mg,phosphorus_mg,sodium_mg
+"Amaranth seed, black (Amaranthus cruentus)",Cereals and millets,14.59,356.12,433,374,2.7
+"Amaranth seed, pale brown (Amaranthus cruentus)",Cereals and millets,13.27,355.88,413,412,2.81
+Bajra (Pennisetum typhoideum),Cereals and millets,10.96,347.99,365,289,4.11
+Barley (Hordeum vulgare),Cereals and millets,10.94,315.73,268,178,7.56
+Jowar (Sorghum vulgare),Cereals and millets,9.97,334.13,328,274,5.42
+"Maize, dry (Zea mays)",Cereals and millets,8.8,334.13,291,279,4.44
+"Maize, tender, local (Zea mays)",Cereals and millets,3.57,119.98,167,163,2.24
+"Maize, tender, sweet (Zea mays)",Cereals and millets,4.16,96.8,297,121,2.23
+Quinoa (Chenopodium quinoa),Cereals and millets,13.11,328.39,474,212,4.5
+Ragi (Eleusine coracana),Cereals and millets,7.16,320.75,443,210,4.75
+Rice flakes (poha) (Oryza sativa),Cereals and millets,7.44,353.73,148,195,2.58
+Rice puffed (Oryza sativa),Cereals and millets,7.47,361.85,140,152,3.69
+"Rice, raw, brown (Oryza sativa)",Cereals and millets,9.16,353.73,199,267,3.64
+"Rice, parboiled, milled (Oryza sativa)",Cereals and millets,7.81,351.58,142,140,3.16
+"Rice, raw, milled (Oryza sativa)",Cereals and millets,7.94,356.36,108,96,2.34
+Samai (Panicum miliare),Cereals and millets,10.13,346.32,105,130,4.77
+Varagu (Paspalum scrobiculatum),Cereals and millets,8.92,331.74,94,101,3.35
+"Wheat flour, refined (Triticum aestivum)",Cereals and millets,10.36,351.82,148,110,1.54
+"Wheat flour, atta (roti/chapati flour) (Triticum aestivum)",Cereals and millets,10.57,320.27,311,315,2.04
+"Wheat, whole (Triticum aestivum)",Cereals and millets,10.59,321.94,366,315,2.5
+"Wheat, bulgur (Triticum aestivum)",Cereals and millets,10.84,341.78,330,245,2.09
+"Wheat, semolina (sooji/rava; upma base) (Triticum aestivum)",Cereals and millets,11.38,333.65,284,119,2.31
+"Wheat, vermicelli (Triticum aestivum)",Cereals and millets,9.7,332.7,163,99,2.71
+"Wheat, vermicelli, roasted (Triticum aestivum)",Cereals and millets,10.37,340.11,177,107,3.43
+"Bengal gram, dal (Cicer arietinum)",Grain legumes,21.55,329.11,957,325,20.83
+"Bengal gram, whole (Cicer arietinum)",Grain legumes,18.77,287.05,935,267,26.56
+"Black gram, dal (Phaseolus mungo)",Grain legumes,23.06,324.09,1157,375,18.88
+"Black gram, whole (Phaseolus mungo)",Grain legumes,21.97,291.35,1093,345,26.8
+"Cowpea, brown (Vigna catjang)",Grain legumes,20.36,320.27,1241,372,13.68
+"Cowpea, white (Vigna catjang)",Grain legumes,21.25,320.27,1243,378,12.52
+"Field bean, black (Phaseolus vulgaris)",Grain legumes,19.93,276.05,1272,457,1.35
+"Field bean, brown (Phaseolus vulgaris)",Grain legumes,19.9,282.98,1245,429,1.41
+"Field bean, white (Phaseolus vulgaris)",Grain legumes,19.84,280.35,1360,448,1.7
+"Green gram, dal (Vigna radiata)",Grain legumes,23.88,325.76,1268,416,10.14
+"Green gram, whole (Vigna radiata)",Grain legumes,22.53,293.74,1177,353,12.48
+"Horse gram, whole (Dolichos biflorus)",Grain legumes,21.73,329.59,1065,298,12.14
+Lentil dal (Lens culinaris),Grain legumes,24.35,322.42,786,310,10.27
+"Lentil whole, brown (Lens culinaris)",Grain legumes,22.49,299,756,274,11.2
+"Lentil whole, yellowish (Lens culinaris)",Grain legumes,22.87,297.8,764,261,10.87
+Moth bean (Vigna aconitifolia),Grain legumes,19.75,308.56,1356,362,26.34
+"Peas, dry (Pisum sativum)",Grain legumes,20.43,303.3,922,334,23.4
+"Rajmah, black (Phaseolus vulgaris)",Grain legumes,19.01,298.04,1362,386,9.4
+"Rajmah, brown (Phaseolus vulgaris)",Grain legumes,19.5,297.56,1366,396,10.47
+"Rajmah, red (Phaseolus vulgaris)",Grain legumes,19.91,299.24,1324,409,10.45
+"Red gram, dal (Cajanus cajan)",Grain legumes,21.7,330.78,1395,328,18.01
+"Red gram, whole (Cajanus cajan)",Grain legumes,20.47,273.9,1303,312,19.03
+Ricebean (Vigna umbellata),Grain legumes,19.97,302.34,1196,270,10.62
+"Soybean, brown (Glycine max)",Grain legumes,35.58,381.45,1613,483,2.07
+"Soybean, white (Glycine max)",Grain legumes,37.8,377.39,1634,494,2.83
+Agathi leaves (Sesbania grandiflora),Green leafy vegetables,8.01,70.51,674,52.52,18.12
+"Amaranth leaves, green (Amaranthus gangeticus)",Green leafy vegetables,3.29,30.59,572,73.22,16.08
+"Amaranth leaves, red (Amaranthus gangeticus)",Green leafy vegetables,3.93,33.46,564,75.98,14.58
+"Amaranth leaves, red and green mix (Amaranthus gangeticus)",Green leafy vegetables,3.09,31.55,597,68.23,17.55
+"Amaranth spined, leaves, green (Amaranthus spinosus)",Green leafy vegetables,3.54,26.29,569,72.46,15.66
+"Amaranth spined, leaves, red and green mix (Amaranthus spinosus)",Green leafy vegetables,2.8,23.66,588,85.02,16.27
+Basella leaves (Basella alba),Green leafy vegetables,1.57,19.6,337,37.26,18.74
+Bathua leaves (Chenopodium album),Green leafy vegetables,2.5,27.72,438,37.55,10.75
+Beet greens (Beta vulgaris),Green leafy vegetables,2.38,34.66,530,36.02,111
+"Betel leaves, big (Kolkata) (Piper betle)",Green leafy vegetables,2.51,48.28,649,51.73,16.8
+"Betel leaves, small (Piper betle)",Green leafy vegetables,2.62,43.74,678,55.72,14.04
+Brussels sprouts (Brassica oleracea var. gemmifera),Green leafy vegetables,4.26,44.22,639,98.56,18.51
+"Cabbage, Chinese (Brassica rupa)",Green leafy vegetables,1.58,17.93,258,33.05,20.28
+"Cabbage, collard greens (Brassica oleracea var. viridis)",Green leafy vegetables,3.63,30.11,292,54.67,22.98
+"Cabbage, green (Brassica oleracea var. capitata f. alba)",Green leafy vegetables,1.36,21.51,233,30.15,14.98
+"Cabbage, violet (Brassica oleracea var. capitata f. rubra)",Green leafy vegetables,1.39,23.18,201,22.14,24
+Cauliflower leaves (Brassica oleracea var. botrytis),Green leafy vegetables,3.9,35.37,374,62.82,24.31
+"Colocasia leaves, green (Colocasia esculenta)",Green leafy vegetables,3.42,43.5,404,57.88,12.08
+Drumstick leaves (Moringa oleifera),Green leafy vegetables,6.41,67.4,397,109,9.34
+Fenugreek leaves (Trigonella foenum graecum),Green leafy vegetables,3.68,34.42,226,53.05,47.01
+Garden cress (Lepidium sativum),Green leafy vegetables,5.62,49.71,379,45.55,25.35
+"Gogu leaves, green (Hibiscus cannabinus)",Green leafy vegetables,1.86,36.33,260,41.99,12.34
+"Gogu leaves, red (Hibiscus cannabinus)",Green leafy vegetables,1.85,36.57,161,36.38,14.08
+"Knol-Khol, leaves (Brassica oleracea var. gongylodes)",Green leafy vegetables,3.12,42.54,309,55.02,26.8
+Lettuce (Lactuca sativa),Green leafy vegetables,1.54,21.75,279,44.1,17.53
+Mustard leaves (Brassica juncea),Green leafy vegetables,3.52,30.35,403,71.62,19.14
+Pak Choi leaves (Brassica rapa var. chinensis),Green leafy vegetables,1.41,16.01,250,25.95,33.73
+Parsley (Petroselinum crispum),Green leafy vegetables,5.55,72.9,466,78.56,53.08
+Ponnaganni (Alternanthera sessilis),Green leafy vegetables,5.29,50.91,457,58.26,39.36
+"Pumpkin leaves, tender (Cucurbita maxima)",Green leafy vegetables,4.21,44.22,423,64.54,12.2
+Radish leaves (Raphanus sativus),Green leafy vegetables,2.22,26.05,304,50.08,17.39
+Rumex leaves (Rumex patientia),Green leafy vegetables,1.62,19.6,336,32.4,19.95
+Spinach (Spinacia oleracea),Green leafy vegetables,2.14,24.38,625,32.59,42.55
+"Tamarind leaves, tender (Tamarindus indica)",Green leafy vegetables,5.84,71.46,465,86.86,13.43
+Ash gourd (Benincasa hispida),Other vegetables,0.79,17.45,372,29.07,0.77
+"Bamboo shoot, tender (Bambusa vulgaris)",Other vegetables,1.33,16.25,422,39.63,1.12
+"Bean scarlet, tender (Phaseolus coccineus)",Other vegetables,2.86,42.78,164,62.13,1.46
+"Bitter gourd, jagged, teeth ridges, elongate (Momordica charantia)",Other vegetables,1.44,20.79,326,44.9,13.09
+"Bitter gourd, jagged, teeth ridges, short (Momordica charantia)",Other vegetables,1.34,18.88,282,40.21,12.59
+"Bitter gourd, jagged, smooth ridges, elongate (Momordica charantia)",Other vegetables,1.61,19.36,356,44.75,11.16
+"Bottle gourd, elongate, pale green (Lagenaria vulgaris)",Other vegetables,0.53,10.99,124,16.01,1.46
+"Bottle gourd, round, pale green (Lagenaria vulgaris)",Other vegetables,0.42,13.62,116,16.99,1.52
+"Bottle gourd, elongate, dark green (Lagenaria vulgaris)",Other vegetables,0.49,12.91,171,26.86,1.35
+Brinjal-1 (Solanum melongena),Other vegetables,1.77,27.25,302,39.95,3.15
+Brinjal-2 (Solanum melongena),Other vegetables,1.82,23.66,206,44.65,3.92
+Brinjal-3 (Solanum melongena),Other vegetables,1.36,24.38,192,27.79,3.12
+Brinjal-4 (Solanum melongena),Other vegetables,1.51,23.9,268,31.82,3.31
+Brinjal-5 (Solanum melongena),Other vegetables,1.38,26.53,227,33.13,4.03
+Brinjal-6 (Solanum melongena),Other vegetables,1.46,23.18,289,30.12,3.75
+Brinjal-7 (Solanum melongena),Other vegetables,1.4,23.42,238,29.58,3.45
+Brinjal-8 (Solanum melongena),Other vegetables,1.82,27.96,284,35.84,4.73
+Brinjal-9 (Solanum melongena),Other vegetables,1.47,25.33,224,35.71,3.08
+Brinjal-10 (Solanum melongena),Other vegetables,1.68,27.72,252,37.36,4.35
+Brinjal-11 (Solanum melongena),Other vegetables,1.43,25.1,260,33.28,3.47
+Brinjal-12 (Solanum melongena),Other vegetables,1.6,22.23,259,37.81,3.88
+Brinjal-13 (Solanum melongena),Other vegetables,1.49,29.64,260,26.81,3
+Brinjal-14 (Solanum melongena),Other vegetables,1.56,25.33,246,30.07,3.71
+Brinjal-15 (Solanum melongena),Other vegetables,1.58,27.25,215,30.32,3.34
+Brinjal-16 (Solanum melongena),Other vegetables,1.26,24.62,294,29.86,3.22
+Brinjal-17 (Solanum melongena),Other vegetables,1.18,21.75,233,35.94,3.09
+Brinjal-18 (Solanum melongena),Other vegetables,1.47,27.72,208,28.03,3.63
+Brinjal-19 (Solanum melongena),Other vegetables,1.26,23.9,243,29.76,3.11
+Brinjal-20 (Solanum melongena),Other vegetables,1.44,23.66,239,31.21,3.58
+Brinjal-21 (Solanum melongena),Other vegetables,1.36,27.01,252,34.98,3.06
+Brinjal - all varieties (Solanum melongena),Other vegetables,1.48,25.33,247,32.56,3.55
+Broad beans (Vicia faba),Other vegetables,3.85,29.4,362,67.97,20.74
+"Capsicum, green (Capsicum annuum)",Other vegetables,1.11,16.25,154,23,1.84
+"Capsicum, red (Capsicum annuum)",Other vegetables,1.47,19.84,224,30.81,1.7
+"Capsicum, yellow (Capsicum annuum)",Other vegetables,1.35,18.64,242,43.33,1.56
+Cauliflower (Brassica oleracea var. botrytis),Other vegetables,2.15,22.94,329,47.33,30.72
+Celery stalk (Apium graveolens),Other vegetables,0.98,16.49,298,44.84,10.68
+Cho-cho-marrow (Sechium edule),Other vegetables,0.66,18.88,120,21.61,1.28
+Cluster beans (Cyamopsis tetragonoloba),Other vegetables,3.55,40.15,301,45.28,4.05
+"Colocasia, stem, black (Colocasia esculenta)",Other vegetables,0.76,23.9,381,20.31,0.45
+"Colocasia, stem, green (Colocasia esculenta)",Other vegetables,0.91,19.36,414,30.73,0.6
+"Corn, baby (Zea mays)",Other vegetables,2.69,73.14,260,8.69,1.4
+"Cucumber, green, elongate (Cucumis sativus)",Other vegetables,0.71,19.6,183,28.34,6.33
+"Cucumber, green, short (Cucumis sativus)",Other vegetables,0.83,17.45,198,29.74,6.11
+"Cucumber, orange, round (Cucumis sativus)",Other vegetables,0.98,19.6,185,23.17,8.16
+Drumstick (Moringa oleifera),Other vegetables,2.62,29.4,419,52.87,22.38
+"Field beans, tender, broad (Vicia faba)",Other vegetables,3.06,30.83,345,73.3,14.14
+"Field beans, tender, lean (Vicia faba)",Other vegetables,3.71,33.46,314,76.54,12.76
+"French beans, country (Phaseolus vulgaris)",Other vegetables,2.49,24.38,324,59.86,8.84
+"French beans, hybrid (Phaseolus vulgaris)",Other vegetables,2.12,22.23,317,45.9,9.18
+"Jack fruit, raw (Artocarpus heterophyllus)",Other vegetables,1.98,26.29,327,27.78,3.53
+"Jack fruit, seed, mature (Artocarpus heterophyllus)",Other vegetables,5.79,76.96,376,29.33,4
+Knol - Khol (Brassica oleracea),Other vegetables,1.58,16.01,327,40.77,27.46
+"Kovai, big (Coccinia cordifolia)",Other vegetables,1.39,17.45,198,36.9,1.53
+"Kovai, small (Coccinia cordifolia)",Other vegetables,1.22,19.12,167,26.29,2.2
+Ladies finger (Abelmoschus esculentus),Other vegetables,2.08,27.49,263,57.48,7.37
+"Mango, green, raw (Mangifera indica)",Other vegetables,0.69,49,147,14.92,33.15
+"Onion, stalk (Allium cepa)",Other vegetables,2.07,25.57,312,28.53,15.52
+"Papaya, raw (Carica papaya)",Other vegetables,0.5,23.9,173,24.11,7.55
+Parwar (Trichosanthes dioica),Other vegetables,1.4,24.14,117,33.81,2.29
+"Peas, fresh (Pisum sativum)",Other vegetables,7.25,81.26,249,55.95,3.66
+"Plantain, flower (Musa x paradisiaca)",Other vegetables,1.47,21.27,488,47.31,7.51
+"Plantain, green (Musa x paradisiaca)",Other vegetables,1.18,79.83,402,31.69,18.57
+"Plantain, stem (Musa x paradisiaca)",Other vegetables,0.35,39.44,373,16.31,23.17
+"Pumpkin, green, cylindrical (Cucurbita maxima)",Other vegetables,0.87,24.62,186,24.51,5.21
+"Pumpkin, orange, round (Cucurbita maxima)",Other vegetables,0.84,23.18,253,22.18,8.81
+"Red gram, tender, fresh (Cajanus cajan)",Other vegetables,8.09,124.28,616,141,2.54
+Ridge gourd (Luffa acutangula),Other vegetables,0.91,13.15,118,33.06,4.71
+"Ridge gourd, smooth skin (Luffa acutangula)",Other vegetables,0.98,15.3,125,39.25,6.27
+"Snake gourd, long, pale green (Trichosanthes anguina)",Other vegetables,0.98,12.43,100,23.27,7.07
+"Snake gourd, long, dark green (Trichosanthes anguina)",Other vegetables,0.89,11.95,104,31.03,5.04
+"Snake gourd, short (Trichosanthes anguina)",Other vegetables,0.54,14.58,84,21.33,2.5
+"Tinda, tender (Praecitrullus fistulosus)",Other vegetables,1.02,13.86,56.18,30.37,20.61
+"Tomato, green (Solanum lycopersicum)",Other vegetables,1.12,20.79,225,22.5,13.11
+"Tomato, ripe, hybrid (Solanum lycopersicum)",Other vegetables,0.76,18.88,167,15.45,11.86
+"Tomato, ripe, local (Lycopersicon esculentum)",Other vegetables,0.9,19.6,204,18.77,9.73
+"Zucchini, green (Cucurbita pepo)",Other vegetables,1.1,20.08,178,21.38,0.4
+"Zucchini, yellow (Cucurbita pepo)",Other vegetables,1.31,18.88,131,32.03,0.39
+"Apple, big (Malus domestica)",Fruits,0.29,62.38,116,10.44,1.43
+"Apple, green (Malus domestica)",Fruits,0.46,51.15,94.55,7.48,1.47
+"Apple, small (Malus domestica)",Fruits,0.31,63.81,100,8.39,1.45
+"Apple, small, Kashmir (Malus domestica)",Fruits,0.27,64.29,106,10.72,1.22
+"Apricot, dried (Prunus armeniaca)",Fruits,3.17,315.73,285,72.02,3.94
+"Apricot, processed (Prunus armeniaca)",Fruits,1.47,56.41,95,27.33,1.6
+Avocado fruit (Persea sp.),Fruits,2.95,144.36,377,63.14,2.81
+Bael fruit (Aegle marmelos),Fruits,2.63,135.99,409,37.29,1.56
+"Banana, ripe, montham (Musa x paradisiaca)",Fruits,1.25,110.66,362,20.85,1.25
+"Banana, ripe, poovam (Musa x paradisiaca)",Fruits,1.49,106.36,335,33.63,1
+"Banana, ripe, red (Musa x paradisiaca)",Fruits,1.29,111.62,313,23.27,1.11
+"Banana, ripe, robusta (Musa x paradisiaca)",Fruits,1.23,105.16,306,24.32,0.85
+Black berry (Rubus sp.),Fruits,0.92,54.25,205,20.08,1.21
+"Cherries, red (Prunus cerasus)",Fruits,1.49,59.75,165,25.31,1.64
+"Currants, black (Ribes nigrum)",Fruits,1.51,54.25,283,78.8,1.45
+Custard apple (Annona squamosa),Fruits,1.62,98.95,278,40.81,3.11
+"Dates, dry, pale brown (Phoenix dactylifera)",Fruits,2.45,320.27,804,73.02,3.27
+"Dates, dry, dark brown (Phoenix dactylifera)",Fruits,2.38,310.95,782,70.26,3.09
+"Dates, processed (Phoenix dactylifera)",Fruits,1.18,286.09,289,33.88,1.6
+Fig (Ficus carica),Fruits,2.03,81.5,231,21.62,2.37
+Gooseberry (Emblica officinalis),Fruits,0.34,23.66,223,21.85,1.37
+"Grapes, seeded, round, black (Vitis vinifera)",Fruits,0.76,60.71,171,21.04,1.93
+"Grapes, seeded, round, green (Vitis vinifera)",Fruits,0.77,56.17,166,19.5,1.89
+"Grapes, seeded, round, red (Vitis vinifera)",Fruits,0.95,58.32,188,27.91,1.59
+"Grapes, seedless, oval, black (Vitis vinifera)",Fruits,1.41,94.41,237,29.02,1.83
+"Grapes, seedless, round, green (Vitis vinifera)",Fruits,0.62,53.54,168,20.27,1.81
+"Grapes, seedless, round, black (Vitis vinifera)",Fruits,1.24,89.39,235,26.68,1.92
+"Guava, white flesh (Psidium guajava)",Fruits,1.44,32.27,283,23.54,2.87
+"Guava, pink flesh (Psidium guajava)",Fruits,1.19,46.61,270,29.93,1.89
+"Jack fruit, ripe (Artocarpus heterophyllus)",Fruits,2.74,72.18,279,23.02,1.62
+"Jambu fruit, ripe (Syzygium samarangense)",Fruits,0.82,56.17,103,9.6,2.64
+Karonda fruit (Carissa carandas),Fruits,1.15,33.7,351,32.62,2.55
+"Lemon, juice (Citrus limon)",Fruits,0.41,36.57,113,9.86,1.21
+"Lime, sweet,pulp (Citrus limetta)",Fruits,0.76,27.25,182,20.55,1.17
+Litchi (Litchi chinensis),Fruits,0.99,53.78,161,23.32,0.54
+"Mango, ripe, banganapalli (Mangifera indica)",Fruits,0.54,41.83,144,11.07,1.34
+"Mango, ripe, gulabkhas (Mangifera indica)",Fruits,0.52,49.95,115,10.66,1.39
+"Mango, ripe, himsagar (Mangifera indica)",Fruits,0.46,44.69,137,12.25,1.31
+"Mango, ripe, kesar (Mangifera indica)",Fruits,0.54,55.21,143,12.36,1.43
+"Mango, ripe, neelam (Mangifera indica)",Fruits,0.68,42.54,137,11.63,1.2
+"Mango, ripe, paheri (Mangifera indica)",Fruits,0.68,44.93,153,15.18,1.63
+"Mango, ripe, totapari (Mangifera indica)",Fruits,0.41,59.27,160,9.87,1.32
+Mangosteen (Garcinia mangostana),Fruits,0.63,52.34,46.93,7.18,3.79
+Manila tamarind (Pithecellobium dulce),Fruits,3.56,81.74,376,73.53,1.35
+"Musk melon, orange flesh (Cucumis melon)",Fruits,0.42,23.18,206,17.28,14.94
+"Musk melon, yellow flesh (Cucumis melon)",Fruits,0.53,27.72,196,13.09,15.78
+"Orange, pulp (Citrus aurantium)",Fruits,0.7,37.28,164,12.9,1.47
+"Papaya, ripe (Carica papaya)",Fruits,0.42,23.9,173,17.73,6.68
+Peach (Prunus communis),Fruits,0.86,40.15,281,19.08,1.15
+Pear (Pyrus sp.),Fruits,0.36,37.52,106,6.74,1.64
+Phalsa (Grewia asiatica),Fruits,1.66,71.46,362,23.65,1.99
+Pineapple (Ananas comosus),Fruits,0.52,43.02,143,13.56,1.43
+Plum (Prunus domestica),Fruits,0.64,56.88,162,13.83,1.55
+"Pomegranate, maroon seeds (Punica granatum)",Fruits,1.33,54.73,206,27.2,2.13
+Pummelo (Citrus maxima),Fruits,0.68,50.19,189,13.99,1.06
+"Raisins, dried, black (Vitis vinifera)",Fruits,2.57,305.69,1105,77.62,10.99
+"Raisins, dried, golden (Vitis vinifera)",Fruits,2.76,296.61,913,93.3,10.16
+Rambutan (Nephelium lappaceum),Fruits,0.68,73.14,131,6.98,1.75
+Sapota (Achras sapota),Fruits,0.92,73.37,280,22.26,4.61
+Soursop (Annona muricata),Fruits,0.74,62.14,264,25.83,6.78
+Star fruit (Averrhoa carambola),Fruits,0.79,26.29,159,11.67,1.56
+Strawberry (Fragaria x ananassa),Fruits,0.97,24.62,140,26.31,1.19
+"Tamarind, pulp (Tamarindus indica)",Fruits,2.92,288.48,836,113,24.92
+"Water melon, dark green (sugar baby) (Citrullus vulgaris)",Fruits,0.6,20.32,124,11.33,1.89
+"Water melon, pale green (Citrullus vulgaris)",Fruits,0.59,16.73,126,8.09,1.62
+Wood Apple (Limonia acidissima),Fruits,3.14,78.15,347,84.32,1.48
+Zizyphus (Zizyphus jujube),Fruits,1.34,48.76,237,32.38,1.52
+Beet root (Beta vulgaris),Roots and tubers,1.95,35.61,306,36.33,69.44
+"Carrot, orange (Daucus carota)",Roots and tubers,0.95,33.22,273,43.06,52.33
+"Carrot, red (Daucus carota)",Roots and tubers,1.04,38.24,267,25.81,60.69
+Colocasia (Colocasia esculenta),Roots and tubers,3.31,88.91,514,81.16,4.54
+Lotus root (Nelumbium nelumbo),Roots and tubers,1.94,79.35,611,74.3,20.63
+"Potato, brown skin, big (Solanum tuberosum)",Roots and tubers,1.54,69.79,541,43.42,4.11
+"Potato, brown skin, small (Solanum tuberosum)",Roots and tubers,1.35,60.95,474,37.9,3.97
+"Potato, red skin (Solanum tuberosum)",Roots and tubers,1.83,73.14,501,30.39,4.36
+"Radish, elongate, red skin (Raphanus sativus)",Roots and tubers,0.67,32.03,255,27.51,24.73
+"Radish, elongate, white skin (Raphanus sativus)",Roots and tubers,0.77,32.27,288,30.1,28.2
+"Radish, round, red skin (Raphanus sativus)",Roots and tubers,0.89,31.07,308,28.27,32.27
+"Radish, round, white skin (Raphanus sativus)",Roots and tubers,0.8,30.83,287,29.47,24.14
+"Sweet potato, brown skin (Ipomoea batatas)",Roots and tubers,1.33,108.99,345,42.96,29.6
+"Sweet potato, pink skin (Ipomoea batatas)",Roots and tubers,1.27,108.03,329,37.6,29.04
+Tapioca (Manihot esculenta),Roots and tubers,1.03,79.83,255,42.55,10.86
+Water Chestnut (Eleocharis dulcis),Roots and tubers,0.86,95.6,382,62.83,13.08
+"Yam, elephant (Amorphophallus campanulatus)",Roots and tubers,2.56,84.37,501,43.06,14.33
+"Yam, ordinary (Amorphophallus sp.)",Roots and tubers,2.18,83.41,463,49.46,15.28
+"Yam, wild (Dioscorea villosa)",Roots and tubers,3.07,102.77,654,55.94,12.8
+"Chillies, green-1 (Capsicum annum)",Condiments and spices,2.62,45.65,431,62.16,3.32
+"Chillies, green-2 (Capsicum annum)",Condiments and spices,2.28,39.91,321,51.72,2.47
+"Chillies, green-3 (Capsicum annum)",Condiments and spices,2.38,40.39,317,50.24,2.56
+"Chillies, green-4 (Capsicum annum)",Condiments and spices,2.33,45.41,318,42.79,1.94
+"Chillies, green-5 (Capsicum annum)",Condiments and spices,2.01,43.02,317,44.35,2.19
+"Chillies, green-6 (Capsicum annum)",Condiments and spices,3.01,41.83,340,56.05,2.43
+"Chillies, green-7 (Capsicum annum)",Condiments and spices,2.12,38.96,319,45.58,2
+"Chillies, green - all varieties (Capsicum annum)",Condiments and spices,2.36,42.3,341,50.91,2.5
+Coriander leaves (Coriandrum sativum),Condiments and spices,3.52,31.07,546,64.69,37
+Curry leaves (Murraya koenigii),Condiments and spices,7.41,63.58,584,83.29,18.66
+"Garlic, big clove (Allium sativum)",Condiments and spices,6.92,123.8,430,119,9.42
+"Garlic, small clove (Allium sativum)",Condiments and spices,6.75,122.85,453,116,10.56
+"Garlic, single clove, Kashmir (Allium sativum)",Condiments and spices,6.12,125,584,128,8.87
+"Ginger, fresh (Zingiber officinale)",Condiments and spices,2.22,54.97,407,44.36,10.03
+Mango ginger (Curcuma amada),Condiments and spices,1.45,42.3,384,68.33,5.51
+Mint leaves (Mentha spicata),Condiments and spices,4.66,37.05,539,65.25,16.87
+"Onion, big (Allium cepa)",Condiments and spices,1.5,48.04,171,32.34,5.5
+"Onion, small (Allium cepa)",Condiments and spices,1.82,56.64,160,39.65,4.06
+Asafoetida (Ferula assa-foetida),Condiments and spices,6.34,331.5,245,69.09,16.04
+"Cardamom, green (Elettaria cardamomum)",Condiments and spices,8.1,255.02,1262,132,15.51
+"Cardamom, black (Elettaria cardamomum)",Condiments and spices,6.69,270.55,1331,117,16.25
+"Chillies, red (Capsicum annum)",Condiments and spices,12.69,236.62,2245,280,19.45
+Cloves (Syzygium aromaticum),Condiments and spices,5.86,186.66,1434,83.1,183
+Coriander seeds (Coriandrum sativum),Condiments and spices,10.66,268.88,1473,293,34.41
+Cumin seeds (Cuminum cyminum),Condiments and spices,13.91,304.49,1886,382,125
+Fenugreek seeds (Trigonella foenum graecum),Condiments and spices,25.41,234.94,891,435,40.2
+Mace (Myristica fragrans),Condiments and spices,6.24,355.64,623,110,27.17
+Nutmeg (Myristica fragrans),Condiments and spices,6.3,463.67,474,207,14.31
+Omum (Trachyspermum ammi),Condiments and spices,15.89,357.31,1692,329,28.58
+Pippali (Piper longum),Condiments and spices,10.53,216.54,1852,181,16.28
+"Pepper, black (Piper nigrum)",Condiments and spices,10.12,217.5,1487,144,24.08
+Poppy seeds (Papaver somniferum),Condiments and spices,20.31,422.56,646,804,25.35
+Turmeric powder (Curcuma domestica),Condiments and spices,7.66,280.59,2374,276,24.41
+Almond (Prunus amygdalus),Nuts and oil seeds,18.41,609.23,699,446,1.5
+"Arecanut, dried, brown (Areca catechu)",Nuts and oil seeds,5.78,350.62,524,105,12.06
+"Arecanut, dried, red color (Areca catechu)",Nuts and oil seeds,6.46,353.01,617,127,17.13
+"Arecanut, fresh (Areca catechu)",Nuts and oil seeds,2.73,244.74,329,90.48,5.53
+Cashew nut (Anacardium occidentale),Nuts and oil seeds,18.78,582.7,635,500,9
+"Coconut, kernel, dry (Cocos nucifera)",Nuts and oil seeds,7.27,624.04,739,203,16.68
+"Coconut, kernel, fresh (Cocos nucifera)",Nuts and oil seeds,3.84,408.94,246,67.73,8.12
+"Garden cress, seeds (Lepidium sativum)",Nuts and oil seeds,23.36,445.27,952,539,21.84
+"Gingelly seeds, black (Sesamum indicum)",Nuts and oil seeds,19.17,507.65,480,568,15.91
+"Gingelly seeds, brown (Sesamum indicum)",Nuts and oil seeds,21.61,516.49,491,613,11.94
+"Gingelly seeds, white (Sesamum indicum)",Nuts and oil seeds,21.7,519.6,460,754,15.43
+Ground nut (Arachis hypogaea),Nuts and oil seeds,23.65,520.08,679,391,12.21
+Mustard seeds (Brassica nigra),Nuts and oil seeds,19.51,509.56,694,715,3.97
+Linseeds (Linum usitatissimum),Nuts and oil seeds,18.55,443.83,655,445,32.93
+"Niger seeds, black (Guizotia abyssinica)",Nuts and oil seeds,18.92,512.43,716,461,10.7
+"Niger seeds, gray (Guizotia abyssinica)",Nuts and oil seeds,18.34,508.6,874,474,8.08
+Pine seed (Pinus sp.),Nuts and oil seeds,12.55,594.17,686,618,1.31
+Pistachio nuts (Pistacia vera),Nuts and oil seeds,23.35,539.44,1053,537,6.93
+Safflower seeds (Carthamus tinctorius),Nuts and oil seeds,17.66,473.47,550,644,3.05
+Sunflower seeds (Helianthus annuus),Nuts and oil seeds,23.53,586.28,559,752,1.9
+Walnut (Juglans regia),Nuts and oil seeds,14.92,671.37,457,400,1.33
+"Jaggery, cane (Saccharum officinarum)",Sugars,1.85,353.73,488,74.53,25.38
+"Sugarcane, juice (Saccharum officinarum)",Sugars,0.16,57.84,150,22.08,1.16
+"Button mushroom, fresh (Agaricus sp.)",Mushrooms,3.68,27.49,318,87.11,7.72
+"Chicken mushroom, fresh (Lactiporus sp.)",Mushrooms,1.84,21.27,340,79.74,10.22
+"Shiitake mushroom, fresh (Lentinula sp.)",Mushrooms,3.19,58.08,323,96.36,9.3
+"Oyster mushroom, dried (Pleurotus sp.)",Mushrooms,19.04,243.55,350,702,8.67
+Toddy (Borassus flabellifer),Miscellaneous foods,0.18,24.14,83.54,5.82,1.64
+Coconut Water (Cocos nucifera),Miscellaneous foods,0.26,15.3,215,18.05,28.09
+"Milk, whole, Buffalo",Milk and milk products,3.68,107.31,109,86.94,30.1
+"Milk, whole, Cow",Milk and milk products,3.26,72.9,115,96.56,25.46
+Paneer,Milk and milk products,18.86,305.45,63.53,330,18.04
+Khoa,Milk and milk products,16.34,315.97,536,476,48.1
+"Egg, poultry, whole, raw",Egg and egg products,13.28,134.8,138,185,123
+"Egg, poultry, white, raw",Egg and egg products,10.84,44.69,152,15.81,166
+"Egg, poultry, yolk, raw",Egg and egg products,15.74,296.85,118,549,46.33
+"Egg, poultry, whole, boiled",Egg and egg products,13.43,147.71,127,209,121
+"Egg, poultry, white, boiled",Egg and egg products,12.37,52.58,147,23,144
+"Egg, poultry, yolk, boiled",Egg and egg products,16.13,308.32,106,586,44.83
+"Egg, poultry, omlet",Egg and egg products,16.53,169.69,163,222,169
+"Egg, country hen, whole, raw",Egg and egg products,13.14,168.26,117,198,157
+"Egg, country hen, whole, boiled",Egg and egg products,14.43,183.32,120,206,149
+"Egg, country hen, omlet",Egg and egg products,14.8,204.35,151,243,157
+"Egg, duck, whole, boiled",Egg and egg products,13.8,176.39,221,263,110
+"Egg, duck, whole, raw",Egg and egg products,14.6,181.64,228,247,113
+"Egg, duck, whole, omlet",Egg and egg products,15.1,192.16,154,309,175
+"Egg, quial, whole, raw",Egg and egg products,12.39,151.77,119,236,132
+"Egg, quial, whole, boiled",Egg and egg products,13.03,154.64,115,237,130
+"Chicken, poultry, leg, skinless",Poultry,19.44,383.6,283,199,65.07
+"Chicken, poultry, thigh, skinless",Poultry,18.18,199.81,263,186,64.59
+"Chicken, poultry, breast, skinless",Poultry,21.81,168.26,295,178,36.7
+"Chicken, poultry, wing, skinless",Poultry,17.42,192.88,185,189,72.78
+"Poultry, chicken, liver",Poultry,21.57,123.8,241,244,61.58
+"Poultry, chicken, gizzard",Poultry,18.22,92.26,244,119,50.6
+"Country hen, leg, with skin",Poultry,17.01,172.8,357,250,50.46
+"Country hen, thigh, with skin",Poultry,18.29,187.62,330,232,51.14
+"Country hen, breast, with skin",Poultry,22.08,179.97,365,222,23.13
+"Country hen, wing, with skin",Poultry,18.65,182.6,249,235,54.15
+"Duck, meat, with skin",Poultry,19.07,130.74,273,237,82.25
+"Emu, meat, skinless",Poultry,22.65,132.89,275,243,48.48
+"Guinea fowl, meat, with skin",Poultry,20.52,112.09,240,187,57.64
+"Pigeon, meat, with skin",Poultry,17.94,126.2,346,255,56.1
+"Quail, meat, skinless",Poultry,20.92,137.67,333,300,56.21
+"Turkey, leg, with skin",Poultry,20.3,154.64,308,236,66.47
+"Turkey, thigh, with skin",Poultry,20.46,138.86,280,194,50.01
+"Turkey, breast, with skin",Poultry,21.96,160.37,315,182,40.45
+"Turkey, wing, with skin",Poultry,21.91,184.27,262,199,57
+"Goat, shoulder",Animal meat,20.33,188.1,332,189,47.31
+"Goat, chops",Animal meat,20.39,135.76,334,195,45.72
+"Goat, legs",Animal meat,22.07,159.89,339,187,42.77
+"Goat, brain",Animal meat,13.82,127.39,296,296,132
+"Goat, tongue",Animal meat,16.63,188.58,223,212,118
+"Goat, lungs",Animal meat,16.86,95.84,180,209,85.72
+"Goat, heart",Animal meat,19.38,117.59,224,174,73.21
+"Goat, liver",Animal meat,20.32,125.72,284,336,55.41
+"Goat, tripe",Animal meat,15.36,92.26,45,59.2,22.38
+"Goat, spleen",Animal meat,18.45,95.84,368,266,52.4
+"Goat, kidneys",Animal meat,15.6,89.39,195,220,184
+"Goat, tube (small intestine)",Animal meat,12.92,125.48,130,55.9,7.46
+"Goat, testis",Animal meat,12.32,71.22,253,186,92.61
+"Sheep, shoulder",Animal meat,18.24,200.76,336,195,45.65
+"Sheep, chops",Animal meat,18,118.55,323,191,45.26
+"Sheep, leg",Animal meat,21.42,163.96,333,187,49.3
+"Sheep, brain",Animal meat,13.05,117.59,312,271,122
+"Sheep, tongue",Animal meat,16.61,187.14,220,207,185
+"Sheep, lungs",Animal meat,16.12,86.76,204,187,109
+"Sheep, heart",Animal meat,18.19,106.36,225,163,72.62
+"Sheep, liver",Animal meat,22.26,133.6,280,334,55.82
+"Sheep, tripe",Animal meat,16.76,103.97,48.75,55.61,18.37
+"Sheep, spleen",Animal meat,16.02,91.78,327,266,50.58
+"Sheep, kidneys",Animal meat,16.22,91.78,198,204,163
+"Beef, shoulder",Animal meat,20.56,212.48,367,201,45.59
+"Beef, chops",Animal meat,19.82,139.82,383,209,32.47
+"Beef, round (leg)",Animal meat,22.64,157.27,366,215,38.96
+"Beef, brain",Animal meat,10.55,125,320,326,127
+"Beef, tongue",Animal meat,15.63,174.71,260,220,89.88
+"Beef, lungs",Animal meat,15.66,83.89,216,172,109
+"Beef, heart",Animal meat,17.68,103.49,258,181,70.52
+"Beef, liver",Animal meat,20.73,119.26,289,332,50.14
+"Beef, tripe",Animal meat,13.1,75.53,143,60.17,41
+"Beef, spleen",Animal meat,17.42,90.34,348,252,58.94
+"Beef, kidneys",Animal meat,17.09,104.92,184,180,160
+"Calf, shoulder",Animal meat,20.98,151.29,369,197,77
+"Calf, chops",Animal meat,22.47,125.24,366,195,64.94
+"Calf, round (leg)",Animal meat,21.1,146.99,356,185,67.04
+"Calf, brain",Animal meat,9.84,107.07,306,296,115
+"Calf, tongue",Animal meat,17.78,176.15,238,178,91.64
+"Calf, heart",Animal meat,18.84,109.7,224,185,58
+"Calf, liver",Animal meat,21.02,120.22,307,358,54.99
+"Calf, spleen",Animal meat,17.71,90.58,372,274,67.87
+"Calf, kidneys",Animal meat,15.16,92.5,206,204,174
+"Mithun, shoulder",Animal meat,19.05,175.91,307,199,32.94
+"Mithun, chops",Animal meat,18.19,128.11,222,178,42.17
+"Mithun, round (leg)",Animal meat,19.61,115.92,338,190,28.42
+"Pork, shoulder",Animal meat,17.41,237.33,234,157,54.47
+"Pork, chops",Animal meat,19.41,178.78,243,143,43.7
+"Pork, ham",Animal meat,18.83,240.44,239,140,40.44
+"Pork, lungs",Animal meat,15.13,85.56,200,161,61.41
+"Pork, heart",Animal meat,16.31,109.23,268,187,70.52
+"Pork, liver",Animal meat,19.89,115.68,279,310,64.89
+"Pork, stomach",Animal meat,15.36,131.45,200,125,109
+"Pork, spleen",Animal meat,15.13,85.33,325,230,49.14
+"Pork, kidneys",Animal meat,14.35,90.58,198,201,138
+"Pork, tube (small intestine)",Animal meat,14.96,140.3,140,124,60.17
+"Hare, shoulder",Animal meat,21.13,144.12,303,260,55.03
+"Hare, chops",Animal meat,20.62,106.36,340,295,48.61
+"Hare, leg",Animal meat,20.52,120.22,370,275,42.48
+"Rabbit, shoulder",Animal meat,20.01,151.77,361,238,61.38
+"Rabbit, chops",Animal meat,22.61,135.04,374,245,47.84
+"Rabbit, leg",Animal meat,21.31,139.58,389,245,46.03
+Allathi (Elops machnata),Marine fish,21.77,97.04,286,215,32.68
+Aluva (Parastromateus niger),Marine fish,21.63,103.73,470,245,44.86
+Anchovy (Stolephorus indicus),Marine fish,19.88,87.72,270,246,212
+Ari fish (Aprion virescens),Marine fish,22.01,99.19,447,265,37.35
+Betki (Lates calcarifer),Marine fish,15.28,67.88,355,188,63.68
+Black snapper (Macolor niger),Marine fish,19.5,90.11,341,195,41.23
+Bombay duck (Harpadon nehereus),Marine fish,13.53,68.59,188,185,223
+Bommuralu (Muraenesox cinerius),Marine fish,22.3,115.92,349,207,61.87
+Cat fish (Tachysurus thalassinus),Marine fish,22.18,108.99,429,252,35.82
+Chakla (Rachycentron canadum),Marine fish,20.21,97.04,343,219,51.41
+Chappal (Aluterus monoceros),Marine fish,17.17,75.76,306,203,38.12
+Chelu (Elagatis bipinnulata),Marine fish,20.02,87.48,406,252,37.6
+Chembali (Lutjanus quinquelineatus),Marine fish,20.06,97.04,323,211,38.98
+Eri meen (Pristipomoides filamentosus),Marine fish,22.3,108.51,402,243,41.19
+Gobro (Epinephelus diacanthus),Marine fish,19.37,86.52,316,170,52.68
+Guitar fish (Rhinobatus prahli),Marine fish,22.56,95.6,342,230,70.81
+Hilsa (Tenualosa ilisha),Marine fish,21.8,258.84,341,278,80.88
+Jallal (Arius sp.),Marine fish,21.55,100.38,368,204,74.33
+Jathi vela meen (Lethrinus lentjan),Marine fish,22.45,108.27,467,249,30.53
+Kadal bral (Synodus indicus),Marine fish,18.72,87.95,366,219,53.66
+Kadali (Nemipterus mesoprion),Marine fish,22.07,126.67,390,207,36.06
+Kalamaara (Leptomelanosoma indicum),Marine fish,20.89,125,420,227,29.33
+Kalava (Epinephelus coioides),Marine fish,19.38,89.39,279,177,40.14
+Kanamayya (Lutjanus rivulatus),Marine fish,20.19,87.72,346,194,50.53
+Kannadi paarai (Alectis indicus),Marine fish,22.09,101.1,432,252,59.57
+Karimeen (Etroplus suratensis),Marine fish,19.68,92.26,452,192,23.72
+Karnagawala (Anchoa hepsetus),Marine fish,19.52,86.76,228,178,63.27
+Kayrai (Thunnus albacores),Marine fish,20.15,108.51,321,266,25.12
+Kiriyan (Atule mate),Marine fish,22.49,132.89,277,214,35.88
+Kite fish (Mobula kuhlii),Marine fish,23.07,98.71,387,231,59.03
+Korka (Terapon jarbua),Marine fish,23.72,126.2,349,229,43.3
+Kulam paarai (Carangoides fulvoguttatus),Marine fish,21.62,119.74,366,244,49.17
+Maagaa (Polynemus plebeius),Marine fish,20.11,87.48,375,181,52.28
+Mackerel (Rastrelliger kanagurta),Marine fish,21.51,101.1,309,231,83.01
+Manda clathi (Naso reticulatus),Marine fish,21.27,95.12,431,320,58.5
+Matha (Acanthurus mata),Marine fish,21.17,92.97,450,263,62.58
+Milk fish (Chanos chanos),Marine fish,23.66,105.64,301,292,42.98
+Moon fish (Mene maculata),Marine fish,20.74,125.72,157,169,65.17
+Mullet (Mugil cephalus),Marine fish,20.23,93.93,331,222,66.09
+Mural (Tylosurus crocodilus),Marine fish,19.04,82.46,330,224,110
+Myil meen (Istiophorus platypterus),Marine fish,22.89,97.99,365,268,61.96
+Nalla bontha (Epinephelus sp.),Marine fish,19.82,87,403,197,57.87
+Narba (Caranx sexfasciatus),Marine fish,21.95,103.25,384,235,49.51
+Paarai (Caranx heberi),Marine fish,21.58,103.97,384,284,45.22
+Padayappa (Canthidermis maculata),Marine fish,19.7,86.04,490,256,33.87
+Pali kora (Panna microdon),Marine fish,19.25,94.17,364,195,54.85
+Pambada (Lepturacanthus savala),Marine fish,21.95,128.35,263,170,82.65
+Pandukopa (Pseudosciaena manchurica),Marine fish,19.73,86.04,427,203,49.15
+Parava (Lactarius lactarius),Marine fish,21.5,111.62,363,194,84.08
+Parcus (Psettodes erumei),Marine fish,19.87,86.28,446,218,64.38
+Parrot fish (Scarus ghobban),Marine fish,20.82,89.63,432,316,51.79
+Perinkilichai (Pinjalo pinjalo),Marine fish,20.89,92.5,365,236,34.16
+Phopat (Coryphaena hippurus),Marine fish,22.05,101.34,439,258,36.2
+Piranha (Pygopritis sp.),Marine fish,20.46,131.21,323,170,38.97
+"Pomfret, black (Parastromateus niger)",Marine fish,18.91,123.09,295,195,69.09
+"Pomfret, snub nose (Trachinotus blochii)",Marine fish,21.05,89.63,483,247,36.1
+"Pomfret, white (Pampus argenteus)",Marine fish,19.02,122.61,255,211,46.09
+Pranel (Gerres sp.),Marine fish,19.69,96.8,251,166,52.37
+Pulli paarai (Gnathanodon speciosus),Marine fish,20.06,95.36,335,232,58.56
+Queen fish (Scomberoides commersonianus),Marine fish,20.97,95.6,440,235,48.93
+Raai fish (Lobotes surinamensis),Marine fish,21.61,102.77,347,213,47.62
+Raai vanthu (Epinephelus chlorostigma),Marine fish,19.39,97.99,311,178,50.83
+Rani (Pink perch),Marine fish,18.83,90.11,335,208,63.17
+"Ray fish, bow head, spotted (Rhina ancylostoma)",Marine fish,19.03,83.41,353,196,105
+Red snapper (Lutjanus argentimaculatus),Marine fish,22.79,104.45,446,204,59.89
+"Red snapper, small (Priacanthus hamrur)",Marine fish,21.5,107.79,327,204,38.97
+Sadaya (Platax orbicularis),Marine fish,20.68,110.42,360,221,49.41
+Salmon (Salmo salar),Marine fish,20.97,172.32,345,211,20.25
+Sangada (Nemipterus japanicus),Marine fish,20.26,105.88,217,211,77.82
+Sankata paarai (Caranx ignobilis),Marine fish,21.87,103.73,379,246,22.33
+Sardine (Sardinella longiceps),Marine fish,17.91,152.25,228,191,38.49
+Shark (Carcharhinus sorrah),Marine fish,21.6,95.12,372,263,63.63
+"Shark, hammer head (Sphyrna mokarran)",Marine fish,23.4,103.25,304,200,53.55
+"Shark, spotted (Stegostoma fasciatum)",Marine fish,20.95,91.78,318,179,131
+Shelavu (Sphyraena jello),Marine fish,22.46,106.6,30.81,453,38.73
+Silan (Silonia silondia),Marine fish,22.72,151.29,223,163,29.39
+Silk fish (Beryx sp.),Marine fish,20.65,97.51,440,211,41.57
+Silver carp (Hypophthalmichthys molitrix),Marine fish,21.71,132.65,249,187,19.6
+Sole fish (Cynoglossus arel),Marine fish,19.05,87.72,199,123,74.57
+Stingray (Dasyatis pastinaca),Marine fish,23.98,97.51,270,174,64.14
+Tarlava (Drepane punctata),Marine fish,21.72,98.95,370,199,67.4
+Tholam (Plectorhinchus schotaf),Marine fish,20.78,103.25,382,241,28
+Tilapia (Oreochromis niloticus),Marine fish,18.48,83.41,255,184,52.55
+Tuna (Euthynnus affinis),Marine fish,24.5,112.33,357,292,52.89
+"Tuna, striped (Katsuwonus pelamis)",Marine fish,21.28,96.32,273,209,22.6
+Valava (Chirocentrus nudus),Marine fish,21.8,97.99,365,229,91.91
+Vanjaram (Scomberomorus commerson),Marine fish,22.28,136.23,473,302,34.85
+Vela meen (Aprion virescens),Marine fish,22.16,128.35,387,280,38.15
+Vora (Siganus javus),Marine fish,20.14,100.86,401,246,43.66
+Whale shark (Galeocerdo cuvier),Marine fish,21.83,95.84,365,274,116
+Xiphinis (Xiphias gladius),Marine fish,19.82,88.43,306,255,66.21
+"Eggs, Cat fish (Ompok bimaculatus)",Marine fish,24.68,143.4,252,445,54.83
+Crab (Menippe mercenaria),Marine shellfish,10.23,81.98,171,100,244
+"Crab, sea (Portunus sanguinolentus)",Marine shellfish,15.36,67.64,252,193,313
+"Lobster, brown (Thenus orientalis)",Marine shellfish,15.96,69.79,212,223,140
+"Lobster, king size (Thenus orientalis)",Marine shellfish,18.54,89.63,315,261,191
+Mud crab (Scylla tranquebarica),Marine shellfish,10,45.41,227,153,305
+Oyster (Crassostrea sp.),Marine shellfish,9.51,60.23,122,170,41.01
+"Tiger prawns, brown (Solenocera crassicornis)",Marine shellfish,14.85,65.25,141,189,188
+"Tiger Prawns, orange (Penaeus monodon)",Marine shellfish,14.25,64.53,140,191,61.05
+"Clam, green shell (Perna viridis)",Marine mollusks,12.14,58.08,152,128,322
+"Clam, white shell, ribbed (Meretrix meretrix)",Marine mollusks,11.82,59.75,245,192,404
+Octopus (Octopus vulgaris),Marine mollusks,14.71,79.83,181,131,230
+"Squid, black (Loligo sp.)",Marine mollusks,16.1,80.07,162,173,179
+"Squid, hard shell (Sepia pharaonis)",Marine mollusks,16.82,76.48,116,173,99.14
+"Squid, red (Loligo duvaucelii)",Marine mollusks,16.25,78.63,134,167,121
+"Squid, white, small (Uroteuthis duvauceli)",Marine mollusks,17.41,84.37,134,151,154
+Cat fish (Tandanus tandanus),Freshwater fish and shellfish,15.86,123.8,250,157,28.29
+Catla (Catla catla),Freshwater fish and shellfish,17.94,94.17,301,182,36.56
+Freshwater Eel (Anguilla anguilla),Freshwater fish and shellfish,20.41,107.79,450,361,88.67
+Gold fish (Carassius auratus),Freshwater fish and shellfish,16.91,94.65,243,185,27.53
+Pangas (Pangasianodon hypophthalmus),Freshwater fish and shellfish,17.12,203.63,282,179,37.42
+Rohu (Labeo rohita),Freshwater fish and shellfish,19.71,102.29,303,200,35.56
+Crab (Pachygrapsus sp.),Freshwater fish and shellfish,13.23,78.15,286,208,280
+"Prawns, big (Macrobrachium rosenbergii)",Freshwater fish and shellfish,19.24,90.82,269,237,849
+"Prawns, small (Macrobrachium sp.)",Freshwater fish and shellfish,13.07,70.98,224,192,77.71
+Tiger prawns (Macrobrachium sp.),Freshwater fish and shellfish,14.24,67.88,149,155,80.77

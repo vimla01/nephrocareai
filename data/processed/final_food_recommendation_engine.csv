@@ -1,0 +1,528 @@
+food_name,category,protein_g,energy_kcal,potassium_mg,phosphorus_mg,sodium_mg,safety,diet_type,kidney_score
+"Amaranth seed, black (Amaranthus cruentus)",Cereals and millets,14.59,356.12,433.0,374.0,2.7,Avoid,Vegetarian,74.10499999999999
+"Amaranth seed, pale brown (Amaranthus cruentus)",Cereals and millets,13.27,355.88,413.0,412.0,2.81,Avoid,Vegetarian,71.8795
+Bajra (Pennisetum typhoideum),Cereals and millets,10.96,347.99,365.0,289.0,4.11,Avoid,Vegetarian,78.05449999999999
+Barley (Hordeum vulgare),Cereals and millets,10.94,315.73,268.0,178.0,7.56,Moderate,Vegetarian,88.26199999999999
+Jowar (Sorghum vulgare),Cereals and millets,9.97,334.13,328.0,274.0,5.42,Avoid,Vegetarian,79.59899999999999
+"Maize, dry (Zea mays)",Cereals and millets,8.8,334.13,291.0,279.0,4.44,Avoid,Vegetarian,80.078
+"Maize, tender, local (Zea mays)",Cereals and millets,3.57,119.98,167.0,163.0,2.24,Moderate,Vegetarian,86.958
+"Maize, tender, sweet (Zea mays)",Cereals and millets,4.16,96.8,297.0,121.0,2.23,Moderate,Vegetarian,83.1485
+Quinoa (Chenopodium quinoa),Cereals and millets,13.11,328.39,474.0,212.0,4.5,Avoid,Vegetarian,78.585
+Ragi (Eleusine coracana),Cereals and millets,7.16,320.75,443.0,210.0,4.75,Avoid,Vegetarian,74.2725
+Rice flakes (poha) (Oryza sativa),Cereals and millets,7.44,353.73,148.0,195.0,2.58,Moderate,Vegetarian,90.16099999999999
+Rice puffed (Oryza sativa),Cereals and millets,7.47,361.85,140.0,152.0,3.69,Moderate,Vegetarian,92.6855
+"Rice, raw, brown (Oryza sativa)",Cereals and millets,9.16,353.73,199.0,267.0,3.64,Avoid,Vegetarian,85.67799999999998
+"Rice, parboiled, milled (Oryza sativa)",Cereals and millets,7.81,351.58,142.0,140.0,3.16,Safe,Vegetarian,93.552
+"Rice, raw, milled (Oryza sativa)",Cereals and millets,7.94,356.36,108.0,96.0,2.34,Safe,Vegetarian,97.62299999999999
+Samai (Panicum miliare),Cereals and millets,10.13,346.32,105.0,130.0,4.77,Safe,Vegetarian,98.1415
+Varagu (Paspalum scrobiculatum),Cereals and millets,8.92,331.74,94.0,101.0,3.35,Safe,Vegetarian,99.0025
+"Wheat flour, refined (Triticum aestivum)",Cereals and millets,10.36,351.82,148.0,110.0,1.54,Safe,Vegetarian,97.383
+"Wheat flour, atta (roti/chapati flour) (Triticum aestivum)",Cereals and millets,10.57,320.27,311.0,315.0,2.04,Avoid,Vegetarian,79.168
+"Wheat, whole (Triticum aestivum)",Cereals and millets,10.59,321.94,366.0,315.0,2.5,Avoid,Vegetarian,76.415
+"Wheat, bulgur (Triticum aestivum)",Cereals and millets,10.84,341.78,330.0,245.0,2.09,Moderate,Vegetarian,81.9855
+"Wheat, semolina (sooji/rava; upma base) (Triticum aestivum)",Cereals and millets,11.38,333.65,284.0,119.0,2.31,Moderate,Vegetarian,91.11449999999999
+"Wheat, vermicelli (Triticum aestivum)",Cereals and millets,9.7,332.7,163.0,99.0,2.71,Safe,Vegetarian,96.4645
+"Wheat, vermicelli, roasted (Triticum aestivum)",Cereals and millets,10.37,340.11,177.0,107.0,3.43,Safe,Vegetarian,95.99850000000002
+"Bengal gram, dal (Cicer arietinum)",Grain legumes,21.55,329.11,957.0,325.0,20.83,Avoid,Vegetarian,56.408500000000004
+"Bengal gram, whole (Cicer arietinum)",Grain legumes,18.77,287.05,935.0,267.0,26.56,Avoid,Vegetarian,57.342
+"Black gram, dal (Phaseolus mungo)",Grain legumes,23.06,324.09,1157.0,375.0,18.88,Avoid,Vegetarian,45.516
+"Black gram, whole (Phaseolus mungo)",Grain legumes,21.97,291.35,1093.0,345.0,26.8,Avoid,Vegetarian,48.72999999999999
+"Cowpea, brown (Vigna catjang)",Grain legumes,20.36,320.27,1241.0,372.0,13.68,Avoid,Vegetarian,39.025999999999996
+"Cowpea, white (Vigna catjang)",Grain legumes,21.25,320.27,1243.0,378.0,12.52,Avoid,Vegetarian,39.57399999999999
+"Field bean, black (Phaseolus vulgaris)",Grain legumes,19.93,276.05,1272.0,457.0,1.35,Avoid,Vegetarian,33.412499999999994
+"Field bean, brown (Phaseolus vulgaris)",Grain legumes,19.9,282.98,1245.0,429.0,1.41,Avoid,Vegetarian,36.12949999999999
+"Field bean, white (Phaseolus vulgaris)",Grain legumes,19.84,280.35,1360.0,448.0,1.7,Avoid,Vegetarian,29.354999999999997
+"Green gram, dal (Vigna radiata)",Grain legumes,23.88,325.76,1268.0,416.0,10.14,Avoid,Vegetarian,39.172999999999995
+"Green gram, whole (Vigna radiata)",Grain legumes,22.53,293.74,1177.0,353.0,12.48,Avoid,Vegetarian,45.406
+"Horse gram, whole (Dolichos biflorus)",Grain legumes,21.73,329.59,1065.0,298.0,12.14,Avoid,Vegetarian,52.973
+Lentil dal (Lens culinaris),Grain legumes,24.35,322.42,786.0,310.0,10.27,Avoid,Vegetarian,69.03649999999999
+"Lentil whole, brown (Lens culinaris)",Grain legumes,22.49,299.0,756.0,274.0,11.2,Avoid,Vegetarian,70.42999999999999
+"Lentil whole, yellowish (Lens culinaris)",Grain legumes,22.87,297.8,764.0,261.0,10.87,Avoid,Vegetarian,71.0765
+Moth bean (Vigna aconitifolia),Grain legumes,19.75,308.56,1356.0,362.0,26.34,Avoid,Vegetarian,32.533
+"Peas, dry (Pisum sativum)",Grain legumes,20.43,303.3,922.0,334.0,23.4,Avoid,Vegetarian,56.46
+"Rajmah, black (Phaseolus vulgaris)",Grain legumes,19.01,298.04,1362.0,386.0,9.4,Avoid,Vegetarian,31.139999999999993
+"Rajmah, brown (Phaseolus vulgaris)",Grain legumes,19.5,297.56,1366.0,396.0,10.47,Avoid,Vegetarian,30.8765
+"Rajmah, red (Phaseolus vulgaris)",Grain legumes,19.91,299.24,1324.0,409.0,10.45,Avoid,Vegetarian,32.7375
+"Red gram, dal (Cajanus cajan)",Grain legumes,21.7,330.78,1395.0,328.0,18.01,Avoid,Vegetarian,34.649499999999996
+"Red gram, whole (Cajanus cajan)",Grain legumes,20.47,273.9,1303.0,312.0,19.03,Avoid,Vegetarian,38.76849999999999
+Ricebean (Vigna umbellata),Grain legumes,19.97,302.34,1196.0,270.0,10.62,Avoid,Vegetarian,46.138999999999996
+"Soybean, brown (Glycine max)",Grain legumes,35.58,381.45,1613.0,483.0,2.07,Avoid,Vegetarian,30.67649999999999
+"Soybean, white (Glycine max)",Grain legumes,37.8,377.39,1634.0,494.0,2.83,Avoid,Vegetarian,31.25849999999999
+Agathi leaves (Sesbania grandiflora),Green leafy vegetables,8.01,70.51,674.0,52.52,18.12,Avoid,Vegetarian,70.778
+"Amaranth leaves, green (Amaranthus gangeticus)",Green leafy vegetables,3.29,30.59,572.0,73.22,16.08,Avoid,Vegetarian,70.22500000000001
+"Amaranth leaves, red (Amaranthus gangeticus)",Green leafy vegetables,3.93,33.46,564.0,75.98,14.58,Avoid,Vegetarian,71.202
+"Amaranth leaves, red and green mix (Amaranthus gangeticus)",Green leafy vegetables,3.09,31.55,597.0,68.23,17.55,Avoid,Vegetarian,68.95100000000001
+"Amaranth spined, leaves, green (Amaranthus spinosus)",Green leafy vegetables,3.54,26.29,569.0,72.46,15.66,Avoid,Vegetarian,70.684
+"Amaranth spined, leaves, red and green mix (Amaranthus spinosus)",Green leafy vegetables,2.8,23.66,588.0,85.02,16.27,Avoid,Vegetarian,68.33549999999998
+Basella leaves (Basella alba),Green leafy vegetables,1.57,19.6,337.0,37.26,18.74,Moderate,Vegetarian,81.92
+Bathua leaves (Chenopodium album),Green leafy vegetables,2.5,27.72,438.0,37.55,10.75,Avoid,Vegetarian,78.185
+Beet greens (Beta vulgaris),Green leafy vegetables,2.38,34.66,530.0,36.02,111.0,Avoid,Vegetarian,68.529
+"Betel leaves, big (Kolkata) (Piper betle)",Green leafy vegetables,2.51,48.28,649.0,51.73,16.8,Avoid,Vegetarian,66.6335
+"Betel leaves, small (Piper betle)",Green leafy vegetables,2.62,43.74,678.0,55.72,14.04,Avoid,Vegetarian,65.232
+Brussels sprouts (Brassica oleracea var. gemmifera),Green leafy vegetables,4.26,44.22,639.0,98.56,18.51,Avoid,Vegetarian,66.4565
+"Cabbage, Chinese (Brassica rupa)",Green leafy vegetables,1.58,17.93,258.0,33.05,20.28,Moderate,Vegetarian,86.0135
+"Cabbage, collard greens (Brassica oleracea var. viridis)",Green leafy vegetables,3.63,30.11,292.0,54.67,22.98,Moderate,Vegetarian,85.1475
+"Cabbage, green (Brassica oleracea var. capitata f. alba)",Green leafy vegetables,1.36,21.51,233.0,30.15,14.98,Moderate,Vegetarian,87.4535
+"Cabbage, violet (Brassica oleracea var. capitata f. rubra)",Green leafy vegetables,1.39,23.18,201.0,22.14,24.0,Moderate,Vegetarian,89.033
+Cauliflower leaves (Brassica oleracea var. botrytis),Green leafy vegetables,3.9,35.37,374.0,62.82,24.31,Avoid,Vegetarian,80.84349999999999
+"Colocasia leaves, green (Colocasia esculenta)",Green leafy vegetables,3.42,43.5,404.0,57.88,12.08,Avoid,Vegetarian,79.722
+Drumstick leaves (Moringa oleifera),Green leafy vegetables,6.41,67.4,397.0,109.0,9.34,Avoid,Vegetarian,80.643
+Fenugreek leaves (Trigonella foenum graecum),Green leafy vegetables,3.68,34.42,226.0,53.05,47.01,Moderate,Vegetarian,87.37700000000001
+Garden cress (Lepidium sativum),Green leafy vegetables,5.62,49.71,379.0,45.55,25.35,Avoid,Vegetarian,83.125
+"Gogu leaves, green (Hibiscus cannabinus)",Green leafy vegetables,1.86,36.33,260.0,41.99,12.34,Moderate,Vegetarian,86.14349999999999
+"Gogu leaves, red (Hibiscus cannabinus)",Green leafy vegetables,1.85,36.57,161.0,36.38,14.08,Safe,Vegetarian,91.277
+"Knol-Khol, leaves (Brassica oleracea var. gongylodes)",Green leafy vegetables,3.12,42.54,309.0,55.02,26.8,Moderate,Vegetarian,83.579
+Lettuce (Lactuca sativa),Green leafy vegetables,1.54,21.75,279.0,44.1,17.53,Moderate,Vegetarian,84.50850000000001
+Mustard leaves (Brassica juncea),Green leafy vegetables,3.52,30.35,403.0,71.62,19.14,Avoid,Vegetarian,78.832
+Pak Choi leaves (Brassica rapa var. chinensis),Green leafy vegetables,1.41,16.01,250.0,25.95,33.73,Moderate,Vegetarian,85.926
+Parsley (Petroselinum crispum),Green leafy vegetables,5.55,72.9,466.0,78.56,53.08,Avoid,Vegetarian,75.668
+Ponnaganni (Alternanthera sessilis),Green leafy vegetables,5.29,50.91,457.0,58.26,39.36,Avoid,Vegetarian,77.55900000000001
+"Pumpkin leaves, tender (Cucurbita maxima)",Green leafy vegetables,4.21,44.22,423.0,64.54,12.2,Avoid,Vegetarian,79.22299999999998
+Radish leaves (Raphanus sativus),Green leafy vegetables,2.22,26.05,304.0,50.08,17.39,Moderate,Vegetarian,83.64649999999999
+Rumex leaves (Rumex patientia),Green leafy vegetables,1.62,19.6,336.0,32.4,19.95,Moderate,Vegetarian,82.2025
+Spinach (Spinacia oleracea),Green leafy vegetables,2.14,24.38,625.0,32.59,42.55,Avoid,Vegetarian,67.133
+"Tamarind leaves, tender (Tamarindus indica)",Green leafy vegetables,5.84,71.46,465.0,86.86,13.43,Avoid,Vegetarian,77.5755
+Ash gourd (Benincasa hispida),Other vegetables,0.79,17.45,372.0,29.07,0.77,Avoid,Vegetarian,80.69800000000001
+"Bamboo shoot, tender (Bambusa vulgaris)",Other vegetables,1.33,16.25,422.0,39.63,1.12,Avoid,Vegetarian,78.19250000000001
+"Bean scarlet, tender (Phaseolus coccineus)",Other vegetables,2.86,42.78,164.0,62.13,1.46,Safe,Vegetarian,91.4805
+"Bitter gourd, jagged, teeth ridges, elongate (Momordica charantia)",Other vegetables,1.44,20.79,326.0,44.9,13.09,Moderate,Vegetarian,82.2405
+"Bitter gourd, jagged, teeth ridges, short (Momordica charantia)",Other vegetables,1.34,18.88,282.0,40.21,12.59,Moderate,Vegetarian,84.60000000000002
+"Bitter gourd, jagged, smooth ridges, elongate (Momordica charantia)",Other vegetables,1.61,19.36,356.0,44.75,11.16,Avoid,Vegetarian,81.0145
+"Bottle gourd, elongate, pale green (Lagenaria vulgaris)",Other vegetables,0.53,10.99,124.0,16.01,1.46,Safe,Vegetarian,93.4565
+"Bottle gourd, round, pale green (Lagenaria vulgaris)",Other vegetables,0.42,13.62,116.0,16.99,1.52,Safe,Vegetarian,93.6945
+"Bottle gourd, elongate, dark green (Lagenaria vulgaris)",Other vegetables,0.49,12.91,171.0,26.86,1.35,Safe,Vegetarian,90.5295
+Brinjal-1 (Solanum melongena),Other vegetables,1.77,27.25,302.0,39.95,3.15,Moderate,Vegetarian,84.515
+Brinjal-2 (Solanum melongena),Other vegetables,1.82,23.66,206.0,44.65,3.92,Moderate,Vegetarian,89.0915
+Brinjal-3 (Solanum melongena),Other vegetables,1.36,24.38,192.0,27.79,3.12,Safe,Vegetarian,90.2145
+Brinjal-4 (Solanum melongena),Other vegetables,1.51,23.9,268.0,31.82,3.31,Moderate,Vegetarian,86.35350000000001
+Brinjal-5 (Solanum melongena),Other vegetables,1.38,26.53,227.0,33.13,4.03,Moderate,Vegetarian,88.17200000000001
+Brinjal-6 (Solanum melongena),Other vegetables,1.46,23.18,289.0,30.12,3.75,Moderate,Vegetarian,85.31649999999999
+Brinjal-7 (Solanum melongena),Other vegetables,1.4,23.42,238.0,29.58,3.45,Moderate,Vegetarian,87.8485
+Brinjal-8 (Solanum melongena),Other vegetables,1.82,27.96,284.0,35.84,4.73,Moderate,Vegetarian,85.59149999999998
+Brinjal-9 (Solanum melongena),Other vegetables,1.47,25.33,224.0,35.71,3.08,Moderate,Vegetarian,88.3305
+Brinjal-10 (Solanum melongena),Other vegetables,1.68,27.72,252.0,37.36,4.35,Moderate,Vegetarian,86.99450000000002
+Brinjal-11 (Solanum melongena),Other vegetables,1.43,25.1,260.0,33.28,3.47,Moderate,Vegetarian,86.5925
+Brinjal-12 (Solanum melongena),Other vegetables,1.6,22.23,259.0,37.81,3.88,Moderate,Vegetarian,86.56549999999999
+Brinjal-13 (Solanum melongena),Other vegetables,1.49,29.64,260.0,26.81,3.0,Moderate,Vegetarian,86.99949999999998
+Brinjal-14 (Solanum melongena),Other vegetables,1.56,25.33,246.0,30.07,3.71,Moderate,Vegetarian,87.571
+Brinjal-15 (Solanum melongena),Other vegetables,1.58,27.25,215.0,30.32,3.34,Moderate,Vegetarian,89.14699999999999
+Brinjal-16 (Solanum melongena),Other vegetables,1.26,24.62,294.0,29.86,3.22,Moderate,Vegetarian,84.906
+Brinjal-17 (Solanum melongena),Other vegetables,1.18,21.75,233.0,35.94,3.09,Moderate,Vegetarian,87.5785
+Brinjal-18 (Solanum melongena),Other vegetables,1.47,27.72,208.0,28.03,3.63,Moderate,Vegetarian,89.487
+Brinjal-19 (Solanum melongena),Other vegetables,1.26,23.9,243.0,29.76,3.11,Moderate,Vegetarian,87.4665
+Brinjal-20 (Solanum melongena),Other vegetables,1.44,23.66,239.0,31.21,3.58,Moderate,Vegetarian,87.75049999999999
+Brinjal-21 (Solanum melongena),Other vegetables,1.36,27.01,252.0,34.98,3.06,Moderate,Vegetarian,86.858
+Brinjal - all varieties (Solanum melongena),Other vegetables,1.48,25.33,247.0,32.56,3.55,Moderate,Vegetarian,87.32450000000001
+Broad beans (Vicia faba),Other vegetables,3.85,29.4,362.0,67.97,20.74,Avoid,Vegetarian,81.3145
+"Capsicum, green (Capsicum annuum)",Other vegetables,1.11,16.25,154.0,23.0,1.84,Safe,Vegetarian,92.16799999999999
+"Capsicum, red (Capsicum annuum)",Other vegetables,1.47,19.84,224.0,30.81,1.7,Moderate,Vegetarian,88.64450000000001
+"Capsicum, yellow (Capsicum annuum)",Other vegetables,1.35,18.64,242.0,43.33,1.56,Moderate,Vegetarian,87.0055
+Cauliflower (Brassica oleracea var. botrytis),Other vegetables,2.15,22.94,329.0,47.33,30.72,Moderate,Vegetarian,81.7975
+Celery stalk (Apium graveolens),Other vegetables,0.98,16.49,298.0,44.84,10.68,Moderate,Vegetarian,83.30399999999999
+Cho-cho-marrow (Sechium edule),Other vegetables,0.66,18.88,120.0,21.61,1.28,Safe,Vegetarian,93.5155
+Cluster beans (Cyamopsis tetragonoloba),Other vegetables,3.55,40.15,301.0,45.28,4.05,Moderate,Vegetarian,86.0335
+"Colocasia, stem, black (Colocasia esculenta)",Other vegetables,0.76,23.9,381.0,20.31,0.45,Avoid,Vegetarian,80.67200000000001
+"Colocasia, stem, green (Colocasia esculenta)",Other vegetables,0.91,19.36,414.0,30.73,0.6,Avoid,Vegetarian,78.64349999999999
+"Corn, baby (Zea mays)",Other vegetables,2.69,73.14,260.0,8.69,1.4,Moderate,Vegetarian,89.1855
+"Cucumber, green, elongate (Cucumis sativus)",Other vegetables,0.71,19.6,183.0,28.34,6.33,Safe,Vegetarian,89.82649999999998
+"Cucumber, green, short (Cucumis sativus)",Other vegetables,0.83,17.45,198.0,29.74,6.11,Safe,Vegetarian,89.1375
+"Cucumber, orange, round (Cucumis sativus)",Other vegetables,0.98,19.6,185.0,23.17,8.16,Safe,Vegetarian,90.1635
+Drumstick (Moringa oleifera),Other vegetables,2.62,29.4,419.0,52.87,22.38,Avoid,Vegetarian,77.9075
+"Field beans, tender, broad (Vicia faba)",Other vegetables,3.06,30.83,345.0,73.3,14.14,Moderate,Vegetarian,81.438
+"Field beans, tender, lean (Vicia faba)",Other vegetables,3.71,33.46,314.0,76.54,12.76,Moderate,Vegetarian,83.54499999999999
+"French beans, country (Phaseolus vulgaris)",Other vegetables,2.49,24.38,324.0,59.86,8.84,Moderate,Vegetarian,82.855
+"French beans, hybrid (Phaseolus vulgaris)",Other vegetables,2.12,22.23,317.0,45.9,9.18,Moderate,Vegetarian,83.516
+"Jack fruit, raw (Artocarpus heterophyllus)",Other vegetables,1.98,26.29,327.0,27.78,3.53,Moderate,Vegetarian,84.06450000000001
+"Jack fruit, seed, mature (Artocarpus heterophyllus)",Other vegetables,5.79,76.96,376.0,29.33,4.0,Avoid,Vegetarian,85.32350000000001
+Knol - Khol (Brassica oleracea),Other vegetables,1.58,16.01,327.0,40.77,27.46,Moderate,Vegetarian,81.8185
+"Kovai, big (Coccinia cordifolia)",Other vegetables,1.39,17.45,198.0,36.9,1.53,Safe,Vegetarian,89.5685
+"Kovai, small (Coccinia cordifolia)",Other vegetables,1.22,19.12,167.0,26.29,2.2,Safe,Vegetarian,91.44550000000001
+Ladies finger (Abelmoschus esculentus),Other vegetables,2.08,27.49,263.0,57.48,7.37,Moderate,Vegetarian,85.6875
+"Mango, green, raw (Mangifera indica)",Other vegetables,0.69,49.0,147.0,14.92,33.15,Safe,Vegetarian,90.93650000000001
+"Onion, stalk (Allium cepa)",Other vegetables,2.07,25.57,312.0,28.53,15.52,Moderate,Vegetarian,84.2675
+"Papaya, raw (Carica papaya)",Other vegetables,0.5,23.9,173.0,24.11,7.55,Safe,Vegetarian,90.267
+Parwar (Trichosanthes dioica),Other vegetables,1.4,24.14,117.0,33.81,2.29,Safe,Vegetarian,93.745
+"Peas, fresh (Pisum sativum)",Other vegetables,7.25,81.26,249.0,55.95,3.66,Moderate,Vegetarian,91.81949999999999
+"Plantain, flower (Musa x paradisiaca)",Other vegetables,1.47,21.27,488.0,47.31,7.51,Avoid,Vegetarian,74.329
+"Plantain, green (Musa x paradisiaca)",Other vegetables,1.18,79.83,402.0,31.69,18.57,Avoid,Vegetarian,78.56700000000001
+"Plantain, stem (Musa x paradisiaca)",Other vegetables,0.35,39.44,373.0,16.31,23.17,Avoid,Vegetarian,79.72599999999998
+"Pumpkin, green, cylindrical (Cucurbita maxima)",Other vegetables,0.87,24.62,186.0,24.51,5.21,Safe,Vegetarian,90.08400000000002
+"Pumpkin, orange, round (Cucurbita maxima)",Other vegetables,0.84,23.18,253.0,22.18,8.81,Moderate,Vegetarian,86.6405
+"Red gram, tender, fresh (Cajanus cajan)",Other vegetables,8.09,124.28,616.0,141.0,2.54,Avoid,Vegetarian,70.113
+Ridge gourd (Luffa acutangula),Other vegetables,0.91,13.15,118.0,33.06,4.71,Safe,Vegetarian,93.12149999999998
+"Ridge gourd, smooth skin (Luffa acutangula)",Other vegetables,0.98,15.3,125.0,39.25,6.27,Safe,Vegetarian,92.454
+"Snake gourd, long, pale green (Trichosanthes anguina)",Other vegetables,0.98,12.43,100.0,23.27,7.07,Safe,Vegetarian,94.46300000000001
+"Snake gourd, long, dark green (Trichosanthes anguina)",Other vegetables,0.89,11.95,104.0,31.03,5.04,Safe,Vegetarian,93.8865
+"Snake gourd, short (Trichosanthes anguina)",Other vegetables,0.54,14.58,84.0,21.33,2.5,Safe,Vegetarian,95.1485
+"Tinda, tender (Praecitrullus fistulosus)",Other vegetables,1.02,13.86,56.18,30.37,20.61,Safe,Vegetarian,95.66199999999999
+"Tomato, green (Solanum lycopersicum)",Other vegetables,1.12,20.79,225.0,22.5,13.11,Moderate,Vegetarian,88.0895
+"Tomato, ripe, hybrid (Solanum lycopersicum)",Other vegetables,0.76,18.88,167.0,15.45,11.86,Safe,Vegetarian,91.04450000000001
+"Tomato, ripe, local (Lycopersicon esculentum)",Other vegetables,0.9,19.6,204.0,18.77,9.73,Moderate,Vegetarian,89.27499999999999
+"Zucchini, green (Cucurbita pepo)",Other vegetables,1.1,20.08,178.0,21.38,0.4,Safe,Vegetarian,91.11099999999999
+"Zucchini, yellow (Cucurbita pepo)",Other vegetables,1.31,18.88,131.0,32.03,0.39,Safe,Vegetarian,93.13900000000001
+"Apple, big (Malus domestica)",Fruits,0.29,62.38,116.0,10.44,1.43,Safe,Vegetarian,93.8965
+"Apple, green (Malus domestica)",Fruits,0.46,51.15,94.55,7.48,1.47,Safe,Vegetarian,95.285
+"Apple, small (Malus domestica)",Fruits,0.31,63.81,100.0,8.39,1.45,Safe,Vegetarian,94.818
+"Apple, small, Kashmir (Malus domestica)",Fruits,0.27,64.29,106.0,10.72,1.22,Safe,Vegetarian,94.37299999999999
+"Apricot, dried (Prunus armeniaca)",Fruits,3.17,315.73,285.0,72.02,3.94,Moderate,Vegetarian,85.122
+"Apricot, processed (Prunus armeniaca)",Fruits,1.47,56.41,95.0,27.33,1.6,Safe,Vegetarian,95.2735
+Avocado fruit (Persea sp.),Fruits,2.95,144.36,377.0,63.14,2.81,Avoid,Vegetarian,80.80250000000001
+Bael fruit (Aegle marmelos),Fruits,2.63,135.99,409.0,37.29,1.56,Avoid,Vegetarian,80.23749999999998
+"Banana, ripe, montham (Musa x paradisiaca)",Fruits,1.25,110.66,362.0,20.85,1.25,Avoid,Vegetarian,82.045
+"Banana, ripe, poovam (Musa x paradisiaca)",Fruits,1.49,106.36,335.0,33.63,1.0,Moderate,Vegetarian,83.0085
+"Banana, ripe, red (Musa x paradisiaca)",Fruits,1.29,111.62,313.0,23.27,1.11,Moderate,Vegetarian,84.421
+"Banana, ripe, robusta (Musa x paradisiaca)",Fruits,1.23,105.16,306.0,24.32,0.85,Moderate,Vegetarian,84.67150000000001
+Black berry (Rubus sp.),Fruits,0.92,54.25,205.0,20.08,1.21,Moderate,Vegetarian,89.60549999999999
+"Cherries, red (Prunus cerasus)",Fruits,1.49,59.75,165.0,25.31,1.64,Safe,Vegetarian,91.8925
+"Currants, black (Ribes nigrum)",Fruits,1.51,54.25,283.0,78.8,1.45,Moderate,Vegetarian,83.3475
+Custard apple (Annona squamosa),Fruits,1.62,98.95,278.0,40.81,3.11,Moderate,Vegetarian,85.524
+"Dates, dry, pale brown (Phoenix dactylifera)",Fruits,2.45,320.27,804.0,73.02,3.27,Avoid,Vegetarian,58.435500000000005
+"Dates, dry, dark brown (Phoenix dactylifera)",Fruits,2.38,310.95,782.0,70.26,3.09,Avoid,Vegetarian,59.612500000000004
+"Dates, processed (Phoenix dactylifera)",Fruits,1.18,286.09,289.0,33.88,1.6,Moderate,Vegetarian,84.956
+Fig (Ficus carica),Fruits,2.03,81.5,231.0,21.62,2.37,Moderate,Vegetarian,89.2805
+Gooseberry (Emblica officinalis),Fruits,0.34,23.66,223.0,21.85,1.37,Moderate,Vegetarian,88.029
+"Grapes, seeded, round, black (Vitis vinifera)",Fruits,0.76,60.71,171.0,21.04,1.93,Safe,Vegetarian,91.0615
+"Grapes, seeded, round, green (Vitis vinifera)",Fruits,0.77,56.17,166.0,19.5,1.89,Safe,Vegetarian,91.40050000000001
+"Grapes, seeded, round, red (Vitis vinifera)",Fruits,0.95,58.32,188.0,27.91,1.59,Safe,Vegetarian,90.075
+"Grapes, seedless, oval, black (Vitis vinifera)",Fruits,1.41,94.41,237.0,29.02,1.83,Moderate,Vegetarian,88.01750000000001
+"Grapes, seedless, round, green (Vitis vinifera)",Fruits,0.62,53.54,168.0,20.27,1.81,Safe,Vegetarian,91.116
+"Grapes, seedless, round, black (Vitis vinifera)",Fruits,1.24,89.39,235.0,26.68,1.92,Moderate,Vegetarian,88.05999999999999
+"Guava, white flesh (Psidium guajava)",Fruits,1.44,32.27,283.0,23.54,2.87,Moderate,Vegetarian,85.96949999999998
+"Guava, pink flesh (Psidium guajava)",Fruits,1.19,46.61,270.0,29.93,1.89,Moderate,Vegetarian,86.099
+"Jack fruit, ripe (Artocarpus heterophyllus)",Fruits,2.74,72.18,279.0,23.02,1.62,Moderate,Vegetarian,87.55799999999999
+"Jambu fruit, ripe (Syzygium samarangense)",Fruits,0.82,56.17,103.0,9.6,2.64,Safe,Vegetarian,95.05799999999998
+Karonda fruit (Carissa carandas),Fruits,1.15,33.7,351.0,32.62,2.55,Avoid,Vegetarian,81.84150000000001
+"Lemon, juice (Citrus limon)",Fruits,0.41,36.57,113.0,9.86,1.21,Safe,Vegetarian,94.20649999999999
+"Lime, sweet,pulp (Citrus limetta)",Fruits,0.76,27.25,182.0,20.55,1.17,Safe,Vegetarian,90.57400000000001
+Litchi (Litchi chinensis),Fruits,0.99,53.78,161.0,23.32,0.54,Safe,Vegetarian,91.747
+"Mango, ripe, banganapalli (Mangifera indica)",Fruits,0.54,41.83,144.0,11.07,1.34,Safe,Vegetarian,92.71950000000001
+"Mango, ripe, gulabkhas (Mangifera indica)",Fruits,0.52,49.95,115.0,10.66,1.39,Safe,Vegetarian,94.16749999999999
+"Mango, ripe, himsagar (Mangifera indica)",Fruits,0.46,44.69,137.0,12.25,1.31,Safe,Vegetarian,92.932
+"Mango, ripe, kesar (Mangifera indica)",Fruits,0.54,55.21,143.0,12.36,1.43,Safe,Vegetarian,92.7005
+"Mango, ripe, neelam (Mangifera indica)",Fruits,0.68,42.54,137.0,11.63,1.2,Safe,Vegetarian,93.1885
+"Mango, ripe, paheri (Mangifera indica)",Fruits,0.68,44.93,153.0,15.18,1.63,Safe,Vegetarian,92.1895
+"Mango, ripe, totapari (Mangifera indica)",Fruits,0.41,59.27,160.0,9.87,1.32,Safe,Vegetarian,91.8505
+Mangosteen (Garcinia mangostana),Fruits,0.63,52.34,46.93,7.18,3.79,Safe,Vegetarian,97.735
+Manila tamarind (Pithecellobium dulce),Fruits,3.56,81.74,376.0,73.53,1.35,Avoid,Vegetarian,81.016
+"Musk melon, orange flesh (Cucumis melon)",Fruits,0.42,23.18,206.0,17.28,14.94,Moderate,Vegetarian,88.509
+"Musk melon, yellow flesh (Cucumis melon)",Fruits,0.53,27.72,196.0,13.09,15.78,Safe,Vegetarian,89.2865
+"Orange, pulp (Citrus aurantium)",Fruits,0.7,37.28,164.0,12.9,1.47,Safe,Vegetarian,91.78150000000001
+"Papaya, ripe (Carica papaya)",Fruits,0.42,23.9,173.0,17.73,6.68,Safe,Vegetarian,90.5495
+Peach (Prunus communis),Fruits,0.86,40.15,281.0,19.08,1.15,Moderate,Vegetarian,85.7985
+Pear (Pyrus sp.),Fruits,0.36,37.52,106.0,6.74,1.64,Safe,Vegetarian,94.641
+Phalsa (Grewia asiatica),Fruits,1.66,71.46,362.0,23.65,1.99,Avoid,Vegetarian,82.27799999999999
+Pineapple (Ananas comosus),Fruits,0.52,43.02,143.0,13.56,1.43,Safe,Vegetarian,92.62049999999999
+Plum (Prunus domestica),Fruits,0.64,56.88,162.0,13.83,1.55,Safe,Vegetarian,91.771
+"Pomegranate, maroon seeds (Punica granatum)",Fruits,1.33,54.73,206.0,27.2,2.13,Moderate,Vegetarian,89.5635
+Pummelo (Citrus maxima),Fruits,0.68,50.19,189.0,13.99,1.06,Safe,Vegetarian,90.4775
+"Raisins, dried, black (Vitis vinifera)",Fruits,2.57,305.69,1105.0,77.62,10.99,Avoid,Vegetarian,42.8895
+"Raisins, dried, golden (Vitis vinifera)",Fruits,2.76,296.61,913.0,93.3,10.16,Avoid,Vegetarian,51.93699999999999
+Rambutan (Nephelium lappaceum),Fruits,0.68,73.14,131.0,6.98,1.75,Safe,Vegetarian,93.6935
+Sapota (Achras sapota),Fruits,0.92,73.37,280.0,22.26,4.61,Moderate,Vegetarian,85.5765
+Soursop (Annona muricata),Fruits,0.74,62.14,264.0,25.83,6.78,Moderate,Vegetarian,85.9095
+Star fruit (Averrhoa carambola),Fruits,0.79,26.29,159.0,11.67,1.56,Safe,Vegetarian,92.1785
+Strawberry (Fragaria x ananassa),Fruits,0.97,24.62,140.0,26.31,1.19,Safe,Vegetarian,92.595
+"Tamarind, pulp (Tamarindus indica)",Fruits,2.92,288.48,836.0,113.0,24.92,Avoid,Vegetarian,54.224
+"Water melon, dark green (sugar baby) (Citrullus vulgaris)",Fruits,0.6,20.32,124.0,11.33,1.89,Safe,Vegetarian,93.73899999999999
+"Water melon, pale green (Citrullus vulgaris)",Fruits,0.59,16.73,126.0,8.09,1.62,Safe,Vegetarian,93.8045
+Wood Apple (Limonia acidissima),Fruits,3.14,78.15,347.0,84.32,1.48,Moderate,Vegetarian,81.50000000000001
+Zizyphus (Zizyphus jujube),Fruits,1.34,48.76,237.0,32.38,1.52,Moderate,Vegetarian,87.79500000000002
+Beet root (Beta vulgaris),Roots and tubers,1.95,35.61,306.0,36.33,69.44,Moderate,Vegetarian,81.3615
+"Carrot, orange (Daucus carota)",Roots and tubers,0.95,33.22,273.0,43.06,52.33,Moderate,Vegetarian,82.53049999999999
+"Carrot, red (Daucus carota)",Roots and tubers,1.04,38.24,267.0,25.81,60.69,Moderate,Vegetarian,83.36500000000002
+Colocasia (Colocasia esculenta),Roots and tubers,3.31,88.91,514.0,81.16,4.54,Avoid,Vegetarian,73.32499999999999
+Lotus root (Nelumbium nelumbo),Roots and tubers,1.94,79.35,611.0,74.3,20.63,Avoid,Vegetarian,66.6435
+"Potato, brown skin, big (Solanum tuberosum)",Roots and tubers,1.54,69.79,541.0,43.42,4.11,Avoid,Vegetarian,72.1135
+"Potato, brown skin, small (Solanum tuberosum)",Roots and tubers,1.35,60.95,474.0,37.9,3.97,Avoid,Vegetarian,75.5565
+"Potato, red skin (Solanum tuberosum)",Roots and tubers,1.83,73.14,501.0,30.39,4.36,Avoid,Vegetarian,75.0425
+"Radish, elongate, red skin (Raphanus sativus)",Roots and tubers,0.67,32.03,255.0,27.51,24.73,Moderate,Vegetarian,85.30799999999999
+"Radish, elongate, white skin (Raphanus sativus)",Roots and tubers,0.77,32.27,288.0,30.1,28.2,Moderate,Vegetarian,83.455
+"Radish, round, red skin (Raphanus sativus)",Roots and tubers,0.89,31.07,308.0,28.27,32.27,Moderate,Vegetarian,82.463
+"Radish, round, white skin (Raphanus sativus)",Roots and tubers,0.8,30.83,287.0,29.47,24.14,Moderate,Vegetarian,83.76950000000001
+"Sweet potato, brown skin (Ipomoea batatas)",Roots and tubers,1.33,108.99,345.0,42.96,29.6,Moderate,Vegetarian,80.452
+"Sweet potato, pink skin (Ipomoea batatas)",Roots and tubers,1.27,108.03,329.0,37.6,29.04,Moderate,Vegetarian,81.488
+Tapioca (Manihot esculenta),Roots and tubers,1.03,79.83,255.0,42.55,10.86,Moderate,Vegetarian,85.6095
+Water Chestnut (Eleocharis dulcis),Roots and tubers,0.86,95.6,382.0,62.83,13.08,Avoid,Vegetarian,77.96450000000002
+"Yam, elephant (Amorphophallus campanulatus)",Roots and tubers,2.56,84.37,501.0,43.06,14.33,Avoid,Vegetarian,74.6405
+"Yam, ordinary (Amorphophallus sp.)",Roots and tubers,2.18,83.41,463.0,49.46,15.28,Avoid,Vegetarian,75.793
+"Yam, wild (Dioscorea villosa)",Roots and tubers,3.07,102.77,654.0,55.94,12.8,Avoid,Vegetarian,66.93299999999999
+"Chillies, green-1 (Capsicum annum)",Condiments and spices,2.62,45.65,431.0,62.16,3.32,Avoid,Vegetarian,77.796
+"Chillies, green-2 (Capsicum annum)",Condiments and spices,2.28,39.91,321.0,51.72,2.47,Moderate,Vegetarian,83.5205
+"Chillies, green-3 (Capsicum annum)",Condiments and spices,2.38,40.39,317.0,50.24,2.56,Moderate,Vegetarian,83.89
+"Chillies, green-4 (Capsicum annum)",Condiments and spices,2.33,45.41,318.0,42.79,1.94,Moderate,Vegetarian,84.1935
+"Chillies, green-5 (Capsicum annum)",Condiments and spices,2.01,43.02,317.0,44.35,2.19,Moderate,Vegetarian,83.83300000000001
+"Chillies, green-6 (Capsicum annum)",Condiments and spices,3.01,41.83,340.0,56.05,2.43,Moderate,Vegetarian,83.08600000000001
+"Chillies, green-7 (Capsicum annum)",Condiments and spices,2.12,38.96,319.0,45.58,2.0,Moderate,Vegetarian,83.79100000000001
+"Chillies, green - all varieties (Capsicum annum)",Condiments and spices,2.36,42.3,341.0,50.91,2.5,Moderate,Vegetarian,82.6395
+Coriander leaves (Coriandrum sativum),Condiments and spices,3.52,31.07,546.0,64.69,37.0,Avoid,Vegetarian,71.13550000000001
+Curry leaves (Murraya koenigii),Condiments and spices,7.41,63.58,584.0,83.29,18.66,Avoid,Vegetarian,73.11249999999998
+"Garlic, big clove (Allium sativum)",Condiments and spices,6.92,123.8,430.0,119.0,9.42,Avoid,Vegetarian,78.999
+"Garlic, small clove (Allium sativum)",Condiments and spices,6.75,122.85,453.0,116.0,10.56,Avoid,Vegetarian,77.77199999999999
+"Garlic, single clove, Kashmir (Allium sativum)",Condiments and spices,6.12,125.0,584.0,128.0,8.87,Avoid,Vegetarian,70.0765
+"Ginger, fresh (Zingiber officinale)",Condiments and spices,2.22,54.97,407.0,44.36,10.03,Avoid,Vegetarian,79.15050000000001
+Mango ginger (Curcuma amada),Condiments and spices,1.45,42.3,384.0,68.33,5.51,Avoid,Vegetarian,78.558
+Mint leaves (Mentha spicata),Condiments and spices,4.66,37.05,539.0,65.25,16.87,Avoid,Vegetarian,73.60399999999998
+"Onion, big (Allium cepa)",Condiments and spices,1.5,48.04,171.0,32.34,5.5,Safe,Vegetarian,91.05799999999999
+"Onion, small (Allium cepa)",Condiments and spices,1.82,56.64,160.0,39.65,4.06,Safe,Vegetarian,91.63449999999999
+Asafoetida (Ferula assa-foetida),Condiments and spices,6.34,331.5,245.0,69.09,16.04,Moderate,Vegetarian,89.8335
+"Cardamom, green (Elettaria cardamomum)",Condiments and spices,8.1,255.02,1262.0,132.0,15.51,Avoid,Vegetarian,37.6245
+"Cardamom, black (Elettaria cardamomum)",Condiments and spices,6.69,270.55,1331.0,117.0,16.25,Avoid,Vegetarian,33.4775
+"Chillies, red (Capsicum annum)",Condiments and spices,12.69,236.62,2245.0,280.0,19.45,Avoid,Vegetarian,0.0
+Cloves (Syzygium aromaticum),Condiments and spices,5.86,186.66,1434.0,83.1,183.0,Avoid,Vegetarian,20.854999999999997
+Coriander seeds (Coriandrum sativum),Condiments and spices,10.66,268.88,1473.0,293.0,34.41,Avoid,Vegetarian,20.639499999999995
+Cumin seeds (Cuminum cyminum),Condiments and spices,13.91,304.49,1886.0,382.0,125.0,Avoid,Vegetarian,0.0
+Fenugreek seeds (Trigonella foenum graecum),Condiments and spices,25.41,234.94,891.0,435.0,40.2,Avoid,Vegetarian,57.099999999999994
+Mace (Myristica fragrans),Condiments and spices,6.24,355.64,623.0,110.0,27.17,Avoid,Vegetarian,68.2315
+Nutmeg (Myristica fragrans),Condiments and spices,6.3,463.67,474.0,207.0,14.31,Avoid,Vegetarian,71.53449999999998
+Omum (Trachyspermum ammi),Condiments and spices,15.89,357.31,1692.0,329.0,28.58,Avoid,Vegetarian,13.410999999999992
+Pippali (Piper longum),Condiments and spices,10.53,216.54,1852.0,181.0,16.28,Avoid,Vegetarian,8.06599999999999
+"Pepper, black (Piper nigrum)",Condiments and spices,10.12,217.5,1487.0,144.0,24.08,Avoid,Vegetarian,27.365999999999993
+Poppy seeds (Papaver somniferum),Condiments and spices,20.31,422.56,646.0,804.0,25.35,Avoid,Vegetarian,46.54249999999999
+Turmeric powder (Curcuma domestica),Condiments and spices,7.66,280.59,2374.0,276.0,24.41,Avoid,Vegetarian,0.0
+Almond (Prunus amygdalus),Nuts and oil seeds,18.41,609.23,699.0,446.0,1.5,Avoid,Vegetarian,61.084999999999994
+"Arecanut, dried, brown (Areca catechu)",Nuts and oil seeds,5.78,350.62,524.0,105.0,12.06,Avoid,Vegetarian,73.727
+"Arecanut, dried, red color (Areca catechu)",Nuts and oil seeds,6.46,353.01,617.0,127.0,17.13,Avoid,Vegetarian,68.40350000000001
+"Arecanut, fresh (Areca catechu)",Nuts and oil seeds,2.73,244.74,329.0,90.48,5.53,Moderate,Vegetarian,81.4795
+Cashew nut (Anacardium occidentale),Nuts and oil seeds,18.78,582.7,635.0,500.0,9.0,Avoid,Vegetarian,61.58
+"Coconut, kernel, dry (Cocos nucifera)",Nuts and oil seeds,7.27,624.04,739.0,203.0,16.68,Avoid,Vegetarian,59.336
+"Coconut, kernel, fresh (Cocos nucifera)",Nuts and oil seeds,3.84,408.94,246.0,67.73,8.12,Moderate,Vegetarian,87.7475
+"Garden cress, seeds (Lepidium sativum)",Nuts and oil seeds,23.36,445.27,952.0,539.0,21.84,Avoid,Vegetarian,47.717999999999996
+"Gingelly seeds, black (Sesamum indicum)",Nuts and oil seeds,19.17,507.65,480.0,568.0,15.91,Avoid,Vegetarian,65.9745
+"Gingelly seeds, brown (Sesamum indicum)",Nuts and oil seeds,21.61,516.49,491.0,613.0,11.94,Avoid,Vegetarian,65.81299999999999
+"Gingelly seeds, white (Sesamum indicum)",Nuts and oil seeds,21.7,519.6,460.0,754.0,15.43,Avoid,Vegetarian,60.2285
+Ground nut (Arachis hypogaea),Nuts and oil seeds,23.65,520.08,679.0,391.0,12.21,Avoid,Vegetarian,69.5395
+Mustard seeds (Brassica nigra),Nuts and oil seeds,19.51,509.56,694.0,715.0,3.97,Avoid,Vegetarian,48.8615
+Linseeds (Linum usitatissimum),Nuts and oil seeds,18.55,443.83,655.0,445.0,32.93,Avoid,Vegetarian,61.903499999999994
+"Niger seeds, black (Guizotia abyssinica)",Nuts and oil seeds,18.92,512.43,716.0,461.0,10.7,Avoid,Vegetarian,59.535
+"Niger seeds, gray (Guizotia abyssinica)",Nuts and oil seeds,18.34,508.6,874.0,474.0,8.08,Avoid,Vegetarian,50.53599999999999
+Pine seed (Pinus sp.),Nuts and oil seeds,12.55,594.17,686.0,618.0,1.31,Avoid,Vegetarian,47.28449999999998
+Pistachio nuts (Pistacia vera),Nuts and oil seeds,23.35,539.44,1053.0,537.0,6.93,Avoid,Vegetarian,43.503499999999995
+Safflower seeds (Carthamus tinctorius),Nuts and oil seeds,17.66,473.47,550.0,644.0,3.05,Avoid,Vegetarian,57.80749999999999
+Sunflower seeds (Helianthus annuus),Nuts and oil seeds,23.53,586.28,559.0,752.0,1.9,Avoid,Vegetarian,57.885
+Walnut (Juglans regia),Nuts and oil seeds,14.92,671.37,457.0,400.0,1.33,Avoid,Vegetarian,72.0035
+"Jaggery, cane (Saccharum officinarum)",Sugars,1.85,353.73,488.0,74.53,25.38,Avoid,Vegetarian,72.45449999999998
+"Sugarcane, juice (Saccharum officinarum)",Sugars,0.16,57.84,150.0,22.08,1.16,Safe,Vegetarian,91.49799999999999
+"Button mushroom, fresh (Agaricus sp.)",Mushrooms,3.68,27.49,318.0,87.11,7.72,Moderate,Vegetarian,83.0385
+"Chicken mushroom, fresh (Lactiporus sp.)",Mushrooms,1.84,21.27,340.0,79.74,10.22,Moderate,Non-Vegetarian,80.34200000000001
+"Shiitake mushroom, fresh (Lentinula sp.)",Mushrooms,3.19,58.08,323.0,96.36,9.3,Moderate,Vegetarian,81.75699999999999
+"Oyster mushroom, dried (Pleurotus sp.)",Mushrooms,19.04,243.55,350.0,702.0,8.67,Avoid,Vegetarian,66.00649999999999
+Toddy (Borassus flabellifer),Miscellaneous foods,0.18,24.14,83.54,5.82,1.64,Safe,Vegetarian,95.63000000000001
+Coconut Water (Cocos nucifera),Miscellaneous foods,0.26,15.3,215.0,18.05,28.09,Moderate,Vegetarian,87.203
+"Milk, whole, Buffalo",Milk and milk products,3.68,107.31,109.0,86.94,30.1,Safe,Vegetarian,92.37800000000001
+"Milk, whole, Cow",Milk and milk products,3.26,72.9,115.0,96.56,25.46,Safe,Vegetarian,91.409
+Paneer,Milk and milk products,18.86,305.45,63.53,330.0,18.04,Avoid,Vegetarian,98.2815
+Khoa,Milk and milk products,16.34,315.97,536.0,476.0,48.1,Avoid,Vegetarian,63.33500000000001
+"Egg, poultry, whole, raw",Egg and egg products,13.28,134.8,138.0,185.0,123.0,Moderate,Non-Vegetarian,90.97999999999999
+"Egg, poultry, white, raw",Egg and egg products,10.84,44.69,152.0,15.81,166.0,Moderate,Non-Vegetarian,94.14950000000002
+"Egg, poultry, yolk, raw",Egg and egg products,15.74,296.85,118.0,549.0,46.33,Avoid,Non-Vegetarian,80.07349999999998
+"Egg, poultry, whole, boiled",Egg and egg products,13.43,147.71,127.0,209.0,121.0,Moderate,Non-Vegetarian,90.58000000000001
+"Egg, poultry, white, boiled",Egg and egg products,12.37,52.58,147.0,23.0,144.0,Moderate,Non-Vegetarian,96.67
+"Egg, poultry, yolk, boiled",Egg and egg products,16.13,308.32,106.0,586.0,44.83,Avoid,Non-Vegetarian,79.2885
+"Egg, poultry, omlet",Egg and egg products,16.53,169.69,163.0,222.0,169.0,Moderate,Non-Vegetarian,88.83
+"Egg, country hen, whole, raw",Egg and egg products,13.14,168.26,117.0,198.0,157.0,Moderate,Non-Vegetarian,89.54
+"Egg, country hen, whole, boiled",Egg and egg products,14.43,183.32,120.0,206.0,149.0,Moderate,Non-Vegetarian,90.68
+"Egg, country hen, omlet",Egg and egg products,14.8,204.35,151.0,243.0,157.0,Moderate,Non-Vegetarian,87.25
+"Egg, duck, whole, boiled",Egg and egg products,13.8,176.39,221.0,263.0,110.0,Avoid,Non-Vegetarian,84.1
+"Egg, duck, whole, raw",Egg and egg products,14.6,181.64,228.0,247.0,113.0,Moderate,Non-Vegetarian,85.19999999999999
+"Egg, duck, whole, omlet",Egg and egg products,15.1,192.16,154.0,309.0,175.0,Avoid,Non-Vegetarian,83.19999999999999
+"Egg, quial, whole, raw",Egg and egg products,12.39,151.77,119.0,236.0,132.0,Moderate,Non-Vegetarian,88.04
+"Egg, quial, whole, boiled",Egg and egg products,13.03,154.64,115.0,237.0,130.0,Moderate,Non-Vegetarian,88.93
+"Chicken, poultry, leg, skinless",Poultry,19.44,383.6,283.0,199.0,65.07,Moderate,Non-Vegetarian,92.08649999999999
+"Chicken, poultry, thigh, skinless",Poultry,18.18,199.81,263.0,186.0,64.59,Moderate,Non-Vegetarian,92.50049999999999
+"Chicken, poultry, breast, skinless",Poultry,21.81,168.26,295.0,178.0,36.7,Moderate,Non-Vegetarian,96.325
+"Chicken, poultry, wing, skinless",Poultry,17.42,192.88,185.0,189.0,72.78,Moderate,Non-Vegetarian,95.081
+"Poultry, chicken, liver",Poultry,21.57,123.8,241.0,244.0,61.58,Moderate,Non-Vegetarian,94.24100000000001
+"Poultry, chicken, gizzard",Poultry,18.22,92.26,244.0,119.0,50.6,Moderate,Non-Vegetarian,97.53999999999999
+"Country hen, leg, with skin",Poultry,17.01,172.8,357.0,250.0,50.46,Avoid,Vegetarian,84.13700000000001
+"Country hen, thigh, with skin",Poultry,18.29,187.62,330.0,232.0,51.14,Moderate,Vegetarian,87.63300000000001
+"Country hen, breast, with skin",Poultry,22.08,179.97,365.0,222.0,23.13,Avoid,Vegetarian,91.57350000000001
+"Country hen, wing, with skin",Poultry,18.65,182.6,249.0,235.0,54.15,Moderate,Vegetarian,91.7425
+"Duck, meat, with skin",Poultry,19.07,130.74,273.0,237.0,82.25,Moderate,Non-Vegetarian,89.45750000000001
+"Emu, meat, skinless",Poultry,22.65,132.89,275.0,243.0,48.48,Moderate,Non-Vegetarian,94.326
+"Guinea fowl, meat, with skin",Poultry,20.52,112.09,240.0,187.0,57.64,Moderate,Non-Vegetarian,96.288
+"Pigeon, meat, with skin",Poultry,17.94,126.2,346.0,255.0,56.1,Avoid,Non-Vegetarian,85.085
+"Quail, meat, skinless",Poultry,20.92,137.67,333.0,300.0,56.21,Avoid,Non-Vegetarian,86.45949999999999
+"Turkey, leg, with skin",Poultry,20.3,154.64,308.0,236.0,66.47,Moderate,Vegetarian,89.7765
+"Turkey, thigh, with skin",Poultry,20.46,138.86,280.0,194.0,50.01,Moderate,Vegetarian,94.2595
+"Turkey, breast, with skin",Poultry,21.96,160.37,315.0,182.0,40.45,Moderate,Vegetarian,95.0875
+"Turkey, wing, with skin",Poultry,21.91,184.27,262.0,199.0,57.0,Moderate,Vegetarian,96.01
+"Goat, shoulder",Animal meat,20.33,188.1,332.0,189.0,47.31,Moderate,Vegetarian,91.9145
+"Goat, chops",Animal meat,20.39,135.76,334.0,195.0,45.72,Moderate,Vegetarian,91.654
+"Goat, legs",Animal meat,22.07,159.89,339.0,187.0,42.77,Moderate,Vegetarian,93.63150000000002
+"Goat, brain",Animal meat,13.82,127.39,296.0,296.0,132.0,Avoid,Vegetarian,77.62
+"Goat, tongue",Animal meat,16.63,188.58,223.0,212.0,118.0,Moderate,Vegetarian,88.97999999999999
+"Goat, lungs",Animal meat,16.86,95.84,180.0,209.0,85.72,Moderate,Vegetarian,93.124
+"Goat, heart",Animal meat,19.38,117.59,224.0,174.0,73.21,Moderate,Vegetarian,95.81949999999999
+"Goat, liver",Animal meat,20.32,125.72,284.0,336.0,55.41,Avoid,Vegetarian,86.5495
+"Goat, tripe",Animal meat,15.36,92.26,45.0,59.2,22.38,Safe,Vegetarian,100.0
+"Goat, spleen",Animal meat,18.45,95.84,368.0,266.0,52.4,Avoid,Vegetarian,84.13
+"Goat, kidneys",Animal meat,15.6,89.39,195.0,220.0,184.0,Moderate,Vegetarian,85.64999999999999
+"Goat, tube (small intestine)",Animal meat,12.92,125.48,130.0,55.9,7.46,Safe,Vegetarian,100.0
+"Goat, testis",Animal meat,12.32,71.22,253.0,186.0,92.61,Moderate,Vegetarian,85.73949999999999
+"Sheep, shoulder",Animal meat,18.24,200.76,336.0,195.0,45.65,Moderate,Vegetarian,89.4075
+"Sheep, chops",Animal meat,18.0,118.55,323.0,191.0,45.26,Moderate,Vegetarian,90.03699999999999
+"Sheep, leg",Animal meat,21.42,163.96,333.0,187.0,49.3,Moderate,Vegetarian,92.955
+"Sheep, brain",Animal meat,13.05,117.59,312.0,271.0,122.0,Avoid,Vegetarian,77.80000000000001
+"Sheep, tongue",Animal meat,16.61,187.14,220.0,207.0,185.0,Moderate,Vegetarian,86.01
+"Sheep, lungs",Animal meat,16.12,86.76,204.0,187.0,109.0,Moderate,Vegetarian,91.12
+"Sheep, heart",Animal meat,18.19,106.36,225.0,163.0,72.62,Moderate,Vegetarian,95.15899999999999
+"Sheep, liver",Animal meat,22.26,133.6,280.0,334.0,55.82,Avoid,Vegetarian,88.769
+"Sheep, tripe",Animal meat,16.76,103.97,48.75,55.61,18.37,Safe,Vegetarian,100.0
+"Sheep, spleen",Animal meat,16.02,91.78,327.0,266.0,50.58,Avoid,Vegetarian,83.84100000000001
+"Sheep, kidneys",Animal meat,16.22,91.78,198.0,204.0,163.0,Moderate,Vegetarian,87.96999999999998
+"Beef, shoulder",Animal meat,20.56,212.48,367.0,201.0,45.59,Avoid,Non-Vegetarian,89.88050000000001
+"Beef, chops",Animal meat,19.82,139.82,383.0,209.0,32.47,Avoid,Non-Vegetarian,88.59649999999999
+"Beef, round (leg)",Animal meat,22.64,157.27,366.0,215.0,38.96,Avoid,Non-Vegetarian,91.64200000000001
+"Beef, brain",Animal meat,10.55,125.0,320.0,326.0,127.0,Avoid,Non-Vegetarian,71.9
+"Beef, tongue",Animal meat,15.63,174.71,260.0,220.0,89.88,Moderate,Non-Vegetarian,87.136
+"Beef, lungs",Animal meat,15.66,83.89,216.0,172.0,109.0,Moderate,Non-Vegetarian,90.81
+"Beef, heart",Animal meat,17.68,103.49,258.0,181.0,70.52,Moderate,Non-Vegetarian,92.20400000000001
+"Beef, liver",Animal meat,20.73,119.26,289.0,332.0,50.14,Avoid,Non-Vegetarian,87.17299999999999
+"Beef, tripe",Animal meat,13.1,75.53,143.0,60.17,41.0,Safe,Non-Vegetarian,100.0
+"Beef, spleen",Animal meat,17.42,90.34,348.0,252.0,58.94,Avoid,Non-Vegetarian,84.473
+"Beef, kidneys",Animal meat,17.09,104.92,184.0,180.0,160.0,Moderate,Non-Vegetarian,90.89
+"Calf, shoulder",Animal meat,20.98,151.29,369.0,197.0,77.0,Avoid,Vegetarian,88.83
+"Calf, chops",Animal meat,22.47,125.24,366.0,195.0,64.94,Avoid,Vegetarian,91.173
+"Calf, round (leg)",Animal meat,21.1,146.99,356.0,185.0,67.04,Avoid,Vegetarian,90.69800000000001
+"Calf, brain",Animal meat,9.84,107.07,306.0,296.0,115.0,Avoid,Vegetarian,73.99000000000001
+"Calf, tongue",Animal meat,17.78,176.15,238.0,178.0,91.64,Moderate,Vegetarian,92.398
+"Calf, heart",Animal meat,18.84,109.7,224.0,185.0,58.0,Moderate,Vegetarian,95.49
+"Calf, liver",Animal meat,21.02,120.22,307.0,358.0,54.99,Avoid,Vegetarian,85.0205
+"Calf, spleen",Animal meat,17.71,90.58,372.0,274.0,67.87,Avoid,Vegetarian,82.01650000000001
+"Calf, kidneys",Animal meat,15.16,92.5,206.0,204.0,174.0,Moderate,Vegetarian,85.96
+"Mithun, shoulder",Animal meat,19.05,175.91,307.0,199.0,32.94,Moderate,Vegetarian,92.103
+"Mithun, chops",Animal meat,18.19,128.11,222.0,178.0,42.17,Moderate,Vegetarian,96.08149999999999
+"Mithun, round (leg)",Animal meat,19.61,115.92,338.0,190.0,28.42,Moderate,Vegetarian,91.78899999999999
+"Pork, shoulder",Animal meat,17.41,237.33,234.0,157.0,54.47,Moderate,Non-Vegetarian,95.1365
+"Pork, chops",Animal meat,19.41,178.78,243.0,143.0,43.7,Moderate,Non-Vegetarian,97.92499999999998
+"Pork, ham",Animal meat,18.83,240.44,239.0,140.0,40.44,Moderate,Non-Vegetarian,97.85799999999999
+"Pork, lungs",Animal meat,15.13,85.56,200.0,161.0,61.41,Moderate,Non-Vegetarian,94.0095
+"Pork, heart",Animal meat,16.31,109.23,268.0,187.0,70.52,Moderate,Non-Vegetarian,90.034
+"Pork, liver",Animal meat,19.89,115.68,279.0,310.0,64.89,Avoid,Non-Vegetarian,87.1955
+"Pork, stomach",Animal meat,15.36,131.45,200.0,125.0,109.0,Safe,Non-Vegetarian,93.66
+"Pork, spleen",Animal meat,15.13,85.33,325.0,230.0,49.14,Moderate,Non-Vegetarian,84.923
+"Pork, kidneys",Animal meat,14.35,90.58,198.0,201.0,138.0,Moderate,Non-Vegetarian,87.49999999999999
+"Pork, tube (small intestine)",Animal meat,14.96,140.3,140.0,124.0,60.17,Safe,Non-Vegetarian,98.7515
+"Hare, shoulder",Animal meat,21.13,144.12,303.0,260.0,55.03,Avoid,Vegetarian,90.2285
+"Hare, chops",Animal meat,20.62,106.36,340.0,295.0,48.61,Avoid,Vegetarian,86.43950000000001
+"Hare, leg",Animal meat,20.52,120.22,370.0,275.0,42.48,Avoid,Vegetarian,86.146
+"Rabbit, shoulder",Animal meat,20.01,151.77,361.0,238.0,61.38,Avoid,Vegetarian,86.991
+"Rabbit, chops",Animal meat,22.61,135.04,374.0,245.0,47.84,Avoid,Vegetarian,89.268
+"Rabbit, leg",Animal meat,21.31,139.58,389.0,245.0,46.03,Avoid,Vegetarian,87.3085
+Allathi (Elops machnata),Marine fish,21.77,97.04,286.0,215.0,32.68,Moderate,Vegetarian,95.086
+Aluva (Parastromateus niger),Marine fish,21.63,103.73,470.0,245.0,44.86,Avoid,Vegetarian,83.637
+Anchovy (Stolephorus indicus),Marine fish,19.88,87.72,270.0,246.0,212.0,Moderate,Vegetarian,83.48
+Ari fish (Aprion virescens),Marine fish,22.01,99.19,447.0,265.0,37.35,Avoid,Non-Vegetarian,84.5425
+Betki (Lates calcarifer),Marine fish,15.28,67.88,355.0,188.0,63.68,Avoid,Vegetarian,84.946
+Black snapper (Macolor niger),Marine fish,19.5,90.11,341.0,195.0,41.23,Moderate,Vegetarian,90.63850000000001
+Bombay duck (Harpadon nehereus),Marine fish,13.53,68.59,188.0,185.0,223.0,Moderate,Vegetarian,83.72999999999999
+Bommuralu (Muraenesox cinerius),Marine fish,22.3,115.92,349.0,207.0,61.87,Moderate,Vegetarian,91.40649999999998
+Cat fish (Tachysurus thalassinus),Marine fish,22.18,108.99,429.0,252.0,35.82,Avoid,Non-Vegetarian,86.339
+Chakla (Rachycentron canadum),Marine fish,20.21,97.04,343.0,219.0,51.41,Moderate,Vegetarian,89.5395
+Chappal (Aluterus monoceros),Marine fish,17.17,75.76,306.0,203.0,38.12,Moderate,Vegetarian,89.814
+Chelu (Elagatis bipinnulata),Marine fish,20.02,87.48,406.0,252.0,37.6,Avoid,Vegetarian,85.24
+Chembali (Lutjanus quinquelineatus),Marine fish,20.06,97.04,323.0,211.0,38.98,Moderate,Vegetarian,91.411
+Eri meen (Pristipomoides filamentosus),Marine fish,22.3,108.51,402.0,243.0,41.19,Avoid,Vegetarian,87.9905
+Gobro (Epinephelus diacanthus),Marine fish,19.37,86.52,316.0,170.0,52.68,Moderate,Vegetarian,92.436
+Guitar fish (Rhinobatus prahli),Marine fish,22.56,95.6,342.0,230.0,70.81,Moderate,Non-Vegetarian,90.41950000000001
+Hilsa (Tenualosa ilisha),Marine fish,21.8,258.84,341.0,278.0,80.88,Avoid,Vegetarian,86.806
+Jallal (Arius sp.),Marine fish,21.55,100.38,368.0,204.0,74.33,Avoid,Vegetarian,89.23349999999999
+Jathi vela meen (Lethrinus lentjan),Marine fish,22.45,108.27,467.0,249.0,30.53,Avoid,Vegetarian,85.1235
+Kadal bral (Synodus indicus),Marine fish,18.72,87.95,366.0,219.0,53.66,Avoid,Vegetarian,86.787
+Kadali (Nemipterus mesoprion),Marine fish,22.07,126.67,390.0,207.0,36.06,Avoid,Vegetarian,90.417
+Kalamaara (Leptomelanosoma indicum),Marine fish,20.89,125.0,420.0,227.0,29.33,Avoid,Vegetarian,87.07350000000001
+Kalava (Epinephelus coioides),Marine fish,19.38,89.39,279.0,177.0,40.14,Moderate,Vegetarian,94.573
+Kanamayya (Lutjanus rivulatus),Marine fish,20.19,87.72,346.0,194.0,50.53,Moderate,Vegetarian,90.6635
+Kannadi paarai (Alectis indicus),Marine fish,22.09,101.1,432.0,252.0,59.57,Avoid,Vegetarian,84.91150000000002
+Karimeen (Etroplus suratensis),Marine fish,19.68,92.26,452.0,192.0,23.72,Avoid,Vegetarian,86.29400000000001
+Karnagawala (Anchoa hepsetus),Marine fish,19.52,86.76,228.0,178.0,63.27,Moderate,Vegetarian,96.05649999999999
+Kayrai (Thunnus albacores),Marine fish,20.15,108.51,321.0,266.0,25.12,Avoid,Vegetarian,89.54400000000001
+Kiriyan (Atule mate),Marine fish,22.49,132.89,277.0,214.0,35.88,Moderate,Vegetarian,96.146
+Kite fish (Mobula kuhlii),Marine fish,23.07,98.71,387.0,231.0,59.03,Avoid,Non-Vegetarian,89.2185
+Korka (Terapon jarbua),Marine fish,23.72,126.2,349.0,229.0,43.3,Moderate,Vegetarian,92.65499999999999
+Kulam paarai (Carangoides fulvoguttatus),Marine fish,21.62,119.74,366.0,244.0,49.17,Avoid,Vegetarian,88.6615
+Maagaa (Polynemus plebeius),Marine fish,20.11,87.48,375.0,181.0,52.28,Avoid,Vegetarian,89.696
+Mackerel (Rastrelliger kanagurta),Marine fish,21.51,101.1,309.0,231.0,83.01,Moderate,Vegetarian,90.35950000000001
+Manda clathi (Naso reticulatus),Marine fish,21.27,95.12,431.0,320.0,58.5,Avoid,Vegetarian,80.795
+Matha (Acanthurus mata),Marine fish,21.17,92.97,450.0,263.0,62.58,Avoid,Vegetarian,82.39099999999999
+Milk fish (Chanos chanos),Marine fish,23.66,105.64,301.0,292.0,42.98,Avoid,Non-Vegetarian,91.86099999999999
+Moon fish (Mene maculata),Marine fish,20.74,125.72,157.0,169.0,65.17,Moderate,Non-Vegetarian,100.0
+Mullet (Mugil cephalus),Marine fish,20.23,93.93,331.0,222.0,66.09,Moderate,Vegetarian,89.2755
+Mural (Tylosurus crocodilus),Marine fish,19.04,82.46,330.0,224.0,110.0,Moderate,Vegetarian,85.84
+Myil meen (Istiophorus platypterus),Marine fish,22.89,97.99,365.0,268.0,61.96,Avoid,Vegetarian,88.142
+Nalla bontha (Epinephelus sp.),Marine fish,19.82,87.0,403.0,197.0,57.87,Avoid,Vegetarian,86.9265
+Narba (Caranx sexfasciatus),Marine fish,21.95,103.25,384.0,235.0,49.51,Avoid,Vegetarian,88.5245
+Paarai (Caranx heberi),Marine fish,21.58,103.97,384.0,284.0,45.22,Avoid,Vegetarian,85.919
+Padayappa (Canthidermis maculata),Marine fish,19.7,86.04,490.0,256.0,33.87,Avoid,Vegetarian,80.7065
+Pali kora (Panna microdon),Marine fish,19.25,94.17,364.0,195.0,54.85,Avoid,Vegetarian,88.55749999999999
+Pambada (Lepturacanthus savala),Marine fish,21.95,128.35,263.0,170.0,82.65,Moderate,Vegetarian,96.1675
+Pandukopa (Pseudosciaena manchurica),Marine fish,19.73,86.04,427.0,203.0,49.15,Avoid,Vegetarian,85.77250000000001
+Parava (Lactarius lactarius),Marine fish,21.5,111.62,363.0,194.0,84.08,Avoid,Vegetarian,89.446
+Parcus (Psettodes erumei),Marine fish,19.87,86.28,446.0,218.0,64.38,Avoid,Vegetarian,83.451
+Parrot fish (Scarus ghobban),Marine fish,20.82,89.63,432.0,316.0,51.79,Avoid,Non-Vegetarian,80.8305
+Perinkilichai (Pinjalo pinjalo),Marine fish,20.89,92.5,365.0,236.0,34.16,Avoid,Vegetarian,89.132
+Phopat (Coryphaena hippurus),Marine fish,22.05,101.34,439.0,258.0,36.2,Avoid,Vegetarian,85.38999999999999
+Piranha (Pygopritis sp.),Marine fish,20.46,131.21,323.0,170.0,38.97,Moderate,Vegetarian,93.8615
+"Pomfret, black (Parastromateus niger)",Marine fish,18.91,123.09,295.0,195.0,69.09,Moderate,Vegetarian,90.9555
+"Pomfret, snub nose (Trachinotus blochii)",Marine fish,21.05,89.63,483.0,247.0,36.1,Avoid,Vegetarian,82.74499999999999
+"Pomfret, white (Pampus argenteus)",Marine fish,19.02,122.61,255.0,211.0,46.09,Moderate,Vegetarian,93.4155
+Pranel (Gerres sp.),Marine fish,19.69,96.8,251.0,166.0,52.37,Moderate,Vegetarian,96.2215
+Pulli paarai (Gnathanodon speciosus),Marine fish,20.06,95.36,335.0,232.0,58.56,Moderate,Vegetarian,88.78200000000001
+Queen fish (Scomberoides commersonianus),Marine fish,20.97,95.6,440.0,235.0,48.93,Avoid,Non-Vegetarian,84.7735
+Raai fish (Lobotes surinamensis),Marine fish,21.61,102.77,347.0,213.0,47.62,Moderate,Non-Vegetarian,91.229
+Raai vanthu (Epinephelus chlorostigma),Marine fish,19.39,97.99,311.0,178.0,50.83,Moderate,Vegetarian,92.3985
+Rani (Pink perch),Marine fish,18.83,90.11,335.0,208.0,63.17,Moderate,Vegetarian,88.52149999999999
+"Ray fish, bow head, spotted (Rhina ancylostoma)",Marine fish,19.03,83.41,353.0,196.0,105.0,Avoid,Non-Vegetarian,86.33
+Red snapper (Lutjanus argentimaculatus),Marine fish,22.79,104.45,446.0,204.0,59.89,Avoid,Vegetarian,87.2955
+"Red snapper, small (Priacanthus hamrur)",Marine fish,21.5,107.79,327.0,204.0,38.97,Moderate,Vegetarian,93.00150000000001
+Sadaya (Platax orbicularis),Marine fish,20.68,110.42,360.0,221.0,49.41,Avoid,Vegetarian,89.15950000000001
+Salmon (Salmo salar),Marine fish,20.97,172.32,345.0,211.0,20.25,Moderate,Vegetarian,92.1575
+Sangada (Nemipterus japanicus),Marine fish,20.26,105.88,217.0,211.0,77.82,Moderate,Vegetarian,94.96900000000001
+Sankata paarai (Caranx ignobilis),Marine fish,21.87,103.73,379.0,246.0,22.33,Avoid,Vegetarian,89.5035
+Sardine (Sardinella longiceps),Marine fish,17.91,152.25,228.0,191.0,38.49,Moderate,Vegetarian,95.0355
+Shark (Carcharhinus sorrah),Marine fish,21.6,95.12,372.0,263.0,63.63,Avoid,Vegetarian,86.6685
+"Shark, hammer head (Sphyrna mokarran)",Marine fish,23.4,103.25,304.0,200.0,53.55,Moderate,Vegetarian,95.52250000000001
+"Shark, spotted (Stegostoma fasciatum)",Marine fish,20.95,91.78,318.0,179.0,131.0,Moderate,Vegetarian,89.55
+Shelavu (Sphyraena jello),Marine fish,22.46,106.6,30.81,453.0,38.73,Avoid,Vegetarian,96.333
+Silan (Silonia silondia),Marine fish,22.72,151.29,223.0,163.0,29.39,Moderate,Vegetarian,100.0
+Silk fish (Beryx sp.),Marine fish,20.65,97.51,440.0,211.0,41.57,Avoid,Non-Vegetarian,86.0215
+Silver carp (Hypophthalmichthys molitrix),Marine fish,21.71,132.65,249.0,187.0,19.6,Moderate,Vegetarian,98.93
+Sole fish (Cynoglossus arel),Marine fish,19.05,87.72,199.0,123.0,74.57,Safe,Non-Vegetarian,99.22149999999999
+Stingray (Dasyatis pastinaca),Marine fish,23.98,97.51,270.0,174.0,64.14,Moderate,Vegetarian,98.57300000000001
+Tarlava (Drepane punctata),Marine fish,21.72,98.95,370.0,199.0,67.4,Avoid,Vegetarian,89.89999999999999
+Tholam (Plectorhinchus schotaf),Marine fish,20.78,103.25,382.0,241.0,28.0,Avoid,Vegetarian,88.23
+Tilapia (Oreochromis niloticus),Marine fish,18.48,83.41,255.0,184.0,52.55,Moderate,Vegetarian,93.9025
+Tuna (Euthynnus affinis),Marine fish,24.5,112.33,357.0,292.0,52.89,Avoid,Vegetarian,89.40550000000002
+"Tuna, striped (Katsuwonus pelamis)",Marine fish,21.28,96.32,273.0,209.0,22.6,Moderate,Vegetarian,96.05
+Valava (Chirocentrus nudus),Marine fish,21.8,97.99,365.0,229.0,91.91,Avoid,Vegetarian,87.5045
+Vanjaram (Scomberomorus commerson),Marine fish,22.28,136.23,473.0,302.0,34.85,Avoid,Vegetarian,81.7875
+Vela meen (Aprion virescens),Marine fish,22.16,128.35,387.0,280.0,38.15,Avoid,Vegetarian,86.9025
+Vora (Siganus javus),Marine fish,20.14,100.86,401.0,246.0,43.66,Avoid,Vegetarian,85.60700000000001
+Whale shark (Galeocerdo cuvier),Marine fish,21.83,95.84,365.0,274.0,116.0,Avoid,Vegetarian,84.08
+Xiphinis (Xiphias gladius),Marine fish,19.82,88.43,306.0,255.0,66.21,Avoid,Vegetarian,88.45949999999999
+"Eggs, Cat fish (Ompok bimaculatus)",Marine fish,24.68,143.4,252.0,445.0,54.83,Avoid,Non-Vegetarian,87.08850000000001
+Crab (Menippe mercenaria),Marine shellfish,10.23,81.98,171.0,100.0,244.0,Moderate,Vegetarian,84.48
+"Crab, sea (Portunus sanguinolentus)",Marine shellfish,15.36,67.64,252.0,193.0,313.0,Avoid,Vegetarian,77.46000000000001
+"Lobster, brown (Thenus orientalis)",Marine shellfish,15.96,69.79,212.0,223.0,140.0,Moderate,Vegetarian,87.21000000000001
+"Lobster, king size (Thenus orientalis)",Marine shellfish,18.54,89.63,315.0,261.0,191.0,Avoid,Vegetarian,80.19
+Mud crab (Scylla tranquebarica),Marine shellfish,10.0,45.41,227.0,153.0,305.0,Avoid,Vegetarian,75.75
+Oyster (Crassostrea sp.),Marine shellfish,9.51,60.23,122.0,170.0,41.01,Moderate,Vegetarian,92.85950000000001
+"Tiger prawns, brown (Solenocera crassicornis)",Marine shellfish,14.85,65.25,141.0,189.0,188.0,Moderate,Non-Vegetarian,88.94999999999999
+"Tiger Prawns, orange (Penaeus monodon)",Marine shellfish,14.25,64.53,140.0,191.0,61.05,Moderate,Non-Vegetarian,94.64750000000001
+"Clam, green shell (Perna viridis)",Marine mollusks,12.14,58.08,152.0,128.0,322.0,Avoid,Vegetarian,82.04
+"Clam, white shell, ribbed (Meretrix meretrix)",Marine mollusks,11.82,59.75,245.0,192.0,404.0,Avoid,Vegetarian,69.77000000000001
+Octopus (Octopus vulgaris),Marine mollusks,14.71,79.83,181.0,131.0,230.0,Moderate,Vegetarian,87.61000000000001
+"Squid, black (Loligo sp.)",Marine mollusks,16.1,80.07,162.0,173.0,179.0,Moderate,Vegetarian,90.4
+"Squid, hard shell (Sepia pharaonis)",Marine mollusks,16.82,76.48,116.0,173.0,99.14,Moderate,Vegetarian,97.41299999999998
+"Squid, red (Loligo duvaucelii)",Marine mollusks,16.25,78.63,134.0,167.0,121.0,Moderate,Vegetarian,95.15
+"Squid, white, small (Uroteuthis duvauceli)",Marine mollusks,17.41,84.37,134.0,151.0,154.0,Moderate,Vegetarian,95.46
+Cat fish (Tandanus tandanus),Freshwater fish and shellfish,15.86,123.8,250.0,157.0,28.29,Moderate,Non-Vegetarian,94.0955
+Catla (Catla catla),Freshwater fish and shellfish,17.94,94.17,301.0,182.0,36.56,Moderate,Vegetarian,91.962
+Freshwater Eel (Anguilla anguilla),Freshwater fish and shellfish,20.41,107.79,450.0,361.0,88.67,Avoid,Vegetarian,75.4265
+Gold fish (Carassius auratus),Freshwater fish and shellfish,16.91,94.65,243.0,185.0,27.53,Moderate,Non-Vegetarian,94.1335
+Pangas (Pangasianodon hypophthalmus),Freshwater fish and shellfish,17.12,203.63,282.0,179.0,37.42,Moderate,Vegetarian,92.19900000000001
+Rohu (Labeo rohita),Freshwater fish and shellfish,19.71,102.29,303.0,200.0,35.56,Moderate,Vegetarian,92.78199999999998
+Crab (Pachygrapsus sp.),Freshwater fish and shellfish,13.23,78.15,286.0,208.0,280.0,Moderate,Vegetarian,74.53
+"Prawns, big (Macrobrachium rosenbergii)",Freshwater fish and shellfish,19.24,90.82,269.0,237.0,849.0,Avoid,Non-Vegetarian,51.48999999999998
+"Prawns, small (Macrobrachium sp.)",Freshwater fish and shellfish,13.07,70.98,224.0,192.0,77.71,Moderate,Non-Vegetarian,88.3845
+Tiger prawns (Macrobrachium sp.),Freshwater fish and shellfish,14.24,67.88,149.0,155.0,80.77,Moderate,Non-Vegetarian,95.0015
