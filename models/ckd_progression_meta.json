@@ -1,0 +1,36 @@
+{
+  "input_dim": 12,
+  "feature_names": [
+    "age",
+    "sex_code",
+    "serum_creatinine",
+    "blood_urea",
+    "blood_glucose_random",
+    "sodium",
+    "potassium",
+    "hemoglobin",
+    "urine_albumin",
+    "systolic_bp",
+    "diastolic_bp",
+    "serum_albumin"
+  ],
+  "architecture": [
+    12,
+    128,
+    64,
+    32,
+    1
+  ],
+  "best_val_loss": 1.0065051317214966,
+  "test_mae": 0.8257688879966736,
+  "test_rmse": 1.0838663578033447,
+  "n_epochs": 150,
+  "stage_boundaries_egfr": {
+    "G1": 90,
+    "G2": 60,
+    "G3a": 45,
+    "G3b": 30,
+    "G4": 15,
+    "G5": 0
+  }
+}

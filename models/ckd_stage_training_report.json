@@ -1,0 +1,156 @@
+{
+  "xgboost": {
+    "accuracy": 0.9796472184531886,
+    "classification_report": {
+      "G1": {
+        "precision": 0.9956709956709957,
+        "recall": 0.9881847475832438,
+        "f1-score": 0.9919137466307277,
+        "support": 931.0
+      },
+      "G2": {
+        "precision": 0.9725400457665904,
+        "recall": 0.9792626728110599,
+        "f1-score": 0.9758897818599311,
+        "support": 434.0
+      },
+      "G3a": {
+        "precision": 0.9,
+        "recall": 0.96,
+        "f1-score": 0.9290322580645162,
+        "support": 75.0
+      },
+      "G3b": {
+        "precision": 0.8260869565217391,
+        "recall": 0.8260869565217391,
+        "f1-score": 0.8260869565217391,
+        "support": 23.0
+      },
+      "G4": {
+        "precision": 0.7777777777777778,
+        "recall": 0.7777777777777778,
+        "f1-score": 0.7777777777777778,
+        "support": 9.0
+      },
+      "G5": {
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1-score": 0.6666666666666666,
+        "support": 2.0
+      },
+      "accuracy": 0.9796472184531886,
+      "macro avg": {
+        "precision": 0.9120126292895172,
+        "recall": 0.8385520257823035,
+        "f1-score": 0.8612278645868932,
+        "support": 1474.0
+      },
+      "weighted avg": {
+        "precision": 0.9800217617587498,
+        "recall": 0.9796472184531886,
+        "f1-score": 0.979659848119803,
+        "support": 1474.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        920,
+        11,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        4,
+        425,
+        5,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        72,
+        2,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        3,
+        19,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        2,
+        7,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        1,
+        1
+      ]
+    ],
+    "feature_importance": {
+      "serum_creatinine": 0.39703986048698425,
+      "blood_urea": 0.139418825507164,
+      "sex_code": 0.1099543422460556,
+      "age": 0.0742839053273201,
+      "urine_albumin": 0.05461645871400833,
+      "hemoglobin": 0.043851613998413086,
+      "potassium": 0.039635490626096725,
+      "blood_glucose_random": 0.030083268880844116,
+      "serum_albumin": 0.029064593836665154,
+      "sodium": 0.028604324907064438,
+      "systolic_bp": 0.0275096595287323,
+      "diastolic_bp": 0.025937573984265327
+    },
+    "n_classes": 6,
+    "stage_labels": [
+      "G1",
+      "G2",
+      "G3a",
+      "G3b",
+      "G4",
+      "G5"
+    ]
+  },
+  "dnn": {
+    "test_mae": 0.8257688879966736,
+    "test_rmse": 1.0838663578033447,
+    "architecture": "12 -> 128 -> 64 -> 32 -> 1",
+    "epochs_trained": 150,
+    "final_train_loss": 1.2058633241375045,
+    "final_val_loss": 1.174766182899475
+  },
+  "dataset": {
+    "name": "NHANES CKD",
+    "samples": 7366,
+    "features": 12,
+    "feature_names": [
+      "age",
+      "sex_code",
+      "serum_creatinine",
+      "blood_urea",
+      "blood_glucose_random",
+      "sodium",
+      "potassium",
+      "hemoglobin",
+      "urine_albumin",
+      "systolic_bp",
+      "diastolic_bp",
+      "serum_albumin"
+    ]
+  }
+}
