@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+data/raw/nhanes/
+data/raw/uci_ckd/
+frontend/node_modules/
+frontend/dist/
+frontend/.npm-cache/
+.pip-cache/
+.env
+.ipynb_checkpoints/
+
+
