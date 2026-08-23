@@ -22,11 +22,16 @@ import { reportData } from './utils/format'
 import { useEffect } from 'react'
 import { useAuth } from './contexts/AuthContext'
 
+// root component: no router library - `page` state plus a big if/else block near the bottom
+// decides what to render, and all cross-page state (form, results, food/ultrasound data) lives
+// here and gets threaded down as props so e.g. the dashboard can show data gathered on other pages
 function App() {
   const { user, logout } = useAuth()
+  // header/mobile nav open state
   const [mobileOpen, setMobileOpen] = useState(false)
   const [featuresOpen, setFeaturesOpen] = useState(false)
   const [page, setPage] = useState<Page>('home')
+  // CKD risk calculator state (form inputs + the returned prediction)
   const [form, setForm] = useState<PredictionForm>(initialPredictionForm)
   const [result, setResult] = useState<PredictionResult | null>(null)
   const [predictionStep, setPredictionStep] = useState<PredictionStep>('calculator')
@@ -34,6 +39,7 @@ function App() {
   const [extractedFields, setExtractedFields] = useState<string[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  // food tools state: which sub-tab is active plus the results for each of the 4 food features
   const [foodTab, setFoodTab] = useState<FoodTab>('scan')
   const [foodName, setFoodName] = useState('')
   const [foodStage, setFoodStage] = useState<FoodStage>('G3a')
@@ -46,6 +52,7 @@ function App() {
   const [foodRecommendations, setFoodRecommendations] = useState<FoodAnalysis[]>([])
   const [mealPlan, setMealPlan] = useState<MealPlanResponse | null>(null)
   const [foodImagePreview, setFoodImagePreview] = useState('')
+  // ultrasound state, shared between the UltrasoundPage and the dashboard's KPI cards
   const [ultrasoundResult, setUltrasoundResult] = useState<UltrasoundScanResult | null>(null)
   const [ultrasoundMetrics, setUltrasoundMetrics] = useState<{ egfr: number; probability: number } | null>(null)
   const [ultrasoundPreview, setUltrasoundPreview] = useState<string>('')
@@ -61,12 +68,14 @@ function App() {
   ) => {
     const id = Math.random().toString(36).substring(2, 9)
     setToasts(prev => [...prev, { id, type, title, message, action }])
+    // toasts with an action link stay up longer so there's time to click it
     setTimeout(() => {
       setToasts(prev => prev.filter(t => t.id !== id))
     }, action ? 8000 : 4500)
   }
 
-  // Background Reminder Engine
+  // Background Reminder Engine - polls localStorage settings every 10s and pops toasts/whatsapp
+  // alerts when a scheduled med/food time is hit; only runs while a user is logged in
   useEffect(() => {
     if (!user) return;
     const interval = setInterval(() => {
@@ -93,6 +102,7 @@ function App() {
             addToast('whatsapp', 'WhatsApp Alert Sent', `📱 Sent to ${phone}: ${title}`);
             const wLogs = JSON.parse(window.localStorage.getItem('nephrocare_whatsapp_history') || '[]');
             window.localStorage.setItem('nephrocare_whatsapp_history', JSON.stringify([{ timestamp: new Date().toISOString(), title, message, status: 'Sent' }, ...wLogs].slice(0, 50)));
+            // the native 'storage' event only fires in OTHER tabs, so dispatch it manually to update this one
             window.dispatchEvent(new Event('storage'));
           } else {
             addToast('whatsapp', 'WhatsApp Simulated', `📱 [Simulated to ${phone}]: ${title}`);
@@ -118,7 +128,7 @@ function App() {
       const todayStr = now.toDateString();
 
       if (medReminder) {
-        // 1. Check actual scheduled time matching
+        // 1. Check actual scheduled time matching (relies on this interval landing on the exact HH:MM, so it can miss if the tab was backgrounded)
         if (currentTimeStr === reminderTime1) {
           const lastSentDose1 = window.localStorage.getItem('nephrocare_last_med_dose1_date');
           if (lastSentDose1 !== todayStr) {
@@ -189,14 +199,16 @@ function App() {
     return () => clearInterval(interval);
   }, [user]);
 
-  // Synchronize database history data to localStorage on user login
+  // Synchronize database history data to localStorage on user login - the rest of the app
+  // (dashboard, doctor summary, etc.) all reads its history from localStorage rather than
+  // hitting the API directly, so this effect is what keeps that cache fresh after login
   useEffect(() => {
     const syncDbData = async () => {
       if (!user) return
       try {
         const token = localStorage.getItem('auth_token')
         if (!token) return
-        
+
         // 1. Fetch patient profile
         const profileRes = await fetch(`${API_BASE_URL}/api/patient/profile`, {
           headers: { Authorization: `Bearer ${token}` }
@@ -246,18 +258,23 @@ function App() {
     setFeaturesOpen(false)
   }
 
+  // used by header/footer links that point at an in-page section on the home page (About, Resources)
   const scrollTo = (id: string) => {
     setPage('home')
+    // scrollIntoView needs the home page to actually be mounted first, hence the 0ms delay
     window.setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }), 0)
     closeMenus()
   }
 
+  // the app's de-facto navigation function - swaps the rendered page and resets scroll position
   const showPage = (nextPage: Page) => {
     setPage(nextPage)
     window.scrollTo({ top: 0, behavior: 'smooth' })
     closeMenus()
   }
 
+  // validates the calculator form, calls /api/predict, then stores the result both in state
+  // and in the localStorage prediction history (plus the backend if the user is logged in)
   const submitPrediction = async (event: FormEvent) => {
     event.preventDefault()
     if (numericPredictionKeys.some(key => form[key] === '') || !form.sex || !form.hypertension || !form.diabetes_mellitus) {
@@ -322,6 +339,8 @@ function App() {
     }
   }
 
+  // sends an uploaded lab report file to the backend OCR/extraction endpoint and autofills
+  // whichever form fields it managed to read - shared by both the lab-report and prediction pages
   const handleReportUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (!file) return
@@ -343,6 +362,7 @@ function App() {
     }
   }
 
+  // shared by both the "upload a photo" and "live camera" scan flows in FoodToolsPage
   const scanFoodImage = async (image: Blob, filename: string) => {
     setFoodLoading(true)
     setFoodError('')
@@ -368,6 +388,8 @@ function App() {
 
   const scanLiveFoodFrame = (image: Blob) => scanFoodImage(image, 'live-food-frame.jpg')
 
+  // looks up a single food by name; accepts an override so clicking a detected-food chip
+  // (from a scan result) can check that food without first typing it into the search box
   const checkFood = async (foodNameOverride?: string) => {
     const selectedFood = (foodNameOverride ?? foodName).trim()
     if (!selectedFood) {
@@ -427,6 +449,7 @@ function App() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          // prefer the real CKD stage from a completed prediction over the manually-picked foodStage
           stage: result ? result.kidney_function.egfr_category : foodStage,
           hypertension: foodHypertension,
           diabetes_mellitus: foodDiabetes,
@@ -468,10 +491,12 @@ function App() {
     }
   }
 
+  // keeps numeric fields as '' rather than NaN when the input is cleared, matching blankPredictionForm's shape
   const updateNumber = (key: keyof PredictionForm, value: string) => {
     setForm({ ...form, [key]: value === '' ? '' : Number(value) })
   }
 
+  // for the select-based fields (sex, hypertension, diabetes_mellitus)
   const updateChoice = (key: keyof PredictionForm, value: string) => {
     setForm({ ...form, [key]: value })
   }
@@ -484,6 +509,7 @@ function App() {
     setError('')
   }
 
+  // precompute the report view-model once per result so PredictionPage doesn't redo it on every render
   const activeReport = result ? reportData(result) : null
 
   return <div className="site-shell">
@@ -531,6 +557,7 @@ function App() {
       }}
     />
 
+    {/* each branch below is one "route" - only the matching page component gets mounted */}
     {page === 'home' && <HomePage showPage={showPage} />}
     {page === 'login' && <AuthPage initialMode="login" showPage={showPage} onLoginSuccess={() => {}} />}
     {page === 'signup' && <AuthPage initialMode="signup" showPage={showPage} onLoginSuccess={() => {}} />}

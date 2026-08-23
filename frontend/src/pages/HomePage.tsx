@@ -5,8 +5,10 @@ type HomePageProps = {
   showPage: (page: Page) => void
 }
 
+// static marketing/landing page - no state, just sections linking into the real tools via showPage
 export function HomePage({ showPage }: HomePageProps) {
   return <main id="top">
+    {/* hero banner with the main CTA into the risk calculator */}
     <section className="hero hero-openmrs">
       <span className="hero-shape hero-shape-left" aria-hidden="true" />
       <span className="hero-shape hero-shape-right" aria-hidden="true" />
@@ -22,6 +24,7 @@ export function HomePage({ showPage }: HomePageProps) {
       </div>
     </section>
 
+    {/* plain-language CKD explainer, anchor target for the header's "About" link */}
     <section className="ckd-about-section" id="about">
       <div className="ckd-about-image" aria-hidden="true">
         <img src="/image1.jpg" alt="" />
@@ -51,9 +54,11 @@ export function HomePage({ showPage }: HomePageProps) {
         <p>The two leading causes of chronic kidney disease are diabetes and high blood pressure. CKD can also be connected to inherited conditions, immune disorders, kidney stones, infections, and other kidney or urinary tract problems.</p>
         <p>Early screening helps because CKD often develops slowly and may have few symptoms at first.</p>
       </div>
+      {/* decorative ring, not an actual chart - the percentages below are the real content */}
       <div className="causes-chart" aria-label="CKD cause percentages">
         <div className="ckd-ring"><span><b>CKD</b></span></div>
       </div>
+      {/* fixed editorial figures, not computed from any dataset */}
       <div className="cause-list">
         <div><span className="cause-dot diabetes" /><strong>Diabetes</strong><b>45%</b></div>
         <div><span className="cause-dot pressure" /><strong>Hypertension</strong><b>25%</b></div>
@@ -62,6 +67,7 @@ export function HomePage({ showPage }: HomePageProps) {
       </div>
     </section>
 
+    {/* embedded youtube explainers, anchor target for the header's "Resources" link */}
     <section className="video-section" aria-label="Kidney education videos">
       <span className="eyebrow">Video gallery</span>
       <h2>Learn kidney basics visually.</h2>

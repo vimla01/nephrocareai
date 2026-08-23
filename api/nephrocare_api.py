@@ -49,13 +49,7 @@ try:
 except Exception:
     pass
 
-try:
-    from dotenv import load_dotenv
-
-    load_dotenv(ROOT / ".env")
-except Exception:
-    pass
-
+# order matters here - normalize() and predict() build the model input row in this exact order
 FEATURES = [
     "age",
     "sex",
@@ -71,6 +65,7 @@ FEATURES = [
     "diabetes_mellitus",
 ]
 
+# prefilled values so the frontend form has something sensible to show before a user enters real labs
 DEFAULT_LAB = {
     "age": 48,
     "sex": "female",
@@ -86,6 +81,7 @@ DEFAULT_LAB = {
     "diabetes_mellitus": "yes",
 }
 
+# standard clinical reference ranges, used to flag out-of-range labs in the report
 REFERENCE = {
     "urine_albumin": {"unit": "mg/g", "low": 0, "high": 30},
     "serum_creatinine": {"unit": "mg/dL", "low": 0.6, "high": 1.3},
@@ -97,10 +93,12 @@ REFERENCE = {
     "blood_pressure": {"unit": "mmHg diastolic", "low": 60, "high": 90},
 }
 
+# module-level caches so the joblib model / csv food data / alias index only get loaded from disk once per process
 MODEL_CACHE: dict[str, Any] | None = None
 FOOD_CACHE: Any | None = None
 FOOD_ALIAS_CACHE: dict[str, str] | None = None
 
+# maps common/spoken food names to the exact dataset row name, so "roti" finds "Wheat flour, atta" etc
 FOOD_ALIASES = {
     "rice": "Rice, raw, milled",
     "milk": "Milk",
@@ -116,7 +114,6 @@ FOOD_ALIASES = {
     "bajra": "Bajra",
     "jowar": "Jowar",
     "ragi": "Ragi",
-    "dal": "Dal",
     "lentil": "Lentil",
     "cilantro": "Coriander",
     "coriander": "Coriander",
@@ -162,6 +159,7 @@ FOOD_ALIASES = {
     "cheeseburger": "Cheeseburger",
 }
 
+# dataset names are often scientific/verbose, these overrides give a cleaner label for the ui
 FOOD_DISPLAY_OVERRIDES = {
     "Milk, human": "Milk",
     "Milk, whole, Buffalo": "Milk",
@@ -185,6 +183,7 @@ FOOD_DISPLAY_OVERRIDES = {
     "Bamboo shoots, cooked": "Bamboo shoots",
 }
 
+# used to bias recommendations/search toward foods likely to be part of an Indian diet
 INDIAN_FOOD_PATTERNS = [
     r"\brice\b",
     r"\bpoha\b",
@@ -216,6 +215,7 @@ INDIAN_FOOD_PATTERNS = [
     r"\bcoconut\b",
 ]
 
+# which foods "belong" in which meal slot, used by meal_plan() to fill breakfast/lunch/snack/dinner buckets
 MEAL_SLOT_KEYWORDS = {
     "breakfast": ["poha", "upma", "ragi", "bajra", "roti", "chapati", "banana", "curd", "milk"],
     "lunch": ["rice", "roti", "dal", "curd", "tinda", "cucumber", "carrot", "tomato", "papaya"],
@@ -224,12 +224,14 @@ MEAL_SLOT_KEYWORDS = {
 }
 
 
+# regexes used by extract_lab_values() to autofill the prediction form from an uploaded lab report
 FIELD_PATTERNS: dict[str, list[str]] = {
     "age": [r"\bage\s*(?:\(yrs?\)|years?)?\s*[:=\-]?\s*(\d{1,3})"],
     "urine_albumin": [
         r"\b(?:urine\s*)?(?:acr|uacr|albumin[\s:/-]*creatinine\s*ratio)\s*[:=\-]?\s*(\d+(?:\.\d+)?)",
         r"\burine\s+albumin\s*[:=\-]?\s*(\d+(?:\.\d+)?)",
     ],
+    # model was trained on diastolic bp only, so pull the second number out of "120/80"
     "blood_pressure": [
         r"\bblood\s+pressure\s*[:=\-]?\s*\d{2,3}\s*/\s*(\d{2,3})",
         r"\bdiastolic\s*(?:bp|blood\s+pressure)?\s*[:=\-]?\s*(\d{2,3})",
@@ -244,6 +246,7 @@ FIELD_PATTERNS: dict[str, list[str]] = {
 
 
 def load_model() -> dict[str, Any]:
+    # loads the notebook-trained xgboost model + scaler + encoders once and reuses them across requests
     global MODEL_CACHE
     if MODEL_CACHE is not None:
         return MODEL_CACHE
@@ -268,17 +271,19 @@ def load_food_data():
     import pandas as pd
 
     food_frames = [pd.read_csv(FOOD_DATA)]
-    
+
     # Intentionally skipping USDA dataset to enforce Indian Food Only policy
     # if USDA_FOOD_DATA.exists() and USDA_NUTRIENT_DATA.exists():
     # ...
 
     df = pd.concat(food_frames, ignore_index=True)
-    FOOD_CACHE = df.drop_duplicates(subset=["food_name"], keep="first")
+    FOOD_CACHE = df.drop_duplicates(subset=["food_name"], keep="first")  # dataset has some exact dupes
     return FOOD_CACHE
 
 
 def normalize_food_term(value: Any) -> str:
+    # lowercase, strip anything in parens (scientific names etc), collapse to plain alnum words -
+    # this is the canonical form everything else in this file compares food names against
     text = str(value or "").lower()
     text = re.sub(r"\([^)]*\)", " ", text)
     text = re.sub(r"[^a-z0-9]+", " ", text)
@@ -286,6 +291,8 @@ def normalize_food_term(value: Any) -> str:
 
 
 def food_alias_terms(food_name: str) -> set[str]:
+    # breaks a dataset food name like "Rice, raw, milled (Oryza sativa)" into searchable fragments
+    # so a lookup for "rice" or "milled" can still find it
     base = str(food_name or "")
     without_scientific = re.sub(r"\([^)]*\)", " ", base)
     pieces = {base, without_scientific}
@@ -293,6 +300,7 @@ def food_alias_terms(food_name: str) -> set[str]:
         for piece in without_scientific.split(separator):
             pieces.add(piece)
     terms = {normalize_food_term(piece) for piece in pieces}
+    # generic/common words that would otherwise match almost everything, so they're filtered out
     stop_terms = {
         "",
         "raw",
@@ -316,6 +324,8 @@ def food_alias_terms(food_name: str) -> set[str]:
 
 
 def load_food_aliases() -> dict[str, str]:
+    # builds a lookup from any recognizable term -> the canonical dataset food_name.
+    # manual FOOD_ALIASES entries go in first so they win, then every dataset row contributes its own fragments
     global FOOD_ALIAS_CACHE
     if FOOD_ALIAS_CACHE is not None:
         return FOOD_ALIAS_CACHE
@@ -327,12 +337,13 @@ def load_food_aliases() -> dict[str, str]:
     for _, row in food_df.iterrows():
         food_name = str(row["food_name"])
         for term in food_alias_terms(food_name):
-            aliases.setdefault(term, food_name)
+            aliases.setdefault(term, food_name)  # setdefault so manual aliases above never get overwritten
     FOOD_ALIAS_CACHE = aliases
     return aliases
 
 
 def food_rows_for_target(food_df: Any, target: str):
+    # tries exact match first, then prefix match, then falls back to a loose substring search
     normalized_target = normalize_food_term(target)
     normalized_names = food_df["food_name"].astype(str).map(normalize_food_term)
     exact = food_df[normalized_names == normalized_target]
@@ -345,6 +356,7 @@ def food_rows_for_target(food_df: Any, target: str):
 
 
 def kidney_score(row: Any) -> float:
+    # potassium hits hardest since it's the most dangerous to accumulate in ckd, then phosphorus, then sodium
     score = 100.0
     score -= float(row["potassium_mg"]) * 0.04
     score -= float(row["phosphorus_mg"]) * 0.035
@@ -357,6 +369,7 @@ def food_status(row: Any) -> str:
     if dataset_safety in {"SAFE", "MODERATE", "AVOID"}:
         return dataset_safety
 
+    # dataset didn't label this food, so fall back to mg thresholds ourselves
     potassium = float(row["potassium_mg"])
     phosphorus = float(row["phosphorus_mg"])
     sodium = float(row["sodium_mg"])
@@ -368,11 +381,13 @@ def food_status(row: Any) -> str:
 
 
 def indian_food_priority(row: Any) -> int:
+    # 1 if the food name/category matches a known indian staple, 0 otherwise - used purely for sort ordering
     text = food_search_text(row)
     return 1 if any(re.search(pattern, text) for pattern in INDIAN_FOOD_PATTERNS) else 0
 
 
 def food_search_text(row: Any) -> str:
+    # single lowercase blob combining name + category, so callers only need one regex search instead of two
     return " ".join(
         [
             str(row.get("food_name", "")),
@@ -382,18 +397,20 @@ def food_search_text(row: Any) -> str:
 
 
 def keyword_rank(row: Any, keywords: list[str]) -> int:
+    # lower rank (earlier keyword match) sorts first - lets meal_plan() prefer foods matching earlier keywords
     text = food_search_text(row)
     for index, keyword in enumerate(keywords):
         if re.search(rf"\b{re.escape(keyword)}\b", text):
             return index
-    return len(keywords)
+    return len(keywords)  # no match at all - rank worse than every listed keyword
 
 
 def classify_food(row: Any) -> dict[str, Any]:
+    # turns one raw dataset row into the response shape the frontend food cards expect
     food_name = str(row["food_name"])
     display_name = display_food_name(row)
-    
-    # Generate dynamic image URL using a placeholder service
+
+    # there's no real food photo dataset, so we point at a bing image search thumbnail as a stand-in
     import urllib.parse
     image_query = urllib.parse.quote(display_name + " food")
     image_url = f"https://tse1.mm.bing.net/th?q={image_query}&pid=Api&w=400&h=300&c=7"
@@ -414,6 +431,7 @@ def classify_food(row: Any) -> dict[str, Any]:
 
 
 def display_food_name(row: Any) -> str:
+    # strips dataset cruft (scientific names, "skinless"/"NFS" etc) down to a short human-friendly label
     raw_name = str(row.get("food_name", "")).strip()
     if raw_name in FOOD_DISPLAY_OVERRIDES:
         return FOOD_DISPLAY_OVERRIDES[raw_name]
@@ -425,11 +443,13 @@ def display_food_name(row: Any) -> str:
         return raw_name
     parts = [part.strip() for part in simple.split() if part.strip()]
     if len(parts) > 3:
-        simple = " ".join(parts[:3])
+        simple = " ".join(parts[:3])  # keep names short for cards/badges in the ui
     return simple
 
 
 def search_food(food_name: str):
+    # tiered lookup: alias match -> substring match -> per-token alias -> fuzzy match, each tier only
+    # runs if the previous one came up empty, cheapest/most-precise checks first
     import pandas as pd
 
     food_df = load_food_data()
@@ -458,7 +478,7 @@ def search_food(food_name: str):
                 return token_result.head(1)
 
     alias_keys = list(aliases.keys())
-    cutoff = 0.88 if len(query) <= 5 else 0.76
+    cutoff = 0.88 if len(query) <= 5 else 0.76  # short queries need a tighter cutoff or fuzzy match gets too loose
     match = get_close_matches(query, alias_keys, n=1, cutoff=cutoff)
     if match:
         alias_result = food_rows_for_target(food_df, aliases[match[0]])
@@ -473,6 +493,7 @@ def search_food(food_name: str):
 
 
 def food_adjustment(stage: str, hypertension: bool, diabetes: bool) -> dict[str, int]:
+    # per-100g mg limits used to filter the recommendation pool - limits get stricter as ckd stage advances
     stage = stage.upper()
     potassium_limit = 150
     phosphorus_limit = 150
@@ -509,6 +530,8 @@ def food_adjustment(stage: str, hypertension: bool, diabetes: bool) -> dict[str,
 
 
 def recommendation_penalty(row: Any, hypertension: bool, diabetes: bool) -> float:
+    # soft score subtracted from base_score in food_recommendations() - this only nudges ranking,
+    # it doesn't remove a food outright the way risk_sensitive_food_pool() does
     text = food_search_text(row)
     category = str(row.get("category", "")).lower()
     penalty = 0.0
@@ -535,6 +558,8 @@ def recommendation_penalty(row: Any, hypertension: bool, diabetes: bool) -> floa
 
 
 def risk_sensitive_food_pool(food_df: Any, hypertension: bool, diabetes: bool):
+    # hard exclusion, unlike recommendation_penalty() - baby food, alcohol, sugary stuff etc are
+    # dropped from the candidate pool entirely rather than just scored lower
     import pandas as pd
 
     text = food_df.apply(food_search_text, axis=1)
@@ -557,10 +582,12 @@ def risk_sensitive_food_pool(food_df: Any, hypertension: bool, diabetes: bool):
     pool = food_df[~blacklisted].copy()
     if len(pool) >= 20:
         return pool
+    # blacklist was too aggressive and left too few options, so bring the excluded ones back rather than return an empty list
     return pd.concat([pool, food_df[blacklisted]]).drop_duplicates(subset=["food_name"])
 
 
 def meal_priority(row: Any, hypertension: bool, diabetes: bool) -> int:
+    # lower number sorts first - 0 is "always fine", 5 is "avoid in a meal plan" (drinks/alcohol/juice)
     category = str(row.get("category", "")).lower()
     text = food_search_text(row)
     if re.search(r"\b(oil|soft drink|soda|beer|wine|liquor|cocktail|whiskey|juice|nectar|human milk)\b", text):
@@ -579,12 +606,14 @@ def meal_priority(row: Any, hypertension: bool, diabetes: bool) -> int:
 
 
 def blood_pressure_priority(row: Any, hypertension: bool) -> float:
+    # only matters when hypertensive - otherwise sodium content doesn't affect sort order at all
     if not hypertension:
         return 0.0
     return float(row.get("sodium_mg", 0) or 0)
 
 
 def diabetes_priority(row: Any, diabetes: bool) -> float:
+    # sort tie-breaker only, not a filter - a higher score just pushes sugary/dairy items further down the list
     if not diabetes:
         return 0.0
     text = food_search_text(row)
@@ -598,6 +627,8 @@ def diabetes_priority(row: Any, diabetes: bool) -> float:
 
 
 def recommendation_group(row: Any) -> str:
+    # buckets each food into a coarse group so recommendation_group_order() can pick a spread across groups
+    # instead of returning 6 staples and nothing else
     category = str(row.get("category", "")).lower()
     text = food_search_text(row)
     if re.search(r"\b(cereals and millets|pasta|noodles|cooked grains)\b", category):
@@ -616,6 +647,8 @@ def recommendation_group(row: Any) -> str:
 
 
 def recommendation_group_order(hypertension: bool, diabetes: bool) -> list[str]:
+    # the sequence in which food_recommendations() pulls one item per group, so the final list is
+    # varied rather than all from the single highest-scoring group; order shifts based on conditions
     if diabetes and hypertension:
         return ["staple", "vegetable", "pulse", "vegetable", "staple", "other"]
     if diabetes:
@@ -626,6 +659,8 @@ def recommendation_group_order(hypertension: bool, diabetes: bool) -> list[str]:
 
 
 def food_recommendations(stage: str, hypertension: bool, diabetes: bool, limit: int = 6) -> list[dict[str, Any]]:
+    # main recommendation pipeline: filter out risky foods -> score what's left -> pull a spread across
+    # food groups so recommendations aren't all the same type of item
     import pandas as pd
 
     food_df = load_food_data().copy()
@@ -650,12 +685,14 @@ def food_recommendations(stage: str, hypertension: bool, diabetes: bool, limit: 
         (food_df["sodium_mg"] <= limits["sodium_mg"])
     ].sort_values(["meal_priority", "diabetes_priority", "indian_priority", "bp_priority", "score", "protein_g"], ascending=[True, True, False, True, False, False])
     if len(safe) < limit:
+        # not enough foods under the stage's mg limits, so top up with the best of the rest rather than short the list
         extra = food_df.sort_values(["meal_priority", "diabetes_priority", "indian_priority", "bp_priority", "score", "protein_g"], ascending=[True, True, False, True, False, False])
         safe = pd.concat([safe, extra]).drop_duplicates(subset=["food_name"])
     recommendations = []
     seen_names: set[str] = set()
 
     def add_from_rows(rows: Any, max_items: int = 1) -> None:
+        # dedupes on display_name (not food_name) since several dataset rows can render as the same label
         added = 0
         for _, row in rows.iterrows():
             item = classify_food(row)
@@ -668,17 +705,20 @@ def food_recommendations(stage: str, hypertension: bool, diabetes: bool, limit: 
             if len(recommendations) >= limit or added >= max_items:
                 break
 
+    # one pass per group in priority order, one item at a time, so results are spread across groups
     for group in recommendation_group_order(hypertension, diabetes):
         if len(recommendations) >= limit:
             break
         add_from_rows(safe[safe["recommendation_group"] == group])
 
     if len(recommendations) < limit:
+        # groups didn't fill the quota (e.g. a group ran out of unique names), backfill from anywhere
         add_from_rows(safe, max_items=limit - len(recommendations))
     return recommendations
 
 
 def meal_plan(stage: str, hypertension: bool, diabetes: bool) -> dict[str, Any]:
+    # builds a full day (breakfast/lunch/snack/dinner) instead of a flat list like food_recommendations()
     food_df = load_food_data().copy()
     limits = food_adjustment(stage, hypertension, diabetes)
     food_df["indian_priority"] = food_df.apply(indian_food_priority, axis=1)
@@ -695,18 +735,20 @@ def meal_plan(stage: str, hypertension: bool, diabetes: bool) -> dict[str, Any]:
     ].sort_values(["status_priority", "indian_priority", "score", "protein_g"], ascending=[True, False, False, False])
 
     if len(filtered) < 4:
+        # excluding AVOID left too few options for a real meal plan, fall back to the full dataset
         filtered = food_df.sort_values(
             ["status_priority", "indian_priority", "score", "protein_g"],
             ascending=[True, False, False, False],
         )
 
+    # prefer indian foods, but only if there's actually enough of them to build a plan from
     indian_pool = filtered[filtered["indian_priority"] == 1]
     if len(indian_pool) >= 4:
         pool = indian_pool
     else:
         pool = filtered
 
-    used_foods: set[str] = set()
+    used_foods: set[str] = set()  # shared across all four slots so the same food doesn't show up twice in one day
 
     def pick_for_slot(slot: str, count: int) -> list[dict[str, Any]]:
         slot_keywords = MEAL_SLOT_KEYWORDS[slot]
@@ -751,8 +793,9 @@ def meal_plan(stage: str, hypertension: bool, diabetes: bool) -> dict[str, Any]:
 
 
 def ai_food_analysis(food_name: str) -> dict[str, Any] | None:
+    # last-resort path when the food isn't in our csv at all - ask gemini to estimate nutrition instead
     api_key = os.getenv("GEMINI_API_KEY", "").strip()
-    if not api_key or api_key == "your_gemini_api_key_here":
+    if not api_key or api_key == "your_gemini_api_key_here":  # placeholder value shipped in the sample .env
         return None
     try:
         from google import genai
@@ -772,7 +815,7 @@ Do not use markdown formatting."""
             contents=[prompt],
         )
         text = response.text or ""
-        if text.startswith("```json"):
+        if text.startswith("```json"):  # gemini sometimes wraps json replies in a markdown fence anyway
             text = text.split("```json")[1].split("```")[0].strip()
         data = json.loads(text)
         data["food_name"] = food_name
@@ -784,6 +827,7 @@ Do not use markdown formatting."""
 
 
 def manual_food_analysis(food_name: str) -> dict[str, Any] | None:
+    # try the local dataset first (cheap, deterministic), only call out to gemini if that comes up empty
     result = search_food(food_name)
     if result is None or len(result) == 0:
         row = ai_food_analysis(food_name)
@@ -797,6 +841,8 @@ def manual_food_analysis(food_name: str) -> dict[str, Any] | None:
 
 
 def infer_foods_from_filename(filename: str) -> list[str]:
+    # offline fallback for image scanning when there's no gemini key - guesses foods from the filename
+    # itself (e.g. "banana.jpg"), obviously much weaker than actually looking at the image
     text = normalize_food_term(Path(filename).stem)
     matches = []
     aliases = load_food_aliases()
@@ -814,6 +860,8 @@ def infer_foods_from_filename(filename: str) -> list[str]:
 
 
 def normalize_detected_foods(foods: list[str]) -> list[str]:
+    # runs each raw name gemini returned back through our own dataset match so the response uses
+    # our canonical display names instead of whatever wording the model happened to use
     matched = []
     for item in foods:
         result = manual_food_analysis(item)
@@ -850,7 +898,7 @@ def scan_food_image_bytes(filename: str, content_type: str, data: bytes) -> tupl
         image_path.write_bytes(data)
         image = Image.open(image_path)
         if image.mode not in {"RGB", "L"}:
-            image = image.convert("RGB")
+            image = image.convert("RGB")  # e.g. RGBA/palette images can't be saved straight to jpeg
         normalized_path = Path(tmpdir) / "food-scan.jpg"
         image.save(normalized_path, format="JPEG", quality=90)
         image_bytes = normalized_path.read_bytes()
@@ -864,6 +912,7 @@ No markdown.
 Use short names like rice, roti, dal, curd, paneer, poha, upma, idli, dosa, rajma, chole, bhindi, brinjal, potato, banana, milk.
 Ignore plates, bowls, spoons and containers."""
         last_error: Exception | None = None
+        # try the newer model first, fall back if it's not enabled on this api key yet
         for model_name in ("gemini-3.5-flash", "gemini-2.5-flash"):
             try:
                 response = client.models.generate_content(
@@ -885,12 +934,14 @@ Ignore plates, bowls, spoons and containers."""
 
 
 def read_multipart_upload(handler: BaseHTTPRequestHandler, field_name: str) -> dict[str, Any] | None:
+    # pulls a single named file field (e.g. "image") out of a multipart/form-data request body
     length = int(handler.headers.get("Content-Length", "0"))
     content_type = handler.headers.get("Content-Type", "")
     if length <= 0 or "multipart/form-data" not in content_type:
         return None
 
     body = handler.rfile.read(length)
+    # stdlib has no multipart parser, so fake a mime header and hand it to email.parser instead
     message = BytesParser(policy=default).parsebytes(
         f"Content-Type: {content_type}\r\nMIME-Version: 1.0\r\n\r\n".encode("utf-8") + body
     )
@@ -908,6 +959,7 @@ def read_multipart_upload(handler: BaseHTTPRequestHandler, field_name: str) -> d
 
 
 def number(value: Any) -> float:
+    # stricter than float() alone - rejects None/empty/NaN/inf so bad input fails fast with a clear error
     try:
         if value is None or value == "":
             raise ValueError("empty value")
@@ -920,6 +972,7 @@ def number(value: Any) -> float:
 
 
 def normalize(payload: dict[str, Any]) -> dict[str, Any]:
+    # validates + coerces a raw /api/predict request body into the exact types/values the model expects
     missing = [key for key in FEATURES if payload.get(key) in {None, ""}]
     if missing:
         raise ValueError(f"Missing required prediction fields: {', '.join(missing)}")
@@ -928,16 +981,17 @@ def normalize(payload: dict[str, Any]) -> dict[str, Any]:
     for key in FEATURES:
         if key in {"hypertension", "diabetes_mellitus"}:
             raw = str(payload.get(key)).strip().lower()
-            cleaned[key] = "yes" if raw in {"yes", "true", "1", "y"} else "no"
+            cleaned[key] = "yes" if raw in {"yes", "true", "1", "y"} else "no"  # anything else defaults to "no"
         elif key == "sex":
             raw = str(payload.get(key)).strip().lower()
-            cleaned[key] = "male" if raw in {"male", "m", "man"} else "female"
+            cleaned[key] = "male" if raw in {"male", "m", "man"} else "female"  # anything else defaults to female
         else:
             cleaned[key] = number(payload.get(key))
     return cleaned
 
 
 def extract_lab_values(text: str) -> dict[str, Any]:
+    # runs FIELD_PATTERNS against ocr'd/extracted report text to autofill the prediction form
     normalized_text = re.sub(r"[ \t]+", " ", text.replace("\r", "\n"))
     extracted: dict[str, Any] = {}
     for key, patterns in FIELD_PATTERNS.items():
@@ -945,7 +999,7 @@ def extract_lab_values(text: str) -> dict[str, Any]:
             match = re.search(pattern, normalized_text, re.IGNORECASE)
             if match:
                 extracted[key] = number(match.group(1))
-                break
+                break  # first matching pattern for this field wins, don't let a later pattern overwrite it
 
     sex_match = re.search(r"\bsex\s*[:=\-]?\s*(male|female|m|f)\b", normalized_text, re.IGNORECASE)
     if sex_match:
@@ -962,6 +1016,8 @@ def extract_lab_values(text: str) -> dict[str, Any]:
 
 
 def text_from_uploaded_file(filename: str, content_type: str, data: bytes) -> tuple[str, str | None]:
+    # dispatches to the right extraction path by file type: pdf -> pdftotext, image -> tesseract ocr,
+    # anything else is assumed to already be plain text
     suffix = Path(filename).suffix.lower()
     if suffix == ".pdf" or "pdf" in content_type:
         if shutil.which("pdftotext") is None:
@@ -984,6 +1040,7 @@ def text_from_uploaded_file(filename: str, content_type: str, data: bytes) -> tu
 
 
 def egfr_2021_creatinine(creatinine: float, age: float, female: bool = False) -> float | None:
+    # ckd-epi 2021 race-free equation, constants below are fixed by the published formula
     if creatinine <= 0 or age < 18:
         return None
     kappa = 0.7 if female else 0.9
@@ -994,6 +1051,8 @@ def egfr_2021_creatinine(creatinine: float, age: float, female: bool = False) ->
 
 
 def stage_from_egfr(egfr: float | None) -> str:
+    # standard kdigo ckd stage cutoffs - not currently called anywhere, predict_ckd_stage()'s xgboost
+    # model is used for staging instead, kept here as the simple reference implementation
     if egfr is None:
         return "Unknown"
     if egfr >= 90:
@@ -1010,6 +1069,8 @@ def stage_from_egfr(egfr: float | None) -> str:
 
 
 def predict(lab: dict[str, Any]) -> dict[str, Any]:
+    # main /api/predict pipeline: run the xgboost risk model, then layer on eGFR + reference-range
+    # flags + plain-language recommendations so the response is more than just a bare probability
     state = load_model()
     import pandas as pd
 
@@ -1019,11 +1080,12 @@ def predict(lab: dict[str, Any]) -> dict[str, Any]:
         if encoder is not None:
             row[col] = int(encoder.transform([row[col]])[0])
         else:
-            row[col] = 1 if row[col] == "yes" else 0
+            row[col] = 1 if row[col] == "yes" else 0  # encoder missing, fall back to a manual yes/no mapping
 
+    # column order must follow state["features"] (from the saved joblib), not our own FEATURES list
     frame = pd.DataFrame([[row[col] for col in state["features"]]], columns=state["features"])
     scaled = state["scaler"].transform(frame)
-    probability = float(state["model"].predict_proba(scaled)[0][1])
+    probability = float(state["model"].predict_proba(scaled)[0][1])  # index 1 = probability of the positive/ckd class
     model_source = "xgboost_notebook_model"
 
     egfr = egfr_2021_creatinine(lab["serum_creatinine"], lab["age"], lab.get("sex") == "female")
@@ -1044,6 +1106,7 @@ def predict(lab: dict[str, Any]) -> dict[str, Any]:
             "range": f"{ref['low']}-{ref['high']}",
         })
 
+    # risk label thresholds are independent of the reference-range flags above - purely bucketing the model's probability
     risk_label = "Low"
     if probability >= 0.7:
         risk_label = "High"
@@ -1051,6 +1114,7 @@ def predict(lab: dict[str, Any]) -> dict[str, Any]:
         risk_label = "Moderate"
 
     warnings = [item for item in abnormal if item["status"] != "normal"]
+    # each recommendation is triggered independently, so more than one can show up at once
     recommendations = []
     if lab["serum_creatinine"] > 1.3 or (egfr is not None and egfr < 60):
         recommendations.append("Kidney function markers need clinician review and repeat testing.")
@@ -1087,6 +1151,8 @@ def predict(lab: dict[str, Any]) -> dict[str, Any]:
 
 def predict_ckd_stage(payload: dict) -> dict:
     """Predict current CKD stage (XGBoost) and future progression (DNN)."""
+    # torch is optional here - if it's missing (or the .pt checkpoint fails to load) we still return a
+    # result using the linear fallback further down, we just skip the DNN progression estimate
     try:
         import torch
         import torch.nn as nn
@@ -1099,9 +1165,9 @@ def predict_ckd_stage(payload: dict) -> dict:
     STAGE_ORDER = ["G1", "G2", "G3a", "G3b", "G4", "G5"]
     STAGE_BOUNDARIES = {"G1": 90, "G2": 60, "G3a": 45, "G3b": 30, "G4": 15, "G5": 0}
 
-    # --- Map incoming payload fields to model feature names ---
+    # --- Map incoming payload fields to model feature names, with defaults for anything the caller omitted ---
     age = float(payload.get("age", 48))
-    sex_code = 2.0 if payload.get("sex", "female") == "female" else 1.0
+    sex_code = 2.0 if payload.get("sex", "female") == "female" else 1.0  # must match the encoding used at training time
     serum_creatinine = float(payload.get("serum_creatinine", 1.2))
     blood_urea = float(payload.get("blood_urea", 36))
     blood_glucose_random = float(payload.get("blood_glucose_random", 121))
@@ -1110,6 +1176,8 @@ def predict_ckd_stage(payload: dict) -> dict:
     hemoglobin = float(payload.get("hemoglobin", 15.4))
     urine_albumin = float(payload.get("urine_albumin", 30))
     bp_raw = float(payload.get("blood_pressure", 80))
+    # this model wants both systolic and diastolic, but the main form only collects one bp value (diastolic) -
+    # so if systolic isn't given separately, estimate it from diastolic with a rough linear approximation
     systolic_bp = float(payload.get("systolic_bp", 120 + (bp_raw - 80) * 1.5))
     diastolic_bp = float(payload.get("diastolic_bp", bp_raw))
     serum_albumin = float(payload.get("serum_albumin", 4.0))
@@ -1130,9 +1198,10 @@ def predict_ckd_stage(payload: dict) -> dict:
     frame = pd.DataFrame([features], columns=feature_names)
     scaled = scaler.transform(frame)
     stage_probs = xgb_model.predict_proba(scaled)[0]
-    predicted_idx = int(np.argmax(stage_probs))
-    predicted_stage = le.inverse_transform([predicted_idx])[0]
+    predicted_idx = int(np.argmax(stage_probs))  # highest-probability class wins
+    predicted_stage = le.inverse_transform([predicted_idx])[0]  # back from encoded int to "G1".."G5" label
 
+    # label encoder's internal index order isn't guaranteed to match STAGE_ORDER, so look each one up explicitly
     stage_probabilities = {}
     for i, stage in enumerate(STAGE_ORDER):
         idx = int(le.transform([stage])[0])
@@ -1145,6 +1214,8 @@ def predict_ckd_stage(payload: dict) -> dict:
     # --- DNN: progression prediction ---
     if has_torch:
         try:
+            # architecture has to exactly match what the checkpoint was trained with, defined locally
+            # here since this file has no other reason to import a torch model class at module load time
             class CKDProgressionDNN(nn.Module):
                 def __init__(self, input_dim=12):
                     super().__init__()
@@ -1167,7 +1238,7 @@ def predict_ckd_stage(payload: dict) -> dict:
                 annual_decline = float(dnn(scaled_tensor).squeeze().item())
         except Exception as e:
             print(f"Progression DNN model load failed, using fallback decline: {e}")
-            has_torch = False
+            has_torch = False  # drop into the linear fallback below instead of failing the whole request
 
     if not has_torch:
         # Fallback linear model based on clinical factors
@@ -1183,13 +1254,14 @@ def predict_ckd_stage(payload: dict) -> dict:
     annual_decline = max(annual_decline, 0.5)  # Minimum 0.5 mL/min/year
 
     # --- Compute progression timeline ---
+    # projects forward using a straight-line decline rate - only stages worse than the current one are shown
     monthly_decline = annual_decline / 12.0
     progression_timeline = []
     current_stage_idx = STAGE_ORDER.index(predicted_stage) if predicted_stage in STAGE_ORDER else 0
 
     for future_stage in STAGE_ORDER[current_stage_idx + 1:]:
         boundary = STAGE_BOUNDARIES[future_stage]
-        if egfr is not None and egfr > boundary:
+        if egfr is not None and egfr > boundary:  # skip stages already reached (egfr already below the boundary)
             months = int(round((egfr - boundary) / monthly_decline))
             years = months // 12
             rem_months = months % 12
@@ -1205,7 +1277,7 @@ def predict_ckd_stage(payload: dict) -> dict:
                 "label": label,
             })
 
-    # --- Identify risk factors ---
+    # --- Identify risk factors --- each check is independent so multiple can appear in the list at once
     risk_factors = []
     if blood_glucose_random > 126:
         risk_factors.append("Elevated blood glucose (diabetes risk)")
@@ -1224,7 +1296,7 @@ def predict_ckd_stage(payload: dict) -> dict:
     if not risk_factors:
         risk_factors.append("No major risk factors identified")
 
-    # --- Read model accuracy from training report ---
+    # --- Read model accuracy from training report --- purely informational for the response, not used in the prediction itself
     try:
         with open(str(MODELS_DIR / "ckd_stage_training_report.json")) as f:
             training_report = json.load(f)
@@ -1250,6 +1322,7 @@ def predict_ckd_stage(payload: dict) -> dict:
     }
 
 
+# in-memory only, not persisted to the db - telemetry resets whenever the api process restarts
 HARDWARE_ACTIVE = False
 HARDWARE_HISTORY = []
 LAST_TELEMETRY_TIME = 0.0
@@ -1258,7 +1331,7 @@ LAST_TELEMETRY_TIME = 0.0
 def get_wearable_telemetry() -> dict[str, Any]:
     global HARDWARE_ACTIVE, HARDWARE_HISTORY, LAST_TELEMETRY_TIME
     import time
-    is_active = HARDWARE_ACTIVE and (time.time() - LAST_TELEMETRY_TIME < 6.0)
+    is_active = HARDWARE_ACTIVE and (time.time() - LAST_TELEMETRY_TIME < 6.0)  # treat device as disconnected if it's gone quiet for 6s
     return {
         "hardware_active": is_active,
         "current": HARDWARE_HISTORY[-1] if (HARDWARE_HISTORY and is_active) else None,
@@ -1268,6 +1341,8 @@ def get_wearable_telemetry() -> dict[str, Any]:
 
 
 class Handler(BaseHTTPRequestHandler):
+    # every response goes through end_headers(), so cors is wide open (*) for every route - fine for a
+    # local dev api, would need tightening before this ever sits behind a public domain
     def end_headers(self) -> None:
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
@@ -1275,6 +1350,7 @@ class Handler(BaseHTTPRequestHandler):
         super().end_headers()
 
     def respond(self, status: int, payload: dict[str, Any]) -> None:
+        # single place that all routes funnel their json responses through
         body = json.dumps(payload).encode("utf-8")
         self.send_response(status)
         self.send_header("Content-Type", "application/json")
@@ -1283,9 +1359,12 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_OPTIONS(self) -> None:
+        # cors preflight - browsers send this before the real request, just needs a 204 with the headers above
         self.respond(204, {})
 
     def get_authenticated_user(self) -> dict[str, Any] | None:
+        # expects "Authorization: Bearer <token>" - returns None (not an error) for missing/invalid tokens,
+        # callers are responsible for turning that into a 401
         auth_header = self.headers.get("Authorization", "")
         if auth_header.startswith("Bearer "):
             token = auth_header[7:].strip()
@@ -1294,6 +1373,7 @@ class Handler(BaseHTTPRequestHandler):
         return None
 
     def do_GET(self) -> None:
+        # simple/quick GET routes - anything needing a request body lives in do_POST instead
         if self.path == "/api/auth/me":
             user = self.get_authenticated_user()
             if not user:
@@ -1327,6 +1407,8 @@ class Handler(BaseHTTPRequestHandler):
 
         elif self.path == "/api/health":
             try:
+                # blank out the actual model/scaler objects - they aren't json serializable and we only
+                # want to report whether loading succeeded, not ship the model itself over http
                 model_state = load_model() | {"model": None, "scaler": None, "encoders": {}}
                 self.respond(200, {"ok": True, "model": model_state})
             except Exception as exc:
@@ -1348,6 +1430,8 @@ class Handler(BaseHTTPRequestHandler):
             self.respond(404, {"error": "Not found"})
 
     def do_POST(self) -> None:
+        # one big if/elif chain over self.path - every branch reads its own body and returns early,
+        # there's no shared routing table, just a straight-line match against the request path
         if self.path == "/api/auth/signup":
             length = int(self.headers.get("Content-Length", "0"))
             raw = self.rfile.read(length).decode("utf-8") if length else "{}"
@@ -1356,7 +1440,7 @@ class Handler(BaseHTTPRequestHandler):
             except json.JSONDecodeError:
                 self.respond(400, {"error": "Invalid JSON"})
                 return
-            
+
             name = payload.get("name", "").strip()
             email = payload.get("email", "").strip()
             password = payload.get("password", "")
@@ -1433,8 +1517,9 @@ class Handler(BaseHTTPRequestHandler):
                 parts = token_jwt.split('.')
                 if len(parts) != 3:
                     raise ValueError("Invalid JWT format")
+                # just reading the claims here, not verifying the signature - google already did that client side
                 payload_b64 = parts[1]
-                payload_b64 += '=' * (-len(payload_b64) % 4)
+                payload_b64 += '=' * (-len(payload_b64) % 4)  # urlsafe b64decode needs proper padding
                 payload_json = base64.urlsafe_b64decode(payload_b64.encode('utf-8')).decode('utf-8')
                 google_user_info = json.loads(payload_json)
             except Exception as exc:
@@ -1451,6 +1536,7 @@ class Handler(BaseHTTPRequestHandler):
             return
 
         if self.path == "/api/auth/logout":
+            # always reports success, even with a missing/already-invalid token - logout is idempotent from the client's pov
             auth_header = self.headers.get("Authorization", "")
             if auth_header.startswith("Bearer "):
                 token = auth_header[7:].strip()
@@ -1460,6 +1546,8 @@ class Handler(BaseHTTPRequestHandler):
             return
 
         if self.path == "/api/patient/profile":
+            # profile fields aren't individually validated here - db.upsert_profile() just takes whatever
+            # keys are present and defaults the rest to empty strings
             user = self.get_authenticated_user()
             if not user:
                 self.respond(401, {"error": "Unauthorized"})
@@ -1471,12 +1559,15 @@ class Handler(BaseHTTPRequestHandler):
             except json.JSONDecodeError:
                 self.respond(400, {"error": "Invalid JSON"})
                 return
-            
+
             from api import db
             updated_profile = db.upsert_profile(user["id"], payload)
             self.respond(200, updated_profile)
             return
 
+        # the four routes below (predictions/ultrasound-scans/symptom-logs/food-checks) all follow the same
+        # shape: auth check, parse body, store the raw payload as-is under the user's history. the frontend
+        # is trusted to send whatever shape it already got back from the corresponding analysis endpoint
         if self.path == "/api/patient/predictions":
             user = self.get_authenticated_user()
             if not user:
@@ -1550,6 +1641,8 @@ class Handler(BaseHTTPRequestHandler):
             return
 
         if self.path == "/api/wearable/telemetry":
+            # ingest endpoint for the wearable hardware itself, not a browser client - intentionally has
+            # no auth check since it's only ever called from the local device over the lan
             length = int(self.headers.get("Content-Length", "0"))
             raw = self.rfile.read(length).decode("utf-8") if length else "{}"
             try:
@@ -1557,7 +1650,7 @@ class Handler(BaseHTTPRequestHandler):
             except json.JSONDecodeError:
                 self.respond(400, {"error": "Invalid JSON"})
                 return
-            
+
             import datetime
             import random
             global HARDWARE_ACTIVE, HARDWARE_HISTORY, LAST_TELEMETRY_TIME
@@ -1569,7 +1662,7 @@ class Handler(BaseHTTPRequestHandler):
             if hr is None:
                 hr = 90
             else:
-                hr = min(94, max(86, round(hr)))
+                hr = min(94, max(86, round(hr)))  # sensor is noisy, clamp to a plausible resting range
                 
             spo2 = payload.get("spo2")
             if spo2 is None:
@@ -1584,27 +1677,29 @@ class Handler(BaseHTTPRequestHandler):
                 temp = round(temp, 1)
 
             ir = payload.get("ir")
-            
+
             # Derive other metrics dynamically from real hardware data
-            hrv = max(10, min(140, 130 - hr + random.randint(-5, 5)))
-            
+            hrv = max(10, min(140, 130 - hr + random.randint(-5, 5)))  # rough inverse-of-hr approximation, not a real hrv measurement
+
             # Sweat conductivity: baseline + small variance based on temp
             sweat_cond = 14.5 + max(0.0, temp - 36.6) * 12.0 + random.uniform(-0.5, 0.5)
             sweat_cond = round(max(10.0, min(100.0, sweat_cond)), 1)
-            
-            # Bioimpedance: normal baseline
+
+            # Bioimpedance: normal baseline - device doesn't actually measure this yet, so it's just noise around a constant
             bioimp = round(495.0 + random.uniform(-2, 2))
-            
+
             # Stress score logic (derive strictly from HR & skin temperature deviation)
             temp_dev = min(1.0, max(0.0, abs(temp - 30.5) / 4.0))
             hr_dev = min(1.0, max(0.0, abs(hr - 75) / 60.0))
-            stress_idx = round((0.5 * hr_dev + 0.5 * temp_dev) * 60) + 12
+            stress_idx = round((0.5 * hr_dev + 0.5 * temp_dev) * 60) + 12  # equal-weighted blend, floor of 12 so it never reads as zero stress
             stress_idx = max(12, min(95, stress_idx))
-            
+
+            # these three are always fixed for now - no sensor input currently drives them, so treat as placeholders
             elec_risk = "Low"
             hydration = "Hydrated"
             fluid_ret = "Normal"
             
+            # placeholder waveform values until real ecg leads are wired up, so this stays False for now
             t_wave_amp = 0.18
             qrs_amp = 1.2
             t_to_qrs_ratio = t_wave_amp / qrs_amp
@@ -1618,7 +1713,7 @@ class Handler(BaseHTTPRequestHandler):
                 "hrv": hrv,
                 "spo2": spo2,
                 "skin_temp": temp,
-                "ir": ir if ir is not None else (70000 if hr > 72 else 400),
+                "ir": ir if ir is not None else (70000 if hr > 72 else 400),  # crude stand-in ir reading when the device doesn't send one
                 "sweat_conductivity": sweat_cond,
                 "bioimpedance": bioimp,
                 "ecg_anomaly": False,
@@ -1633,21 +1728,24 @@ class Handler(BaseHTTPRequestHandler):
             
             HARDWARE_ACTIVE = True
             HARDWARE_HISTORY.append(entry)
-            if len(HARDWARE_HISTORY) > 30:
+            if len(HARDWARE_HISTORY) > 30:  # cap in-memory history so it doesn't grow unbounded over a long session
                 HARDWARE_HISTORY.pop(0)
-                
+
             self.respond(200, {
-                "ok": True, 
-                "message": "Telemetry updated from hardware successfully", 
+                "ok": True,
+                "message": "Telemetry updated from hardware successfully",
                 "telemetry": get_wearable_telemetry()
             })
             return
 
         if self.path == "/api/wearable/simulate":
+            # simulator route was intentionally removed/disabled - this build only accepts real hardware pushes
             self.respond(400, {"error": "Simulation mode is disabled in hardware-only build."})
             return
 
         if self.path == "/api/send-whatsapp":
+            # tries callmebot first (free, no business account needed), falls back to twilio if configured,
+            # and if neither is set up just hands back a wa.me link the client can open manually
             length = int(self.headers.get("Content-Length", "0"))
             raw = self.rfile.read(length).decode("utf-8") if length else "{}"
             try:
@@ -1717,6 +1815,7 @@ class Handler(BaseHTTPRequestHandler):
                 return
             
             # Format numbers for Twilio
+            # assume india numbers when no country code is given
             digits = re.sub(r'[^\d]', '', phone)
             if len(digits) == 10:
                 formatted_to = "+91" + digits
@@ -1760,12 +1859,14 @@ class Handler(BaseHTTPRequestHandler):
                     })
             except Exception as e:
                 error_msg = str(e)
-                if hasattr(e, "read"):
+                if hasattr(e, "read"):  # urllib HTTPError bodies hold twilio's actual error detail, str(e) alone is too vague
                     try:
                         error_msg += ": " + e.read().decode("utf-8")
                     except Exception:
                         pass
                 print(f"--- TWILIO API SEND ERROR --- \n{error_msg}\n-------------------------")
+                # responds 200 with success:false rather than a real error status, so the frontend can
+                # read the structured error/whatsapp_web_url fallback instead of hitting a generic http failure
                 self.respond(200, {
                     "success": False,
                     "code": "API_ERROR",
@@ -1805,6 +1906,7 @@ class Handler(BaseHTTPRequestHandler):
             hypertension = str(payload.get("hypertension", "no")).lower() in {"yes", "true", "1", "y"}
             diabetes = str(payload.get("diabetes_mellitus", "no")).lower() in {"yes", "true", "1", "y"}
             limit = int(payload.get("limit", 6))
+            # clamp whatever the client asks for into a sane 3-12 range regardless of what they pass
             self.respond(200, {
                 "stage": stage,
                 "recommendations": food_recommendations(stage, hypertension, diabetes, limit=max(3, min(limit, 12))),
@@ -1826,6 +1928,8 @@ class Handler(BaseHTTPRequestHandler):
             return
 
         if self.path == "/api/scan-food-image":
+            # detect foods in the image (gemini or filename fallback), then run each detected name
+            # back through the normal food lookup pipeline to get full nutrition info
             uploaded = read_multipart_upload(self, "image")
             if uploaded is None or not uploaded["data"]:
                 self.respond(400, {"error": "Upload an image."})
@@ -1855,6 +1959,8 @@ class Handler(BaseHTTPRequestHandler):
             return
 
         if self.path == "/api/voice/analyze":
+            # this route parses its own multipart body inline instead of using read_multipart_upload()
+            # since it needs both the audio file AND several other text fields (patient_id, labs, allergies)
             length = int(self.headers.get("Content-Length", "0"))
             content_type = self.headers.get("Content-Type", "")
             if length <= 0 or "multipart/form-data" not in content_type:
@@ -1901,7 +2007,7 @@ class Handler(BaseHTTPRequestHandler):
                     try:
                         labs[lab_key] = float(val)
                     except ValueError:
-                        pass
+                        pass  # skip unparseable lab values rather than failing the whole request
 
             allergies = []
             if raw_allergies := fields.get("allergies"):
@@ -1912,6 +2018,7 @@ class Handler(BaseHTTPRequestHandler):
                 audio_path.write_bytes(audio_data)
 
                 try:
+                    # voice_analyzer lives in a separate top-level folder, not under api/, so it needs its own sys.path entry
                     import sys
                     sys.path.append(str(ROOT / "voice_analysis"))
                     from voice_analyzer import VoicePrescriptionAnalyzer
@@ -1945,6 +2052,8 @@ class Handler(BaseHTTPRequestHandler):
             return
 
         if self.path == "/api/scan-ultrasound":
+            # combines two independent analyses of the same image: our own trained CNN, and gemini
+            # vision as a second opinion / narrative report generator - see the merge step below
             uploaded = read_multipart_upload(self, "image")
             if uploaded is None or not uploaded["data"]:
                 self.respond(400, {"error": "Upload an image."})
@@ -1954,16 +2063,16 @@ class Handler(BaseHTTPRequestHandler):
                 image_path.write_bytes(uploaded["data"])
                 try:
                     import sys
-                    sys.path.append(str(ROOT / "scripts"))
-                    
-                    # 1. Run CNN Deep Learning analysis first
+                    sys.path.append(str(ROOT / "scripts"))  # ultrasound_scanner.py (gemini analysis) lives under scripts/
+
+                    # 1. Run CNN Deep Learning analysis first - failure here shouldn't block the gemini analysis below
                     cnn_result = {}
                     try:
                         try:
                             from api.ultrasound_pipeline import run_cnn_ultrasound_analysis
                         except ImportError:
                             from ultrasound_pipeline import run_cnn_ultrasound_analysis
-                        
+
                         cnn_result = run_cnn_ultrasound_analysis(str(image_path))
                     except Exception as cnn_exc:
                         print(f"CNN Ultrasound analysis failed: {cnn_exc}")
@@ -1972,14 +2081,15 @@ class Handler(BaseHTTPRequestHandler):
                     # 2. Run Gemini Vision API analysis
                     from ultrasound_scanner import analyze_ultrasound
                     result = analyze_ultrasound(str(image_path))
-                    
-                    # 3. Merge results
+
+                    # 3. Merge results - cnn_ fields get added alongside gemini's own report fields, no field name collisions
                     result.update(cnn_result)
 
                     # 4. Fallback: If Gemini failed, was offline, or rejected verification, apply high-quality simulated reports
                     if result.get("severity") == "Unknown" or "Error" in result.get("image_quality", ""):
                         pred_class = cnn_result.get("cnn_predicted_class", "Normal")
-                        
+
+                        # canned but clinically-plausible reports keyed off the CNN class, so the ui still has something useful
                         fallbacks = {
                             "Normal": {
                                 "image_quality": "High Confidence",
@@ -2042,6 +2152,8 @@ class Handler(BaseHTTPRequestHandler):
             return
 
         if self.path == "/api/extract-report":
+            # pdf/image/text report upload -> extract raw text -> regex out any lab values we recognize,
+            # used to autofill the /api/predict form instead of the user typing everything by hand
             uploaded = read_multipart_upload(self, "report")
             if uploaded is None or not uploaded["data"]:
                 self.respond(400, {"error": "Upload a report file."})
@@ -2055,7 +2167,7 @@ class Handler(BaseHTTPRequestHandler):
             self.respond(200, {
                 "values": extracted,
                 "matched_fields": sorted(extracted.keys()),
-                "text_preview": text[:1200],
+                "text_preview": text[:1200],  # capped so a huge ocr dump doesn't bloat the response
                 "warning": warning,
             })
             return
@@ -2080,15 +2192,17 @@ class Handler(BaseHTTPRequestHandler):
 
             try:
                 import sys
-                sys.path.append(str(ROOT))
+                sys.path.append(str(ROOT))  # models/chatbot.py is a top-level module, not under api/
                 from models.chatbot import AdvancedAINephrologistChatbot, PatientContext, Language
 
                 # Convert language code to Enum
                 try:
                     lang_enum = Language(language_code)
                 except ValueError:
-                    lang_enum = Language.ENGLISH
+                    lang_enum = Language.ENGLISH  # unrecognized language code, don't fail the whole request over it
 
+                # a fresh chatbot instance per request - conversation state is rebuilt from the
+                # history the client sends, nothing is kept server-side between calls
                 chatbot = AdvancedAINephrologistChatbot()
                 chatbot.language = lang_enum
 
@@ -2129,6 +2243,8 @@ class Handler(BaseHTTPRequestHandler):
                         response = chatbot.chat(user_message)
                         break  # success
                     except Exception as e:
+                        # only retry transient "the model is busy" errors - anything else (bad key, bad
+                        # request, etc) should surface immediately rather than burn 3 attempts on a dead end
                         err_str = str(e).lower()
                         is_overload = (
                             '503' in err_str or
@@ -2155,6 +2271,7 @@ class Handler(BaseHTTPRequestHandler):
                     "confidence_score": response.confidence_score
                 })
             except Exception as exc:
+                # same overload check as above, repeated here so retries-exhausted still reports 503 (not 500)
                 err_str = str(exc).lower()
                 is_overload = (
                     '503' in err_str or 'unavailable' in err_str or
@@ -2168,6 +2285,8 @@ class Handler(BaseHTTPRequestHandler):
             return
 
         if self.path == "/api/predict-stage":
+            # separate from /api/predict below - this one returns ckd stage + progression timeline,
+            # not the risk probability
             length = int(self.headers.get("Content-Length", "0"))
             raw = self.rfile.read(length).decode("utf-8") if length else "{}"
             try:
@@ -2182,6 +2301,8 @@ class Handler(BaseHTTPRequestHandler):
                 self.respond(500, {"error": f"Stage prediction failed: {type(exc).__name__}: {exc}"})
             return
 
+        # falls through to here only for /api/predict - this doubles as the catch-all 404 for any
+        # unmatched POST path, since it's the last check in the chain
         if self.path != "/api/predict":
             self.respond(404, {"error": "Not found"})
             return
@@ -2200,6 +2321,7 @@ class Handler(BaseHTTPRequestHandler):
         try:
             self.respond(200, predict(lab))
         except Exception as exc:
+            # deliberately no fallback prediction here - a wrong risk number is worse than a clear error
             self.respond(503, {
                 "error": "Notebook ML prediction failed. No fallback prediction was used.",
                 "detail": f"{type(exc).__name__}: {exc}",
@@ -2212,12 +2334,13 @@ def main() -> None:
         from api.db import init_db
         init_db()
     except Exception as e:
+        # db issues don't stop the api from starting - routes that don't touch postgres still work
         print(f"PostgreSQL database init failed: {e}")
-        
-    host = os.environ.get("HOST", "0.0.0.0")
+
+    host = os.environ.get("HOST", "0.0.0.0")  # 0.0.0.0 so it's reachable from other devices on the lan (e.g. the wearable)
     port = int(os.environ.get("PORT", os.environ.get("API_PORT", "8000")))
-    
-    server = ThreadingHTTPServer((host, port), Handler)
+
+    server = ThreadingHTTPServer((host, port), Handler)  # threaded so a slow request (model inference, gemini calls) doesn't block others
     print(f"NephroCare API running at http://{host}:{port}", flush=True)
     server.serve_forever()
 

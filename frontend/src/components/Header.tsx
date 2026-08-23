@@ -4,6 +4,7 @@ import type { Page } from '../types'
 import { Icon } from './Icon'
 import { Globe, ChevronDown } from 'lucide-react'
 
+// short labels for the language switcher dropdown - keys must match the googtrans/i18n codes used elsewhere
 const LANGUAGES: Record<string, string> = {
   'en': 'EN',
   'hi': 'हिन्दी',
@@ -30,10 +31,14 @@ type HeaderProps = {
   onLogout: () => void
 }
 
+// top nav bar: brand, desktop nav links, features mega-menu, user/lang dropdowns, and the
+// mobile hamburger panel. mobileOpen/featuresOpen are lifted up to App.tsx so other UI (like
+// clicking a page link) can close them too
 export function Header({ mobileOpen, featuresOpen, setMobileOpen, setFeaturesOpen, showPage, scrollTo, closeMenus, user, onLogout }: HeaderProps) {
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const [langMenuOpen, setLangMenuOpen] = useState(false)
   const [language, setLanguage] = useState(() => localStorage.getItem('nephrocare_language') || 'en')
+  // refs used purely to detect "click outside" for each dropdown, see the effect below
   const dropdownRef = useRef<HTMLDivElement>(null)
   const langDropdownRef = useRef<HTMLDivElement>(null)
   const mobileDropdownRef = useRef<HTMLDivElement>(null)
@@ -42,13 +47,16 @@ export function Header({ mobileOpen, featuresOpen, setMobileOpen, setFeaturesOpe
   const handleLanguageChange = async (newLang: string) => {
     setLanguage(newLang)
     localStorage.setItem('nephrocare_language', newLang)
-    
+
+    // Google Translate widget reads its target language from this cookie, and it
+    // only re-translates the page on a fresh load, hence the reload below
     const target = `/en/${newLang}`;
     const match = document.cookie.match(/googtrans=([^;]+)/);
     const current = match ? match[1] : '';
-    
+
     let needsReload = false;
     if (newLang === 'en' && current && current !== '/en/en') {
+      // clear both cookie variants (no domain, and with domain) since we're not sure which one stuck
       document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=" + window.location.hostname + "; path=/;";
       needsReload = true;
@@ -59,6 +67,7 @@ export function Header({ mobileOpen, featuresOpen, setMobileOpen, setFeaturesOpe
     }
 
     if (user && needsReload) {
+      // persist the choice server-side too, read-modify-write since profile has other preference fields
       try {
         const token = localStorage.getItem('auth_token')
         if (token) {
@@ -72,10 +81,11 @@ export function Header({ mobileOpen, featuresOpen, setMobileOpen, setFeaturesOpe
         }
       } catch (err) { console.error(err) }
     }
-    
+
     if (needsReload) window.location.reload()
   }
 
+  // closes whichever dropdown/menu is open when the user clicks anywhere outside it
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -111,6 +121,7 @@ export function Header({ mobileOpen, featuresOpen, setMobileOpen, setFeaturesOpe
         {user ? (
           <div className="user-profile-container" ref={dropdownRef} style={{ position: 'relative' }}>
             <div className="user-profile" onClick={() => setUserMenuOpen(!userMenuOpen)} style={{ cursor: 'pointer', userSelect: 'none' }}>
+              {/* initials avatar: first letter of each word in the name, capped to 2 chars */}
               <div className="user-avatar" title={user.email}>
                 {user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
               </div>
@@ -258,12 +269,14 @@ export function Header({ mobileOpen, featuresOpen, setMobileOpen, setFeaturesOpe
       <button className="mobile-menu" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Toggle menu"><Icon name={mobileOpen ? 'x' : 'menu'} /></button>
     </div>
 
+    {/* features mega-menu - routes by matching each feature's title string, so a title edit
+        in constants.ts without a matching update here will silently fall through to closeMenus() */}
     {featuresOpen && <div className="mega-menu">
       <div className="mega-links">
         {features.map(feature => (
-          <button 
-            type="button" 
-            key={feature.title} 
+          <button
+            type="button"
+            key={feature.title}
             onClick={() => {
               if (feature.title === 'CKD Risk Prediction') {
                 showPage('ckd-prediction');

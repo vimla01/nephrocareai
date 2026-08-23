@@ -1,11 +1,11 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { Icon } from '../components/Icon'
 import type { Page, PredictionResult, PredictionForm, MealPlanResponse, FoodAnalysis, FoodScanResponse, UltrasoundScanResult, ToastType } from '../types'
 import type { FoodTab } from './FoodToolsPage'
 import { API_BASE_URL } from '../constants'
-import { PieChart, Pie, Cell, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts'
 
-// Local storage hook
+// useState backed by localStorage - reads once on mount, writes through on every update.
+// used throughout this page instead of plain useState wherever the value should survive a reload
 function useLocalStorage<T>(key: string, initialValue: T) {
   const [storedValue, setStoredValue] = useState<T>(() => {
     try {
@@ -68,20 +68,9 @@ interface SymptomLog {
   urinationChanges: 'none' | 'mild' | 'severe';
 }
 
-interface FoodCheckLog {
-  timestamp: string;
-  food_name: string;
-  safety_status: string;
-  category: string;
-}
-
-interface WhatsAppLog {
-  timestamp: string;
-  title: string;
-  message: string;
-  status: string;
-}
-
+// note: only mealPlan is actually used below - predictionResult, predictionForm, checkFood, foodCheck,
+// foodScan, ultrasoundResult, ultrasoundMetrics and setFoodTab are currently unused here; this page
+// reads its own copies of prediction/ultrasound history straight from localStorage instead (see below)
 type DashboardPageProps = {
   user: { name: string; email: string } | null
   showPage: (page: Page) => void
@@ -97,6 +86,7 @@ type DashboardPageProps = {
   addToast: (type: ToastType, title: string, message: string, action?: { label: string; url: string }) => void
 }
 
+// e.g. "5 min ago" / "Yesterday" / a full date once it's more than 2 days old
 function getRelativeTime(dateString: string) {
   const date = new Date(dateString);
   const now = new Date();
@@ -127,20 +117,20 @@ export function DashboardPage({
   setFoodTab,
   addToast
 }: DashboardPageProps) {
-  // Histories
+  // Histories - all newest-first arrays, written to by App.tsx (predictions), UltrasoundPage
+  // (scans) and this page itself (symptom logs)
   const [predictions] = useLocalStorage<PredictionHistory[]>('nephrocare_predictions', [])
   const [ultrasounds] = useLocalStorage<UltrasoundHistory[]>('nephrocare_ultrasound_scans', [])
   const [symptomLogs, setSymptomLogs] = useLocalStorage<SymptomLog[]>('nephrocare_symptom_logs', [])
-  const [foodChecks, setFoodChecks] = useLocalStorage<FoodCheckLog[]>('nephrocare_food_checks', [])
 
   // Navigation states
-  const [activeMenu, setActiveMenu] = useState<'dashboard' | 'overview' | 'data' | 'reports' | 'rec'>('dashboard')
   const [activeLabTab, setActiveLabTab] = useState<'kidney' | 'electrolytes' | 'blood' | 'all'>('kidney')
 
   // Modals and tooltips state
   const [isUsModalOpen, setIsUsModalOpen] = useState(false)
-  const [showRiskTooltip, setShowRiskTooltip] = useState(false)
 
+  // fires when a symptom is logged as severe - tries the real Twilio-backed API first, and
+  // falls back to a wa.me deep link toast if that fails so the alert is never silently dropped
   const sendWhatsAppNotification = async (title: string, message: string) => {
     const whatsappEnabled = JSON.parse(window.localStorage.getItem('nephrocare_whatsapp_enabled') || 'false');
     const phoneRaw = window.localStorage.getItem('nephrocare_phone') || '';
@@ -213,6 +203,8 @@ export function DashboardPage({
     };
   }, [symptomLogs]);
 
+  // logs one symptom's new severity as a brand-new snapshot (carrying over all the other
+  // symptoms' last-known values), and pings WhatsApp immediately if it's marked severe
   const handleSymptomChange = (symptom: keyof Omit<SymptomLog, 'timestamp'>, severity: 'none' | 'mild' | 'severe') => {
     const newLog: SymptomLog = {
       ...latestSymptoms,
@@ -237,7 +229,8 @@ export function DashboardPage({
     }
   }
 
-  // Composite Symptom Severity Score (0-100)
+  // Composite Symptom Severity Score (0-100) - simple average of per-symptom severity weights,
+  // shown as the "Load: X%" badge on the symptom tracker card
   const symptomScore = useMemo(() => {
     const weights = { none: 0, mild: 35, severe: 100 }
     const keys = ['fatigue', 'swelling', 'nausea', 'appetite', 'urination', 'itchySkin', 'shortnessOfBreath', 'metallicTaste', 'urinationChanges'] as const
@@ -248,38 +241,12 @@ export function DashboardPage({
   const latestPrediction = predictions[0];
   const latestUltrasound = ultrasounds[0];
 
-  // Sparkline generator helper
-  const renderSparkline = (data: number[], color: string) => {
-    if (!data || data.length < 2) return <span style={{ fontSize: '11px', color: '#94a3b8' }}>Stable</span>
-    const min = Math.min(...data)
-    const max = Math.max(...data)
-    const range = max - min === 0 ? 1 : max - min
-    const width = 50
-    const height = 16
-    const points = data.map((val, idx) => {
-      const x = (idx / (data.length - 1)) * width
-      const y = height - ((val - min) / range) * height
-      return `${x},${y}`
-    }).join(' ')
-    return (
-      <svg width={width} height={height} style={{ overflow: 'visible' }}>
-        <polyline fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" points={points} />
-      </svg>
-    )
-  }
-
-  // Gathers data arrays for Sparklines
-  const creatinineTrend = useMemo(() => predictions.map(p => p.creatinine).reverse().slice(-5), [predictions])
-  const egfrTrend = useMemo(() => predictions.map(p => p.egfr).reverse().slice(-5), [predictions])
-  const potassiumTrend = useMemo(() => predictions.map(p => p.potassium).reverse().slice(-5), [predictions])
-  const sodiumTrend = useMemo(() => predictions.map(p => p.sodium).reverse().slice(-5), [predictions])
-  const ureaTrend = useMemo(() => predictions.map(p => p.blood_urea).reverse().slice(-5), [predictions])
-  const hemoglobinTrend = useMemo(() => predictions.map(p => p.hemoglobin).reverse().slice(-5), [predictions])
-
-  // PDF Doctor Report Generator using live data
+  // builds a standalone HTML "clinical summary" document in a new tab and immediately prints it -
+  // same window.print() approach as DoctorSummaryPage, but this one has no dedicated page/route,
+  // it's assembled here as a raw html string since it needs its own popup window
   const generateDoctorReport = () => {
     const printWindow = window.open('', '_blank')
-    if (!printWindow) return
+    if (!printWindow) return // popup blocked - silently bail rather than showing a broken window
 
     const riskVal = latestPrediction ? `${latestPrediction.risk_percent.toFixed(1)}%` : 'No assessment data'
     const stageVal = latestPrediction ? latestPrediction.stage : 'N/A'
@@ -479,7 +446,8 @@ export function DashboardPage({
     )
   }
 
-  // Stage details mapping
+  // Stage details mapping - takes the backend's egfr_category code (e.g. "G3a") and returns
+  // a plain-language blurb; note this duplicates the wording in constants.ts's stageDescriptions
   const getStageDescription = (stage: string) => {
     const cleanStage = stage.replace(/^G/, 'Stage ');
     switch (cleanStage) {
@@ -493,21 +461,25 @@ export function DashboardPage({
     }
   }
 
+  // position (0-5) of the current stage along the Stage 1..5 progression timeline strip
   const getStageIndex = (stage: string) => {
     const cleanStage = stage.replace(/^G/, 'Stage ');
     const stages = ['Stage 1', 'Stage 2', 'Stage 3a', 'Stage 3b', 'Stage 4', 'Stage 5']
     return stages.indexOf(cleanStage)
   }
 
-  // Risk Gauge Math
+  // Risk Gauge Math - precomputes the svg circle's stroke-dasharray/dashoffset so the ring
+  // fill visually represents riskPercent (see the <circle> using these below)
   const riskPercent = latestPrediction ? latestPrediction.risk_percent : 0
   const riskRadius = 40
   const riskStroke = 6
   const riskCircumference = riskRadius * 2 * Math.PI
   const riskOffset = riskCircumference - (Math.min(riskPercent, 100) / 100) * riskCircumference
 
-  // Reference Ranges and Position mapping for custom progress lines
-  // Returns value percentage relative to safety bounds
+  // Reference Ranges and Position mapping for custom progress lines.
+  // Returns value percentage relative to safety bounds - centers the reference range in the
+  // middle of the bar by padding both ends with half the range, so out-of-range values still
+  // land somewhere sensible on the 0-100 bar instead of clipping immediately
   const getProgressPercent = (value: number, minRef: number, maxRef: number) => {
     const range = maxRef - minRef
     const pct = ((value - (minRef - range * 0.5)) / (range * 2)) * 100
@@ -519,7 +491,9 @@ export function DashboardPage({
       
       {/* Scope specific scoped custom styling overrides for high-fidelity SaaS aesthetics */}
       <style>{`
-        /* Sidebar Navigation Menu */
+        /* Sidebar Navigation Menu - .sidebar/.sidebar-logo below aren't used by any element
+           currently rendered on this page (there's no left nav in the JSX), left in in case
+           a sidebar comes back later */
         .sidebar {
           width: 260px;
           background: #ffffff;

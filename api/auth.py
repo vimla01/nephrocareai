@@ -7,11 +7,7 @@ from typing import Any, Tuple, Optional
 try:
     from api import db
 except ImportError:
-    import db
-
-
-# Secret key for simple token generation
-SECRET_KEY = secrets.token_hex(32)
+    import db  # falls back to bare import when run as a script instead of as the api package
 
 
 def hash_password(password: str) -> str:
@@ -26,37 +22,38 @@ def generate_token() -> str:
 
 def signup(name: str, email: str, password: str) -> Tuple[Optional[dict[str, Any]], str]:
     """Register a new user in the PostgreSQL database.
-    
+
     Returns: (user_dict, token) or (None, error_message)
     """
     # Validate input
     if not name or not email or not password:
         return None, "Missing required fields"
-    
+
     if len(password) < 8:
         return None, "Password must be at least 8 characters"
-    
+
     try:
         # Check if user exists
         existing_user = db.get_user_by_email(email)
         if existing_user:
             return None, "Email already registered"
-        
+
         # Create user
-        user_id = secrets.token_hex(8)
+        user_id = secrets.token_hex(8)  # short random id, not a sequential db id
         hashed_pwd = hash_password(password)
-        
+
         user_data = db.create_user(
             user_id=user_id,
             name=name,
             email=email,
             password_hash=hashed_pwd
         )
-        
-        # Create session/token
+
+        # Create session/token so the client is logged in right after signup
         token = generate_token()
         db.create_session(token, user_id, email)
-        
+
+        # only hand back the public fields, never the password hash
         return {
             "id": user_data["id"],
             "name": user_data["name"],
@@ -67,9 +64,10 @@ def signup(name: str, email: str, password: str) -> Tuple[Optional[dict[str, Any
 
 
 def change_password(user_id: str, new_password: str) -> Tuple[bool, str]:
+    # note: caller must already have verified user_id via a valid session token
     if len(new_password) < 8:
         return False, "Password must be at least 8 characters"
-    
+
     hashed_pwd = hash_password(new_password)
     success = db.update_user_password(user_id, hashed_pwd)
     if success:
@@ -89,11 +87,11 @@ def login(email: str, password: str) -> Tuple[Optional[dict[str, Any]], str]:
         user = db.get_user_by_email(email)
         if not user:
             return None, "Invalid email or password"
-        
-        # Verify password
+
+        # same error message for unknown email and wrong password, so we don't leak which one it is
         if user["password_hash"] != hash_password(password):
             return None, "Invalid email or password"
-        
+
         # Create session/token
         token = generate_token()
         db.create_session(token, user["id"], email)
@@ -113,14 +111,15 @@ def verify_token(token: str) -> Optional[dict[str, Any]]:
     Returns: user_dict or None
     """
     try:
+        # tokens don't expire on their own, they only go away via logout / delete_session
         session = db.get_session(token)
         if not session:
             return None
-        
+
         user = db.get_user_by_id(session["user_id"])
         if not user:
             return None
-        
+
         return {
             "id": user["id"],
             "name": user["name"],
@@ -150,11 +149,12 @@ def google_login(google_user_info: dict[str, str]) -> Tuple[Optional[dict[str, A
         return None, "Google auth failed: no email"
     
     try:
-        # Check if user exists
+        # google login doubles as signup: existing email just logs in, new email gets a row created
         user = db.get_user_by_email(email)
         if not user:
             # Create new user from Google data
             user_id = secrets.token_hex(8)
+            # no password for oauth users, they always log in via google
             user = db.create_user(
                 user_id=user_id,
                 name=name or "Google User",
