@@ -15,7 +15,7 @@ class GradCAM:
         self.gradients = None
         self.activations = None
         
-        # Register forward and backward hooks to access activations and gradients
+        # hooks let us grab the target layer's output/gradient without changing the model's forward code
         self.forward_hook = self.target_layer.register_forward_hook(self._save_activation)
         self.backward_hook = self.target_layer.register_full_backward_hook(self._save_gradient)
 
@@ -23,7 +23,7 @@ class GradCAM:
         self.activations = output
 
     def _save_gradient(self, module, grad_input, grad_output):
-        self.gradients = grad_output[0]
+        self.gradients = grad_output[0]  # grad_output is a tuple, we only care about the layer's own gradient
 
     def remove_hooks(self):
         """Must call this to clean up hooks when finished."""
@@ -45,29 +45,30 @@ class GradCAM:
         logits = self.model(input_image)
         
         if class_idx is None:
+            # default to whatever the model actually predicted, rather than a caller-supplied class
             class_idx = torch.argmax(logits, dim=1).item()
-            
-        # Backward pass
+
+        # backward pass from the single class score, not the full loss - that's what makes it class-specific
         self.model.zero_grad()
         score = logits[0, class_idx]
         score.backward()
-        
+
         if self.gradients is None or self.activations is None:
             raise RuntimeError("Grad-CAM hooks failed to capture gradients/activations. Verify target layer.")
-            
+
         # Process gradients and activations
         gradients = self.gradients.cpu().data.numpy()[0]
         activations = self.activations.cpu().data.numpy()[0]
-        
-        # Channel-wise global average pooling of gradients
+
+        # Channel-wise global average pooling of gradients - this is the "weight" each feature map gets
         weights = np.mean(gradients, axis=(1, 2))
-        
+
         # Weighted sum of activation maps
         cam = np.zeros(activations.shape[1:], dtype=np.float32)
         for i, w in enumerate(weights):
             cam += w * activations[i]
-            
-        # ReLU to keep only positive contribution features
+
+        # ReLU to keep only positive contribution features - negative values would mean "argues against this class"
         cam = np.maximum(cam, 0)
         
         # Resize to match input image spatial size (224x224)
@@ -89,7 +90,7 @@ def overlay_heatmap(image_np, heatmap, alpha=0.45):
     image_np: original image, numpy shape (H, W, 3) or (H, W), values in range [0, 255] or [0, 1]
     heatmap: 2D array, values [0, 1]
     """
-    # Scale image to [0, 255] uint8 if necessary
+    # caller might pass a normalized [0,1] float image or a plain uint8 one, handle both
     if image_np.max() <= 1.0:
         image_np = (image_np * 255).astype(np.uint8)
     else:
@@ -107,8 +108,8 @@ def overlay_heatmap(image_np, heatmap, alpha=0.45):
     heatmap_uint8 = (heatmap * 255).astype(np.uint8)
     heatmap_color = cv2.applyColorMap(heatmap_uint8, cv2.COLORMAP_JET)
     heatmap_color = cv2.cvtColor(heatmap_color, cv2.COLOR_BGR2RGB)
-    
-    # Blending
+
+    # Blending - alpha controls how strong the heatmap looks over the original scan
     blended = cv2.addWeighted(image_rgb, 1.0 - alpha, heatmap_color, alpha, 0)
     return blended
 
@@ -118,12 +119,12 @@ def get_attention_map(model, input_image):
     """
     model.eval()
     with torch.no_grad():
-        _ = model(input_image)
-        
+        _ = model(input_image)  # forward pass is only run to populate last_spatial_attention, output isn't used
+
     if model.last_spatial_attention is None:
         raise ValueError("Model has not cached spatial attention maps. Run forward pass first.")
-        
-    # Extract map (shape: 1, 1, H, W)
+
+    # Extract map (shape: 1, 1, H, W) - batch size and channel dim are both 1 here so just index them out
     attn = model.last_spatial_attention[0, 0].cpu().numpy()
     
     # Resize to input resolution
@@ -149,7 +150,7 @@ def mc_dropout_inference(model, input_image, num_passes=12):
     # Force dropout layers to remain active
     dropout_count = 0
     for m in model.modules():
-        if m.__class__.__name__.startswith('Dropout'):
+        if m.__class__.__name__.startswith('Dropout'):  # name check catches Dropout and Dropout2d alike
             m.train()
             dropout_count += 1
             
@@ -166,19 +167,19 @@ def mc_dropout_inference(model, input_image, num_passes=12):
             probabilities.append(probs.cpu().numpy()[0])
             
     probabilities = np.array(probabilities)  # Shape: (num_passes, num_classes)
-    
-    # Metrics calculation
+
+    # Metrics calculation - std across passes is the uncertainty signal, not just the mean prediction
     mean_probs = np.mean(probabilities, axis=0)
     std_probs = np.std(probabilities, axis=0)
-    
+
     # Shannon Entropy H = - sum(p * log2(p + eps))
-    eps = 1e-12
+    eps = 1e-12  # avoids log2(0) for classes with ~zero probability
     entropy = -np.sum(mean_probs * np.log2(mean_probs + eps))
-    
+
     # Max possible entropy for 5 classes is log2(5) ~ 2.322
     normalized_entropy = entropy / np.log2(5.0)
-    
-    predicted_class = np.argmax(mean_probs)
+
+    predicted_class = np.argmax(mean_probs)  # final prediction is based on the averaged probabilities, not a single pass
     
     return {
         "mean_probabilities": mean_probs,

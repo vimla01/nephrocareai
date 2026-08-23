@@ -11,7 +11,8 @@ class ChannelAttention(nn.Module):
         super(ChannelAttention, self).__init__()
         self.avg_pool = nn.AdaptiveAvgPool2d(1)
         self.max_pool = nn.AdaptiveMaxPool2d(1)
-           
+
+        # ratio=16 squeezes then expands channels, same bottleneck trick as squeeze-and-excite nets
         self.shared_mlp = nn.Sequential(
             nn.Conv2d(in_planes, in_planes // ratio, 1, bias=False),
             nn.ReLU(inplace=True),
@@ -20,6 +21,7 @@ class ChannelAttention(nn.Module):
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, x):
+        # same mlp weights applied to both pooled views, then combined - this is standard cbam
         avg_out = self.shared_mlp(self.avg_pool(x))
         max_out = self.shared_mlp(self.max_pool(x))
         out = avg_out + max_out
@@ -38,6 +40,7 @@ class SpatialAttention(nn.Module):
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, x):
+        # pool across channels (not spatial dims) to get a 2-channel map, then let the conv learn where to look
         avg_out = torch.mean(x, dim=1, keepdim=True)
         max_out, _ = torch.max(x, dim=1, keepdim=True)
         concat = torch.cat([avg_out, max_out], dim=1)
@@ -54,14 +57,15 @@ class CBAMBlock(nn.Module):
         self.sa = SpatialAttention(kernel_size=spatial_kernel)
 
     def forward(self, x):
-        # Channel Attention
+        # channel attention runs first, spatial attention is applied to its output - order matters in cbam
         ca_weight = self.ca(x)
         out = x * ca_weight
-        
+
         # Spatial Attention
         sa_weight = self.sa(out)
         out = out * sa_weight
-        
+
+        # weights returned too since explain.py/pipeline.py cache them for the heatmap overlays
         return out, ca_weight, sa_weight
 
 class KidneyUltrasoundCNN(nn.Module):
@@ -79,34 +83,35 @@ class KidneyUltrasoundCNN(nn.Module):
         try:
             from torchvision.models import efficientnet_b0, EfficientNet_B0_Weights
             if pretrained:
+                # imagenet weights give the model a head start since we only have a small ultrasound dataset
                 weights = EfficientNet_B0_Weights.DEFAULT
                 self.backbone = efficientnet_b0(weights=weights)
             else:
                 self.backbone = efficientnet_b0()
         except ImportError:
-            # Fallback for older torchvision versions
+            # older torchvision used a pretrained=bool flag instead of the weights enum
             from torchvision.models import efficientnet_b0
             self.backbone = efficientnet_b0(pretrained=pretrained)
-        
+
         # Feature extractor
-        self.features = self.backbone.features
+        self.features = self.backbone.features  # drop efficientnet's own classifier head, we bolt on our own below
         self.feature_channels = 1280  # EfficientNet-B0 final feature channels
-        
+
         # Attention block (CBAM)
         self.attention = CBAMBlock(self.feature_channels, reduction_ratio=16, spatial_kernel=7)
-        
+
         # Custom head
         self.global_pool = nn.AdaptiveAvgPool2d(1)
         self.classifier = nn.Sequential(
             nn.Flatten(),
             nn.LayerNorm(self.feature_channels),
-            nn.Dropout(p=0.4),
+            nn.Dropout(p=0.4),  # heavier dropout right after the backbone, dataset is small so this fights overfitting
             nn.Linear(self.feature_channels, 512),
             nn.ReLU(inplace=True),
             nn.Dropout(p=0.3),
             nn.Linear(512, num_classes)
         )
-        
+
         # Stored variables for activation/attention extraction
         self.last_spatial_attention = None
         self.last_channel_attention = None
@@ -114,18 +119,18 @@ class KidneyUltrasoundCNN(nn.Module):
     def forward(self, x):
         # 1. Feature extraction
         feats = self.features(x)
-        
+
         # 2. Attention mechanism
         attn_feats, ca, sa = self.attention(feats)
-        
-        # Cache attention maps for visualizer
+
+        # detach so we don't keep the whole graph alive just for later visualization
         self.last_channel_attention = ca.detach()
         self.last_spatial_attention = sa.detach()
-        
+
         # 3. Global average pooling and classification
         pooled = self.global_pool(attn_feats)
         logits = self.classifier(pooled)
-        
+
         return logits
 
 if __name__ == "__main__":

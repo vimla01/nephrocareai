@@ -15,18 +15,20 @@ def generate_synthetic_ultrasound(label, seed=None):
       3: Hydronephrosis (Fluid backing up in the sinus / dilated pelvis)
       4: Other abnormality (Irregular cortical mass with heterogeneous texture)
     """
+    # no real labeled ultrasound dataset available, so we render synthetic scans procedurally instead
     if seed is not None:
         np.random.seed(seed)
-    
+
     h, w = 256, 256
     img = np.zeros((h, w), dtype=np.float32)
-    
+
     # 1. Sector Mask (Curvilinear probe geometry)
+    # apex sits above the frame (negative y) so the fan-out cone widens downward like a real curvilinear probe
     center_y = -40
     center_x = 128
     radius_inner = 80
     radius_outer = 270
-    
+
     mask = np.zeros((h, w), dtype=np.float32)
     for y in range(h):
         for x in range(w):
@@ -35,6 +37,7 @@ def generate_synthetic_ultrasound(label, seed=None):
             dist = np.sqrt(dx*dx + dy*dy)
             # angle in degrees (-180 to 180)
             angle = np.degrees(np.arctan2(dy, dx))
+            # 55-125 deg is the probe's field of view cone, everything outside stays black
             if radius_inner <= dist <= radius_outer and 55 <= angle <= 125:
                 mask[y, x] = 1.0
 
@@ -58,7 +61,7 @@ def generate_synthetic_ultrasound(label, seed=None):
     cv2.ellipse(sinus_mask, kd_center, sinus_axes, kd_angle, 0, 360, 1.0, -1)
     img[sinus_mask > 0] = np.random.uniform(95, 115)
     
-    # 5. Pathologies setup
+    # 5. Pathologies setup - each branch below draws the visual signature for one class label
     shadow_mask = np.ones((h, w), dtype=np.float32)
     enhance_mask = np.zeros((h, w), dtype=np.float32)
     
@@ -125,11 +128,11 @@ def generate_synthetic_ultrasound(label, seed=None):
     img = img * shadow_mask + enhance_mask
     img = img * mask
     
-    # 6. Noise Modelling
+    # 6. Noise Modelling - real ultrasound has grainy speckle texture, plain shapes would be too easy to classify
     # Multiplicative speckle noise (Gaussian)
     speckle_noise = np.random.normal(1.0, 0.14, (h, w)).astype(np.float32)
     img = img * speckle_noise
-    
+
     # Additive electrical/thermal noise
     thermal_noise = np.random.normal(0, 4.0, (h, w)).astype(np.float32)
     img = img + thermal_noise
@@ -157,10 +160,10 @@ class KidneyUltrasoundDataset(Dataset):
         self.transform = transform
         self.num_samples = num_samples
         self.seed = seed
-        self.is_synthetic = file_paths is None
-        
+        self.is_synthetic = file_paths is None  # no paths given means "generate images on the fly"
+
         if self.is_synthetic:
-            # Pre-generate label distributions evenly across 5 classes
+            # random, not balanced per class - just a uniform draw over the 5 labels
             np.random.seed(seed)
             self.synthetic_labels = np.random.randint(0, 5, size=(num_samples,))
         else:
@@ -189,38 +192,39 @@ class KidneyUltrasoundDataset(Dataset):
         
         # Convert grayscale to 3-channel RGB (required by EfficientNet)
         img_rgb = cv2.cvtColor(img_gray, cv2.COLOR_GRAY2RGB)
-        
+
         if self.transform:
             img_tensor = self.transform(img_rgb)
         else:
             # Fallback simple transform
             img_tensor = T.ToTensor()(img_rgb)
-            
-        return img_tensor, torch.tensor(label, dtype=torch.long)
+
+        return img_tensor, torch.tensor(label, dtype=torch.long)  # CrossEntropyLoss expects long, not int/float labels
 
 def get_transforms():
     """
     Returns standard train and validation image transformation pipelines.
     """
-    # ImageNet standard values for normalization
+    # ImageNet standard values for normalization - has to match what the pretrained backbone was trained with
     mean = [0.485, 0.456, 0.406]
     std = [0.229, 0.224, 0.225]
-    
+
     train_transform = T.Compose([
         T.ToPILImage(),
-        T.RandomRotation(degrees=15),
-        T.RandomHorizontalFlip(p=0.5),
+        T.RandomRotation(degrees=15),  # small angle only, a real scan won't be rotated much more than this
+        T.RandomHorizontalFlip(p=0.5),  # safe since kidneys are roughly left/right mirror symmetric
         T.ColorJitter(brightness=0.15, contrast=0.15),
         T.ToTensor(),
         T.Normalize(mean=mean, std=std)
     ])
-    
+
+    # validation/test images skip the augmentation so metrics reflect the real image, not a jittered one
     val_transform = T.Compose([
         T.ToPILImage(),
         T.ToTensor(),
         T.Normalize(mean=mean, std=std)
     ])
-    
+
     return train_transform, val_transform
 
 if __name__ == "__main__":

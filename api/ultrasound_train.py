@@ -22,53 +22,56 @@ def set_seed(seed=42):
         torch.cuda.manual_seed_all(seed)
 
 def train_epoch(model, loader, criterion, optimizer, device):
+    # one full pass over the training set: forward, loss, backward, optimizer step, per batch
     model.train()
     running_loss = 0.0
     correct = 0
     total = 0
-    
+
     for inputs, targets in loader:
         inputs, targets = inputs.to(device), targets.to(device)
-        
+
         optimizer.zero_grad()
         outputs = model(inputs)
         loss = criterion(outputs, targets)
         loss.backward()
         optimizer.step()
-        
-        running_loss += loss.item() * inputs.size(0)
+
+        running_loss += loss.item() * inputs.size(0)  # weight by batch size since the last batch may be smaller
         _, predicted = outputs.max(1)
         total += targets.size(0)
         correct += predicted.eq(targets).sum().item()
-        
+
     epoch_loss = running_loss / total
     epoch_acc = correct / total
     return epoch_loss, epoch_acc
 
 def evaluate(model, loader, criterion, device):
+    # same as train_epoch but no gradient tracking/optimizer step, used for both val and test sets
     model.eval()
     running_loss = 0.0
     all_preds = []
     all_targets = []
-    
+
     with torch.no_grad():
         for inputs, targets in loader:
             inputs, targets = inputs.to(device), targets.to(device)
             outputs = model(inputs)
             loss = criterion(outputs, targets)
-            
+
             running_loss += loss.item() * inputs.size(0)
             _, predicted = outputs.max(1)
-            
+
             all_preds.extend(predicted.cpu().numpy())
             all_targets.extend(targets.cpu().numpy())
-            
+
     val_loss = running_loss / len(loader.dataset)
-    
+
     all_preds = np.array(all_preds)
     all_targets = np.array(all_targets)
-    
+
     acc = accuracy_score(all_targets, all_preds)
+    # macro average so all 5 classes count equally, even if one pathology is rarer in the sample
     precision, recall, f1, _ = precision_recall_fscore_support(
         all_targets, all_preds, average='macro', zero_division=0
     )
@@ -107,27 +110,28 @@ def train_model(args):
         epochs = args.epochs
         
     print(f"Creating synthetic datasets (Train: {train_samples}, Val: {val_samples}, Test: {test_samples})...")
+    # big seed offsets so val/test synthetic images never collide with train ones
     train_dataset = KidneyUltrasoundDataset(num_samples=train_samples, transform=train_transform, seed=args.seed)
     val_dataset = KidneyUltrasoundDataset(num_samples=val_samples, transform=val_transform, seed=args.seed + 10000)
     test_dataset = KidneyUltrasoundDataset(num_samples=test_samples, transform=val_transform, seed=args.seed + 20000)
     
-    train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, drop_last=True)
+    train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, drop_last=True)  # avoid a tiny final batch messing with batchnorm stats
     val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False)
     test_loader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False)
     
     # 2. Setup Device & Model
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
-    
-    # Transfer learning backbone EfficientNetB0 (using pretrained weights unless quick)
+
+    # skip downloading pretrained imagenet weights in quick mode, keeps the smoke test fast and offline-friendly
     pretrained = not args.quick
     model = KidneyUltrasoundCNN(num_classes=5, pretrained=pretrained)
     model = model.to(device)
-    
+
     # 3. Optimizer & Criterion & Scheduler
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
-    scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs)
+    scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs)  # lr decays to ~0 by the last epoch
     
     # 4. Training Loop
     history = {
@@ -166,23 +170,24 @@ def train_model(args):
               f"Train Loss: {train_loss:.4f}, Train Acc: {train_acc*100:.2f}% | "
               f"Val Loss: {val_metrics['loss']:.4f}, Val Acc: {val_metrics['accuracy']*100:.2f}%, Val F1: {val_metrics['f1_score']:.4f}")
         
-        # Save best model
+        # save best model - tracked by val f1 rather than val loss/accuracy since classes aren't guaranteed balanced
         val_f1 = val_metrics["f1_score"]
         if val_f1 > best_val_f1:
             best_val_f1 = val_f1
             best_model_path = os.path.join(args.output_dir, "kidney_ultrasound_model.pth")
             torch.save(model.state_dict(), best_model_path)
             print(f" => Saved new best model to {best_model_path}")
-            
+
     total_time = time.time() - start_time
     print(f"Training completed in {total_time/60:.2f} minutes.")
-    
-    # 5. Load best model and evaluate on Test Set
+
+    # 5. Load best model and evaluate on Test Set - re-load from disk rather than keep the in-memory
+    # weights, since the last epoch isn't necessarily the best one
     best_model_path = os.path.join(args.output_dir, "kidney_ultrasound_model.pth")
     if os.path.exists(best_model_path):
         model.load_state_dict(torch.load(best_model_path))
         print("Loaded best validation weights for test evaluation.")
-        
+
     test_metrics = evaluate(model, test_loader, criterion, device)
     
     # Print Test Evaluation Results
