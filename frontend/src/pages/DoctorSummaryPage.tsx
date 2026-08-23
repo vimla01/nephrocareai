@@ -8,11 +8,14 @@ type DoctorSummaryPageProps = {
   user: { name: string; email: string } | null
 }
 
+// read-only "clinical letterhead" summary assembled purely from whatever is cached in
+// localStorage (predictions/scans/symptoms) - there's no dedicated summary API call
 export function DoctorSummaryPage({ showPage, user }: DoctorSummaryPageProps) {
   const [predictions, setPredictions] = useState<any[]>([])
   const [ultrasounds, setUltrasounds] = useState<any[]>([])
   const [symptoms, setSymptoms] = useState<any[]>([])
 
+  // one-time load of the three history logs the rest of the app writes to localStorage
   useEffect(() => {
     try {
       const pred = JSON.parse(window.localStorage.getItem('nephrocare_predictions') || '[]')
@@ -26,10 +29,13 @@ export function DoctorSummaryPage({ showPage, user }: DoctorSummaryPageProps) {
     }
   }, [])
 
+  // "Download PDF" button actually just opens the browser print dialog (save-as-PDF is up to the user);
+  // the .no-print class on surrounding elements hides UI chrome from the printed output
   const handlePrint = () => {
     window.print()
   }
 
+  // histories are stored newest-first, so index 0 is the latest entry
   const latestPrediction = predictions.length > 0 ? predictions[0] : null
   const latestUltrasound = ultrasounds.length > 0 ? ultrasounds[0] : null
   const recentSymptoms = symptoms.slice(0, 3)
@@ -78,7 +84,8 @@ export function DoctorSummaryPage({ showPage, user }: DoctorSummaryPageProps) {
           </div>
         </div>
 
-        {/* Biochemistry & Renal Function Panel */}
+        {/* Biochemistry & Renal Function Panel - each row's HIGH/LOW/NORMAL flag is computed inline
+            against the same reference ranges used in predictionPdf.ts, keep both in sync */}
         <div className="summary-section" style={{ marginBottom: '28px' }}>
           <h2 style={{ color: '#083b66', borderBottom: '1px solid #e2e8f0', paddingBottom: '8px', fontSize: '16px', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
             <Icon name="activity" size={18} /> BIOCHEMISTRY & RENAL FUNCTION PANEL

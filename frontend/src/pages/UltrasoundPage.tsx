@@ -1,30 +1,25 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { 
-  Activity, 
-  AlertTriangle, 
-  TrendingDown, 
-  Layers, 
+  Activity,
+  AlertTriangle,
+  Layers,
   ShieldAlert, 
   FileText, 
   Maximize2, 
   ZoomIn, 
   ZoomOut, 
   RotateCw, 
-  Sun, 
-  Contrast, 
-  Download, 
-  Heart, 
-  Info, 
-  ChevronDown, 
-  CheckCircle2, 
-  Upload, 
-  Eye, 
-  Play, 
+  Sun,
+  Contrast,
+  Download,
+  Info,
+  ChevronDown,
+  Upload,
   Sparkles,
   RefreshCw,
   Compass
 } from 'lucide-react'
-import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts'
+import { LineChart, Line, ResponsiveContainer } from 'recharts'
 import { API_BASE_URL } from '../constants'
 import type { Page, UltrasoundScanResult } from '../types'
 import { useAuth } from '../contexts/AuthContext'
@@ -39,17 +34,20 @@ type UltrasoundPageProps = {
   setImagePreview: (url: string) => void
 }
 
-export function UltrasoundPage({ 
-  showPage, 
-  result, 
-  setResult, 
-  metrics, 
-  setMetrics, 
-  imagePreview, 
-  setImagePreview 
+// result/metrics/imagePreview are lifted up to App.tsx so the dashboard can show the latest
+// scan too; everything else (viewer zoom/rotate, scan step, tabs) is local-only UI state
+export function UltrasoundPage({
+  showPage,
+  result,
+  setResult,
+  metrics,
+  setMetrics,
+  imagePreview,
+  setImagePreview
 }: UltrasoundPageProps) {
   const { user } = useAuth()
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  // drives which of the 3 screens (upload form / fake progress / results) is shown
   const [scanStep, setScanStep] = useState<'upload' | 'scanning' | 'results'>(result ? 'results' : 'upload')
   const [activeTab, setActiveTab] = useState<'original' | 'gradcam' | 'attention'>('original')
   
@@ -58,7 +56,7 @@ export function UltrasoundPage({
   const [brightness, setBrightness] = useState(100)
   const [contrast, setContrast] = useState(100)
   const [rotate, setRotate] = useState(0)
-  const [isFullscreen, setIsFullscreen] = useState(false)
+  const [isFullscreen, setIsFullscreen] = useState(false) // toggled by the Fullscreen button, but nothing currently reads it to change layout/styling
   
   // Expandable Accordion Insights State
   const [expandedInsight, setExpandedInsight] = useState<number | null>(null)
@@ -70,6 +68,8 @@ export function UltrasoundPage({
   const fileInputRef = useRef<HTMLInputElement>(null)
   const viewerRef = useRef<HTMLDivElement>(null)
 
+  // if a result already exists when this page mounts (e.g. navigated back to it), jump
+  // straight to the results view instead of showing the upload screen again
   useEffect(() => {
     if (result && scanStep !== 'results') {
       setScanStep('results')
@@ -112,6 +112,8 @@ export function UltrasoundPage({
     window.print()
   }
 
+  // no real eGFR/probability comes back from the severity-only path, so derive stable
+  // fake numbers from a hash of the observations text (same input -> same output)
   const calculateMetrics = (severity: string, observations: string[]) => {
     const text = observations.join(' ')
     let hash = 0
@@ -151,7 +153,9 @@ export function UltrasoundPage({
     setMetrics(null)
     setTimelineProgress(0)
     setTimelineLogs([])
-    
+
+    // purely cosmetic progress log - fixed 600ms per step regardless of how long the
+    // real API call below actually takes, just to make the "scanning" screen feel alive
     const steps = [
       'Establishing secure pipeline link...',
       'Pre-processing DICOM / Scan layers...',
@@ -188,6 +192,8 @@ export function UltrasoundPage({
       
       setResult(data)
 
+      // store a base64 data-url snapshot (not just the fetch response) so the scan
+      // history/thumbnail survives a reload without needing to re-fetch the original file
       const reader = new FileReader()
       reader.onloadend = () => {
         try {
@@ -246,7 +252,9 @@ export function UltrasoundPage({
     setRotate(0)
   }
 
-  // Dynamically compute eGFR, Risk Index, and Severity based on hybrid results
+  // Dynamically compute eGFR, Risk Index, and Severity based on hybrid results.
+  // prefers the real CNN class probabilities when present, and only falls back to the
+  // hash-based calculateMetrics() further up when the CNN didn't return anything usable
   let computedProbability = 0
   let computedEgfr = 90
   let computedSeverity = result?.severity || 'Unknown'
@@ -274,7 +282,8 @@ export function UltrasoundPage({
     }
   }
 
-  // Fallback observations if Gemini fails (Unknown severity) but CNN is working
+  // Fallback observations if Gemini fails (Unknown severity) but CNN is working - lets us still
+  // show clinically-worded bullet points keyed off the CNN's predicted class alone
   const cnnObservationsMap: Record<string, string[]> = {
     'Normal': [
       'Renal dimensions and parenchymal echogenicity appear within typical limits.',
@@ -524,7 +533,7 @@ export function UltrasoundPage({
                 </button>
               </div>
 
-              {/* Viewer Metadata */}
+              {/* Viewer Metadata - decorative only, not wired to the real logged-in user */}
               <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: '#64748B' }}>
                 <span>PATIENT: ANONYMOUS</span>
                 <span>SYSTEM: NEPHROCARE-ANALYSER-V3</span>
@@ -568,6 +577,8 @@ export function UltrasoundPage({
                 {computedSeverity} Severity
               </span>
 
+              {/* strokeDasharray is fixed at the circle's circumference (2*pi*70 rounded to 440);
+                  dashoffset shrinks proportionally to computedProbability to "fill" the ring */}
               <div className="circular-gauge-container">
                 <svg width="160" height="160" viewBox="0 0 160 160">
                   <circle className="circular-gauge-bg" cx="80" cy="80" r="70" />
@@ -597,7 +608,8 @@ export function UltrasoundPage({
                 {finalObservations.map((obs, idx) => {
                   const isActive = expandedInsight === idx
                   
-                  // Intelligent parser
+                  // guesses a card title/icon for this observation by keyword-matching its text,
+                  // since the API only returns plain observation strings, not structured categories
                   const lower = obs.toLowerCase()
                   let title = 'Clinical Observation'
                   let icon = <Info size={18} />

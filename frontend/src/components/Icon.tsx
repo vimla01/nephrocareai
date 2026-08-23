@@ -1,7 +1,9 @@
 import type { ReactNode } from 'react'
 
+// keep this union in sync with the keys of `icons` below - adding an icon means updating both
 export type IconName = 'activity' | 'alert' | 'arrow' | 'camera' | 'chart' | 'check' | 'chef' | 'clipboard' | 'food' | 'heart' | 'lab' | 'menu' | 'message' | 'report' | 'shield' | 'spark' | 'stethoscope' | 'user' | 'x' | 'log-out' | 'alert-triangle' | 'check-circle' | 'info' | 'message-circle' | 'file-text' | 'search' | 'calendar' | 'clock' | 'settings' | 'mic' | 'home' | 'apple' | 'layout-dashboard'
 
+// raw lucide-style path data per icon, name -> svg children (no external icon lib dependency)
 const icons: Record<IconName, ReactNode> = {
   activity: <><path d="M3 12h4l2-7 4 14 2-7h6" /></>,
   alert: <><path d="M12 9v4" /><path d="M12 17h.01" /><path d="M10.3 3.7 2.8 17a2 2 0 0 0 1.7 3h15a2 2 0 0 0 1.7-3L13.7 3.7a2 2 0 0 0-3.4 0Z" /></>,
@@ -38,6 +40,7 @@ const icons: Record<IconName, ReactNode> = {
   'layout-dashboard': <><rect width="7" height="9" x="3" y="3" rx="1" /><rect width="7" height="5" x="14" y="3" rx="1" /><rect width="7" height="9" x="14" y="12" rx="1" /><rect width="7" height="5" x="3" y="16" rx="1" /></>,
 }
 
+// wraps the matching path data in a consistently-styled 24x24 viewBox svg
 export function Icon({ name, size = 20 }: { name: IconName; size?: number }) {
   return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{icons[name]}</svg>
 }

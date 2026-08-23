@@ -34,6 +34,7 @@ type FoodToolsPageProps = {
 
 const stageOptions: FoodStage[] = ['G1', 'G2', 'G3a', 'G3b', 'G4', 'G5']
 
+// maps the backend's free-text status string to one of 3 css classes for the badge/border color
 function statusClass(status: string) {
   const normalized = status.toLowerCase()
   if (normalized.includes('safe')) return 'safe'
@@ -41,6 +42,8 @@ function statusClass(status: string) {
   return 'risky'
 }
 
+// shell page: renders the tab bar and delegates each tab to its own panel component below.
+// all the actual state (scan results, meal plan, etc.) is lifted up and owned by App.tsx
 export function FoodToolsPage({
   foodTab,
   setFoodTab,
@@ -66,11 +69,12 @@ export function FoodToolsPage({
   loadRecommendations,
   loadMealPlan,
 }: FoodToolsPageProps) {
+  // left/right arrow keys cycle tabs, but only when focus isn't in a text field (so typing "->" doesn't switch tabs)
   useEffect(() => {
     const tabs: FoodTab[] = ['scan', 'check', 'recommend', 'plan']
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return
-      
+
       if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
         const currentIndex = tabs.indexOf(foodTab)
         if (e.key === 'ArrowRight') {
@@ -121,10 +125,12 @@ export function FoodToolsPage({
   </main>
 }
 
+// handles both the live camera feed and manual photo upload paths, plus an optional auto-scan
+// timer - this is the only panel with its own local state, the others are purely presentational
 function ScanFoodPanel({ foodScan, foodImagePreview, foodLoading, scanFoodImage, scanLiveFoodFrame, checkFood }: Pick<FoodToolsPageProps, 'foodScan' | 'foodImagePreview' | 'foodLoading' | 'scanFoodImage' | 'scanLiveFoodFrame' | 'checkFood'>) {
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const streamRef = useRef<MediaStream | null>(null)
-  const scanInFlightRef = useRef(false)
+  const scanInFlightRef = useRef(false) // guards against overlapping auto-scan requests
   const [cameraOn, setCameraOn] = useState(false)
   const [autoScan, setAutoScan] = useState(false)
   const [cameraError, setCameraError] = useState('')
@@ -170,6 +176,7 @@ function ScanFoodPanel({ foodScan, foodImagePreview, foodLoading, scanFoodImage,
     }
   }
 
+  // grabs a still frame off the live <video> element by drawing it to an offscreen canvas
   const captureFrame = async () => {
     const video = videoRef.current
     if (!video || !cameraOn || scanInFlightRef.current || video.videoWidth === 0) return
@@ -190,18 +197,21 @@ function ScanFoodPanel({ foodScan, foodImagePreview, foodLoading, scanFoodImage,
     }
   }
 
+  // cleanup on unmount: stop the camera track and release the blob url so it doesn't leak
   useEffect(() => () => {
     streamRef.current?.getTracks().forEach(track => track.stop())
     streamRef.current = null
     if (selectedPreview) URL.revokeObjectURL(selectedPreview)
   }, [selectedPreview])
 
+  // attach the MediaStream to the <video> element once the camera turns on
   useEffect(() => {
     if (!cameraOn || !videoRef.current || !streamRef.current) return
     videoRef.current.srcObject = streamRef.current
     void videoRef.current.play().catch(() => setCameraError('Could not start the live camera preview.'))
   }, [cameraOn])
 
+  // auto-scan mode: fire an immediate capture, then repeat every 5.5s while camera is on
   useEffect(() => {
     if (!autoScan || !cameraOn) return undefined
     const timer = window.setInterval(() => {
@@ -289,6 +299,7 @@ function CheckFoodPanel({ foodName, setFoodName, foodCheck, foodLoading, checkFo
   </div>
 }
 
+// shared stage/hypertension/diabetes selector row, reused by both the Recommendations and Meal Plan panels
 function FoodFilters({ foodStage, setFoodStage, foodHypertension, setFoodHypertension, foodDiabetes, setFoodDiabetes, actionLabel, disabled, onAction }: {
   foodStage: FoodStage
   setFoodStage: (stage: FoodStage) => void
@@ -356,6 +367,7 @@ function MealPlanPanel(props: Pick<FoodToolsPageProps, 'foodStage' | 'setFoodSta
   </section>
 }
 
+// grid of FoodAnalysisCards - onPick is only passed where clicking a card should re-run the food check
 function FoodAnalysisGrid({ items, onPick }: { items: FoodAnalysis[]; onPick?: (foodName: string) => void }) {
   if (!items.length) {
     return <div className="food-empty-state inline">

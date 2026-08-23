@@ -47,6 +47,9 @@ interface VoiceAnalysisResult {
   timestamp: string
 }
 
+// records or accepts an uploaded prescription audio clip, sends it to the backend for
+// transcription + drug-safety analysis, and renders the structured result on the left
+// while the right sidebar holds editable "patient context" used to tailor that analysis
 export function VoiceAssistPage({ showPage, user }: VoiceAssistPageProps) {
   const [recording, setRecording] = useState(false)
   const [recordingTime, setRecordingTime] = useState(0)
@@ -54,8 +57,9 @@ export function VoiceAssistPage({ showPage, user }: VoiceAssistPageProps) {
   const [error, setError] = useState('')
   const [audioFile, setAudioFile] = useState<File | null>(null)
   const [result, setResult] = useState<VoiceAnalysisResult | null>(null)
-  
-  // Patient settings to customize the analysis
+
+  // Patient settings to customize the analysis - defaults pre-fill a plausible Stage 3 CKD
+  // patient so the demo has sensible values without requiring the user to fill anything in first
   const [ckdStage, setCkdStage] = useState<number>(3)
   const [potassium, setPotassium] = useState<string>('4.8')
   const [creatinine, setCreatinine] = useState<string>('1.8')
@@ -103,7 +107,7 @@ export function VoiceAssistPage({ showPage, user }: VoiceAssistPageProps) {
       }, 1000)
     } catch (err) {
       console.warn('Microphone access denied or not available, using simulation mode', err)
-      // Fallback: Simulation mode
+      // no mic access: just fake the recording UI/timer, actual stop will show an error instead of a file
       setRecording(true)
       setRecordingTime(0)
       timerRef.current = setInterval(() => {
@@ -120,11 +124,13 @@ export function VoiceAssistPage({ showPage, user }: VoiceAssistPageProps) {
     }
 
     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+      // real recorder path: stopping it fires onstop above, which kicks off analyzeAudio()
       mediaRecorderRef.current.stop()
       // Stop all tracks to release microphone
       mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop())
     } else {
-      // Simulate creating an audio file if microphone wasn't active
+      // no real recorder was ever created (mic was denied) - despite the name this doesn't
+      // simulate audio, it just surfaces the error and tells the user to upload a file instead
       simulateRecording()
     }
   }
@@ -144,10 +150,12 @@ export function VoiceAssistPage({ showPage, user }: VoiceAssistPageProps) {
     }
   }
 
+  // sends the audio plus the sidebar's patient-context fields as multipart form data;
+  // called both automatically after recording stops and manually for an uploaded/re-analyzed file
   const analyzeAudio = async (fileToAnalyze: File) => {
     setLoading(true)
     setError('')
-    
+
     const formData = new FormData()
     formData.append('audio_file', fileToAnalyze)
     formData.append('patient_id', user ? user.email : 'anonymous_patient')

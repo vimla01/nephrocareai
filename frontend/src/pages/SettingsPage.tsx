@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react'
 import {
   User, Bell, Shield, Activity, Pill, Utensils,
-  ChevronRight, Moon, Sun, Save, CheckCircle, AlertTriangle,
-  Phone, Mail, Globe, Clock, Trash2, Download, Upload, Lock,
+  ChevronRight, Save, CheckCircle, AlertTriangle,
+  Phone, Mail, Globe, Clock, Trash2, Lock,
   Eye, EyeOff, HelpCircle
 } from 'lucide-react'
 import '../styles/settings.css'
 import { API_BASE_URL } from '../constants'
 
+// 'health' and 'data' are unreachable right now - there's no sidebar nav item or content
+// branch for either below, only the other 5 sections are actually wired up
 type SettingsSection =
   | 'profile'
   | 'notifications'
@@ -48,8 +50,11 @@ interface SettingsPageProps {
   showPage: (p: Page) => void
 }
 
+// every preference here is read from localStorage on mount (so settings work even logged-out),
+// then re-synced from the backend profile if the user is logged in, and written to both on Save
 export function SettingsPage({ user, showPage }: SettingsPageProps) {
   const [activeSection, setActiveSection] = useState<SettingsSection>('profile')
+  // seed from cached profile if we have one, else fall back to defaults using whatever user info we have
   const [profile, setProfile] = useState<UserProfile>(() => {
     try {
       const saved = localStorage.getItem('nephrocare_profile')
@@ -65,6 +70,7 @@ export function SettingsPage({ user, showPage }: SettingsPageProps) {
   const [medReminder, setMedReminder] = useState(() => localStorage.getItem('nephrocare_med_reminder') === 'true')
   const [foodReminder, setFoodReminder] = useState(() => localStorage.getItem('nephrocare_food_reminder') === 'true')
   const [labReminder, setLabReminder] = useState(() => localStorage.getItem('nephrocare_lab_reminder') === 'true')
+  // 'nephrocare_whatsapp_alerts' is a legacy key name, kept as a fallback for older saved settings
   const [whatsappAlerts, setWhatsappAlerts] = useState(() => (localStorage.getItem('nephrocare_whatsapp_enabled') || localStorage.getItem('nephrocare_whatsapp_alerts')) === 'true')
   const [emailAlerts, setEmailAlerts] = useState(() => localStorage.getItem('nephrocare_email_alerts') !== 'false')
 
@@ -92,7 +98,8 @@ export function SettingsPage({ user, showPage }: SettingsPageProps) {
   const [showPassword, setShowPassword] = useState(false)
   const [newPassword, setNewPassword] = useState('')
 
-  // Fetch profile from backend on mount
+  // Fetch profile from backend on mount - this can override several of the useState initializers
+  // above once it resolves, so those localStorage defaults are really just the pre-login/offline fallback
   useEffect(() => {
     const token = localStorage.getItem('auth_token')
     if (user && token) {
@@ -142,7 +149,6 @@ export function SettingsPage({ user, showPage }: SettingsPageProps) {
                   body: JSON.stringify({ ...data, preferences: { ...p, language: localLang } })
                 }).catch(console.error)
              }
-             if (p.fluidLimit !== undefined) setFluidLimit(p.fluidLimit)
              if (p.shareWithDoctor !== undefined) setShareWithDoctor(p.shareWithDoctor)
              if (p.anonymousAnalytics !== undefined) setAnonymousAnalytics(p.anonymousAnalytics)
              if (p.twoFactor !== undefined) setTwoFactor(p.twoFactor)
@@ -153,7 +159,8 @@ export function SettingsPage({ user, showPage }: SettingsPageProps) {
     }
   }, [user])
 
-  // Apply dark mode to document whenever it changes
+  // Apply dark mode to document whenever it changes - actual dark-mode styling (if any) lives
+  // in the css keyed off this class; there's currently no UI toggle wired to setDarkMode directly
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add('dark-mode')
@@ -162,10 +169,12 @@ export function SettingsPage({ user, showPage }: SettingsPageProps) {
     }
   }, [darkMode])
 
-  // Dispatch language change event so chatbot and other pages can react
+  // Dispatch language change event so chatbot and other pages can react - runs on mount too,
+  // so it can trigger a reload immediately if the saved language's cookie isn't set yet
   useEffect(() => {
     localStorage.setItem('nephrocare_language', language)
-    
+
+    // same googtrans cookie dance as Header.tsx - keep the two in sync if this logic ever changes
     const target = `/en/${language}`;
     const match = document.cookie.match(/googtrans=([^;]+)/);
     const current = match ? match[1] : '';
@@ -183,15 +192,12 @@ export function SettingsPage({ user, showPage }: SettingsPageProps) {
     window.dispatchEvent(new CustomEvent('nephrocare_language_change', { detail: { language } }))
   }, [language])
 
-  const handleDarkModeToggle = () => {
-    const next = !darkMode
-    setDarkMode(next)
-    localStorage.setItem('nephrocare_dark_mode', String(next))
-  }
-
   // Save state
   const [saved, setSaved] = useState(false)
 
+  // persists every setting on this page in one go: profile fields go to their own key, all the
+  // toggle/preference values get individual localStorage keys, and (if logged in) everything is
+  // also pushed to the backend under one combined `preferences` object
   const saveAll = () => {
     localStorage.setItem('nephrocare_profile', JSON.stringify(profile))
     localStorage.setItem('nephrocare_phone', profile.phone)
@@ -240,22 +246,9 @@ export function SettingsPage({ user, showPage }: SettingsPageProps) {
     setTimeout(() => setSaved(false), 2500)
   }
 
-  const exportData = () => {
-    const data = {
-      profile,
-      predictions: JSON.parse(localStorage.getItem('nephrocare_predictions') || '[]'),
-      scans: JSON.parse(localStorage.getItem('nephrocare_ultrasound_scans') || '[]'),
-      exportedAt: new Date().toISOString()
-    }
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
-    const a = document.createElement('a')
-    a.href = URL.createObjectURL(blob)
-    a.download = `nephrocare_data_${new Date().toISOString().slice(0, 10)}.json`
-    a.click()
-  }
-
   const clearAllData = () => {
     if (window.confirm('Are you sure? This will clear all your saved health data locally. This cannot be undone.')) {
+      // clears the local history caches only - does not delete anything server-side
       ['nephrocare_predictions', 'nephrocare_ultrasound_scans', 'nephrocare_symptom_logs', 'nephrocare_food_checks'].forEach(k => localStorage.removeItem(k))
       setSaved(true)
       setTimeout(() => setSaved(false), 2000)
@@ -288,6 +281,8 @@ export function SettingsPage({ user, showPage }: SettingsPageProps) {
     }
   }
 
+  // Enter key moves focus to the next field instead of submitting anything (there's no <form> here,
+  // just a div grid) - walks the DOM for the next input/select rather than tracking an index in state
   const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();

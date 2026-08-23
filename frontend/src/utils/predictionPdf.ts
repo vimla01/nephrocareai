@@ -1,28 +1,34 @@
-import { stageOrder } from '../constants'
 import type { PredictionResult } from '../types'
-import { formatPercent, formatValue, modelSourceSummary, reportData, stageGfrBand, stageNumber, wrapText } from './format'
+import { formatPercent, formatValue, reportData, wrapText } from './format'
 
+// hand-rolled minimal PDF writer (raw PDF syntax) so we don't need a pdf library dependency
 const pageWidth = 612
 const pageHeight = 792
 
+// PDF string literals can't contain raw backslashes/parens, so escape them before wrapping in ( )
 function pdfEscape(text: string) {
   return text.replace(/\\/g, '\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)')
 }
 
+// one line of text as a PDF content-stream text-showing operator; color is a PDF "r g b rg" triplet
 function pdfText(x: number, y: number, text: string, size = 11, color = '0 0 0', font = '/F1') {
   return `BT ${color} rg ${font} ${size} Tf ${x} ${y} Td (${pdfEscape(text)}) Tj ET`
 }
 
+// multi-line text block: word-wraps first, then stacks pdfText() calls downward by line height (size * 1.45)
 function pdfWrappedText(x: number, y: number, text: string, size = 11, color = '0 0 0', maxLength = 76) {
   const lines = wrapText(text, maxLength)
   return lines.map((line, index) => pdfText(x, y - index * Math.round(size * 1.45), line, size, color)).join('\n')
 }
 
+// filled (and optionally outlined) rectangle in PDF content-stream syntax; y is measured from the bottom
 function pdfRect(x: number, y: number, w: number, h: number, fill: string, stroke?: string) {
   if (stroke) return `q ${fill} rg ${stroke} RG 1 w ${x} ${y} ${w} ${h} re B Q`
   return `q ${fill} rg ${x} ${y} ${w} ${h} re f Q`
 }
 
+// assembles the minimal PDF object graph (catalog -> pages -> page -> content stream) plus
+// the xref table PDF readers need to locate each object - this is the only PDF "plumbing" function
 function createPdfBlob(pages: string[]) {
   const objects = Array<string>(3 + pages.length * 2)
   const pageObjectNumbers = pages.map((_, index) => 4 + index * 2)
@@ -54,23 +60,24 @@ function createPdfBlob(pages: string[]) {
   return new Blob([pdf], { type: 'application/pdf' })
 }
 
+// lays out the single-page "lab letterhead" report - mirrors the on-screen result view in
+// PredictionPage.tsx (same reference ranges/thresholds), just drawn with raw pdf ops instead of jsx
 function buildPredictionPdf(result: PredictionResult, userName: string): Blob {
   const now = new Date()
   const report = reportData(result)
-  const page: string[] = []
+  const page: string[] = [] // one string of content-stream ops per page; only ever one page today
   const navy = '0.05 0.23 0.40'
   const maroon = '0.74 0.04 0.24'
   const muted = '0.31 0.36 0.42'
   const pale = '0.98 0.99 1.00'
-  const softBlue = '0.86 0.93 0.98'
-  const softRose = '0.98 0.87 0.91'
-  
+
   const patientName = userName
   const patientAge = formatValue(result.input.age)
   const patientSex = result.input.sex === 'female' ? 'Female' : 'Male'
-  const labRefId = `NC-${Math.floor(10000 + Math.random() * 90000)}`
+  const labRefId = `NC-${Math.floor(10000 + Math.random() * 90000)}` // cosmetic only, not a real lab id
   const collectionDate = now.toLocaleDateString()
 
+  // reference ranges duplicated from DoctorSummaryPage.tsx - keep both in sync if these ever change
   const rows = [
     { name: 'Glomerular Filtration Rate (eGFR)', val: formatValue(result.kidney_function.egfr_2021), ref: '>= 90.0', unit: 'mL/min/1.73m2', flag: parseFloat(result.kidney_function.egfr_2021 as any) < 60 ? 'LOW' : 'NORMAL' },
     { name: 'Urine Albumin (UACR)', val: formatValue(result.input.urine_albumin), ref: '< 30.0', unit: 'mg/g', flag: parseFloat(result.input.urine_albumin as any) > 30 ? 'HIGH' : 'NORMAL' },
@@ -165,9 +172,11 @@ function buildPredictionPdf(result: PredictionResult, userName: string): Blob {
   return createPdfBlob([page.join('\n')])
 }
 
+// public entry point: builds the pdf blob and immediately triggers a browser download for it
 export function downloadPredictionPdf(result: PredictionResult, userName: string = 'Anonymous') {
   const blob = buildPredictionPdf(result, userName)
   const url = URL.createObjectURL(blob)
+  // an <a download> has to be in the DOM to be clicked programmatically in every browser
   const a = document.createElement('a')
   a.href = url
   a.download = `nephrocare-ckd-risk-${new Date().toISOString().split('T')[0]}.pdf`

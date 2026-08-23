@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Icon } from '../components/Icon'
 import type { Page, WhatsAppLog, ToastType } from '../types'
-import { Bell, Smartphone, Shield, Activity, Clock, Check } from 'lucide-react'
+import { Bell, Smartphone, Shield, Activity, Clock } from 'lucide-react'
 import { API_BASE_URL } from '../constants'
 import '../styles/alerts.css'
 
@@ -11,6 +11,7 @@ type AlertsPageProps = {
   addToast: (type: ToastType, title: string, message: string, action?: any) => void
 }
 
+// same pattern as DashboardPage's local copy - a useState that mirrors its value into localStorage
 function useLocalStorage<T>(key: string, initialValue: T) {
   const [storedValue, setStoredValue] = useState<T>(() => {
     try {
@@ -34,6 +35,8 @@ function useLocalStorage<T>(key: string, initialValue: T) {
   return [storedValue, setValue] as const
 }
 
+// config screen for the reminder engine in App.tsx - this page only writes the settings,
+// the actual reminder polling/sending logic lives in App.tsx's background effect
 export function AlertsPage({ showPage, user, addToast }: AlertsPageProps) {
   const [whatsappEnabled, setWhatsappEnabled] = useLocalStorage('nephrocare_whatsapp_enabled', false)
   const [phone, setPhone] = useLocalStorage('nephrocare_phone', '')
@@ -43,6 +46,8 @@ export function AlertsPage({ showPage, user, addToast }: AlertsPageProps) {
   const [foodReminder, setFoodReminder] = useLocalStorage('nephrocare_food_reminder', false)
 
   useEffect(() => {
+    // picks up log entries written by App.tsx's background reminder engine,
+    // which fires a manual 'storage' event since it's writing from the same tab
     const handleStorageChange = () => {
       try {
         const item = window.localStorage.getItem('nephrocare_whatsapp_history')
@@ -57,6 +62,7 @@ export function AlertsPage({ showPage, user, addToast }: AlertsPageProps) {
     return () => window.removeEventListener('storage', handleStorageChange)
   }, [])
 
+  // alerts require a logged-in phone/profile to notify, so gate the whole page behind auth
   if (!user) {
     return (
       <main className="dashboard-page auth-wall">
@@ -75,6 +81,8 @@ export function AlertsPage({ showPage, user, addToast }: AlertsPageProps) {
     )
   }
 
+  // sends a one-off test message via the Twilio-backed backend; falls back to a "simulated"
+  // toast (with a wa.me link) if Twilio sandbox opt-in hasn't happened or the API is unreachable
   const testWhatsApp = async () => {
     if (!phone) {
       addToast('warning', 'Missing Phone', 'Please enter a phone number to test WhatsApp.')

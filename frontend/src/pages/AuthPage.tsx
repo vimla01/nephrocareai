@@ -10,6 +10,8 @@ type AuthPageProps = {
   onLoginSuccess: (user: { name: string; email: string }) => void
 }
 
+// single component for both login and signup - `mode` toggles which fields/copy show,
+// actual auth calls are delegated to AuthContext
 export function AuthPage({ initialMode, showPage, onLoginSuccess }: AuthPageProps) {
   const { login, signup, loginWithGoogle } = useAuth()
   const [mode, setMode] = useState<'login' | 'signup'>(initialMode)
@@ -28,6 +30,7 @@ export function AuthPage({ initialMode, showPage, onLoginSuccess }: AuthPageProp
   useEffect(() => {
     if (!client_id) return
 
+    // the GSI <script> tag loads async, so poll until window.google shows up
     const checkGoogleSdk = setInterval(() => {
       const google = (window as any).google
       if (google && google.accounts) {
@@ -75,12 +78,14 @@ export function AuthPage({ initialMode, showPage, onLoginSuccess }: AuthPageProp
     return () => clearInterval(checkGoogleSdk)
   }, [client_id])
 
-  // Render Google button whenever SDK is ready or mode changes
+  // Render Google button whenever SDK is ready or mode changes - the GSI button is drawn
+  // imperatively into a plain div by its id, it isn't a React-controlled element
   useEffect(() => {
     if (!client_id || !googleSdkReady) return
 
     const google = (window as any).google
     if (google && google.accounts) {
+      // small delay so the container div has definitely painted before GSI measures it
       const timer = setTimeout(() => {
         const btnContainer = document.getElementById('real-google-btn-container')
         if (btnContainer) {
@@ -119,6 +124,8 @@ export function AuthPage({ initialMode, showPage, onLoginSuccess }: AuthPageProp
         await signup(name, email, password)
         onLoginSuccess({ name, email })
       } else {
+        // App.tsx currently wires onLoginSuccess to a no-op, so this guessed name is discarded -
+        // the real logged-in user (with its actual name) comes from AuthContext's `user` instead
         await login(email, password)
         onLoginSuccess({ name: email.split('@')[0], email })
       }
@@ -227,6 +234,7 @@ export function AuthPage({ initialMode, showPage, onLoginSuccess }: AuthPageProp
             </div>
 
             {mode === 'login' && (
+              // both controls below are visual only - not wired to any handler yet
               <div className="form-options">
                 <label className="remember-me">
                   <input type="checkbox" /> Remember me

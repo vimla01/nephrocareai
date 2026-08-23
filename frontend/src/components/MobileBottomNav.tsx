@@ -6,11 +6,13 @@ type MobileBottomNavProps = {
   currentPage: Page;
 }
 
+// small-screen tab bar shown instead of the desktop header nav, plus a floating AI button
 export function MobileBottomNav({ showPage, currentPage }: MobileBottomNavProps) {
   return (
     <>
     <nav className="mobile-bottom-nav">
-      <button 
+      {/* only 4 shortcuts fit comfortably - everything else lives behind the hamburger menu */}
+      <button
         className={`mobile-nav-btn home-btn ${currentPage === 'home' ? 'active' : ''}`}
         onClick={() => showPage('home')}
       >

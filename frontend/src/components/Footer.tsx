@@ -1,10 +1,8 @@
 import { useState } from 'react'
 import type { Page, ToastType } from '../types'
-import { 
-  Mail, 
-  Send, 
-  Shield, 
-  Activity, 
+import {
+  Send,
+  Activity,
   Heart,
   BookOpen,
   Phone,
@@ -26,6 +24,7 @@ export function Footer({ showPage, scrollTo, addToast }: FooterProps) {
   const [email, setEmail] = useState('')
   const [subscribed, setSubscribed] = useState(false)
 
+  // newsletter signup is purely cosmetic right now - no backend call, just a client-side toast
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault()
     if (!email || !email.includes('@')) {
@@ -142,6 +141,8 @@ export function Footer({ showPage, scrollTo, addToast }: FooterProps) {
       </div>
     </div>
 
+    {/* social links are placeholders (generic domains, no NephroCare-specific accounts yet) -
+        icons are inlined raw svg here instead of lucide-react since these are brand marks, not ui icons */}
     <div className="footer-social-bar">
       <hr className="footer-divider" />
       <div className="footer-socials">

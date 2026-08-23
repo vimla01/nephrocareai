@@ -1,8 +1,8 @@
 import { useState, useEffect, type ChangeEvent, type FormEvent } from 'react'
 import { Icon } from '../components/Icon'
-import { labInputLabels, stageOrder, API_BASE_URL } from '../constants'
+import { API_BASE_URL } from '../constants'
 import type { Page, PredictionForm, PredictionResult, StageProgressionResult } from '../types'
-import { formatPercent, formatValue, modelSourceSummary, reportData, stageGfrBand, stageNumber } from '../utils/format'
+import { formatPercent, formatValue, reportData } from '../utils/format'
 import { downloadPredictionPdf } from '../utils/predictionPdf'
 
 export type PredictionStep = 'calculator' | 'result'
@@ -27,6 +27,9 @@ type PredictionPageProps = {
   user?: { name: string; email: string; avatar?: string } | null
 }
 
+// [form key, display label, unit] tuples driving the calculator form below - order here is the
+// order fields render in; 'sex'/'hypertension'/'diabetes_mellitus' get a <select>, everything
+// else gets a numeric <input> (see the ternary in PredictionCalculator's render)
 const labInputs: [keyof PredictionForm, string, string][] = [
   ['age', 'Age', 'Yrs'],
   ['sex', 'Sex', ''],
@@ -42,6 +45,8 @@ const labInputs: [keyof PredictionForm, string, string][] = [
   ['diabetes_mellitus', 'Diabetes mellitus', ''],
 ]
 
+// two-step page: the input form (PredictionCalculator) and, once a result exists, the
+// "lab report" style output (PredictionResultView) - App.tsx owns predictionStep/result state
 export function PredictionPage(props: PredictionPageProps) {
   const { predictionStep, result, activeReport } = props
   const className = predictionStep === 'result' && result ? 'prediction-page result-page kfre-page' : 'prediction-page calculator-page'
@@ -53,12 +58,15 @@ export function PredictionPage(props: PredictionPageProps) {
   </main>
 }
 
+// renders the risk/lab-marker report for a completed prediction, then separately kicks off a
+// second api call to fetch the longer-term stage progression forecast (shown once it resolves)
 function PredictionResultView({ result, activeReport, setPredictionStep, showPage, user }: PredictionPageProps & { result: PredictionResult; activeReport: ActiveReport }) {
   const userName = user?.name || 'Anonymous'
 
   const [stageResult, setStageResult] = useState<StageProgressionResult | null>(null)
   const [stageLoading, setStageLoading] = useState(false)
 
+  // re-fetches whenever `result` changes (i.e. every time a new prediction is submitted)
   useEffect(() => {
     const fetchStage = async () => {
       setStageLoading(true)
@@ -84,9 +92,10 @@ function PredictionResultView({ result, activeReport, setPredictionStep, showPag
   const patientName = userName
   const patientAge = formatValue(result.input.age)
   const patientSex = result.input.sex === 'female' ? 'Female' : 'Male'
-  const labRefId = `NC-${Math.floor(10000 + Math.random() * 90000)}`
+  const labRefId = `NC-${Math.floor(10000 + Math.random() * 90000)}` // cosmetic only, not a real lab id
   const collectionDate = new Date().toLocaleDateString()
 
+  // reference ranges duplicated in predictionPdf.ts and DoctorSummaryPage.tsx - keep all 3 in sync
   const rows = [
     { name: 'Glomerular Filtration Rate (eGFR)', val: formatValue(result.kidney_function.egfr_2021), ref: '>= 90.0', unit: 'mL/min/1.73m2', flag: parseFloat(result.kidney_function.egfr_2021 as any) < 60 ? 'LOW' : 'NORMAL' },
     { name: 'Urine Albumin (UACR)', val: formatValue(result.input.urine_albumin), ref: '< 30.0', unit: 'mg/g', flag: parseFloat(result.input.urine_albumin as any) > 30 ? 'HIGH' : 'NORMAL' },
@@ -314,6 +323,8 @@ function PredictionResultView({ result, activeReport, setPredictionStep, showPag
   </>
 }
 
+// the input form - note handleReportUpload/uploadStatus/extractedFields are accepted via props
+// but not used in this component's own render; report upload lives on the separate LabReportPage
 function PredictionCalculator({
   form,
   uploadStatus,
@@ -336,6 +347,8 @@ function PredictionCalculator({
       <div className="calculator-panel">
         <form className="calculator-form" onSubmit={submitPrediction}>
           <div className="calculator-grid">
+            {/* builds one field per labInputs entry - sex/hypertension/diabetes render as a
+                <select>, every other field renders as a numeric input with its unit label */}
             {labInputs.map(([key, label, unit]) => key === 'sex' || key === 'hypertension' || key === 'diabetes_mellitus'
               ? <label key={key}><span>{label}</span><select required value={form[key]} onChange={event => updateChoice(key, event.target.value)}><option value="" disabled>Select</option>{key === 'sex' ? <><option value="female">Female</option><option value="male">Male</option></> : <><option value="no">No</option><option value="yes">Yes</option></>}</select></label>
               : <label key={key}><span>{label}</span><div><input type="number" step="any" value={form[key]} onChange={event => updateNumber(key, event.target.value)} required /><small>{unit}</small></div></label>)}

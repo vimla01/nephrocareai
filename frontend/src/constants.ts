@@ -1,8 +1,10 @@
 import type { IconName } from './components/Icon'
 import type { PredictionForm } from './types'
 
+// two env var names supported for historical reasons, fall back to local api
 export const API_BASE_URL = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000'
 
+// drives both the header's "Features" mega-menu and the homepage feature list
 export const features = [
   { icon: 'activity' as IconName, title: 'CKD Risk Prediction' },
   { icon: 'food' as IconName, title: 'Nutrition & Intake Care' },
@@ -12,6 +14,7 @@ export const features = [
   { icon: 'mic' as IconName, title: 'Voice Prescription Assist' },
 ]
 
+// pre-filled "healthy-ish" demo values so the calculator isn't empty on first load
 export const initialPredictionForm: PredictionForm = {
   age: 48,
   sex: 'female',
@@ -27,6 +30,7 @@ export const initialPredictionForm: PredictionForm = {
   diabetes_mellitus: 'no',
 }
 
+// used by resetPrediction() in App.tsx to clear the form back to empty inputs
 export const blankPredictionForm: PredictionForm = {
   age: '',
   sex: '',
@@ -42,6 +46,7 @@ export const blankPredictionForm: PredictionForm = {
   diabetes_mellitus: '',
 }
 
+// the subset of form fields that are numbers, not selects - used to validate/coerce before submit
 export const numericPredictionKeys: (keyof PredictionForm)[] = [
   'age',
   'urine_albumin',
@@ -54,6 +59,7 @@ export const numericPredictionKeys: (keyof PredictionForm)[] = [
   'hemoglobin',
 ]
 
+// keyed by the backend's egfr_category codes (G1..G5, Unknown) - shown on the result/report pages
 export const stageDescriptions: Record<string, { title: string; description: string }> = {
   G1: { title: 'Stage 1', description: 'Normal or high eGFR. CKD usually requires other evidence such as albumin in urine.' },
   G2: { title: 'Stage 2', description: 'Mild decrease in kidney function. Review albumin and clinical context.' },
@@ -64,8 +70,7 @@ export const stageDescriptions: Record<string, { title: string; description: str
   Unknown: { title: 'Stage unknown', description: 'Stage cannot be estimated from the submitted values.' },
 }
 
-export const stageOrder = ['G1', 'G2', 'G3a', 'G3b', 'G4', 'G5']
-
+// human-facing labels for each PredictionForm field, used in the extracted-fields summary
 export const labInputLabels: Record<keyof PredictionForm, string> = {
   age: 'Age',
   sex: 'Sex',

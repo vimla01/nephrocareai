@@ -22,6 +22,7 @@ interface ChatbotPageProps {
   form: PredictionForm
 }
 
+// full names for the language <select>, distinct from Header.tsx's short-code LANGUAGES map
 const LANGUAGES = [
   { code: 'en', name: 'English' },
   { code: 'hi', name: 'Hindi (हिन्दी)' },
@@ -36,6 +37,7 @@ const LANGUAGES = [
   { code: 'ur', name: 'Urdu (اردو)' }
 ]
 
+// suggested-question chips, one fixed set of 4 per language (not personalized/dynamic)
 const QUICK_REPLIES_MAP: Record<string, string[]> = {
   en: ["What foods should I avoid with high potassium?", "What is the normal range of eGFR?", "What does Stage 3 CKD mean?", "Can I take ibuprofen with kidney issues?"],
   hi: ["उच्च पोटेशियम में कौन से खाद्य पदार्थ नहीं खाने चाहिए?", "eGFR की सामान्य सीमा क्या है?", "CKD स्टेज 3 का क्या मतलब है?", "किडनी की बीमारी में ibuprofen ले सकते हैं?"],
@@ -50,6 +52,7 @@ const QUICK_REPLIES_MAP: Record<string, string[]> = {
   ur: ["زیادہ پوٹاشیم میں کون سی غذائیں چھوڑیں؟", "eGFR کی معمول کی حد کیا ہے؟", "CKD مرحلہ 3 کا مطلب کیا ہے؟", "گردے کی تکلیف میں ibuprofen لے سکتے ہیں؟"],
 }
 
+// first bot message per language; {name} gets swapped for the user's name (or "there") in makeWelcome()
 const WELCOME_MESSAGES: Record<string, string> = {
   en: `Hello {name}! I am your AI Nephrology Assistant. I can explain kidney functions, KDIGO guidelines, evaluate lab results, check drug safety, and answer your kidney-health questions. How can I support you today?`,
   hi: `नमस्ते {name}! मैं आपका AI नेफ्रोलॉजी सहायक हूँ। मैं गुर्दे के कार्य, KDIGO दिशानिर्देश, लैब रिपोर्ट विश्लेषण, दवाओं की सुरक्षा जाँच, और आपके गुर्दे से जुड़े सवालों का जवाब दे सकता हूँ। आज मैं आपकी क्या मदद कर सकता हूँ?`,
@@ -64,9 +67,12 @@ const WELCOME_MESSAGES: Record<string, string> = {
   ur: `السلام علیکم {name}! میں آپ کا AI نیفرولوجی معاون ہوں۔ گردے کے افعال، KDIGO رہنما اصول، لیب رپورٹ، دوا کی حفاظت وضاحت کر سکتا ہوں۔ آج آپ کی کیا مدد کروں؟`,
 }
 
+// turns the assistant's markdown-ish reply text into rich jsx: strips out hospital/doctor
+// listing blocks into their own cards, turns markdown headers/links into real elements, and
+// pulls a google maps search link (if any) into an embedded iframe preview at the bottom
 const renderMessageContent = (content: string) => {
   let text = content;
-  
+
   // 1. Match and extract hospital cards
   const hospitals: Array<{ name: string; address: string; phone: string; mapsUrl: string }> = [];
   const hospitalRegex = /\d+\.\s+([^\n]+)\n\s+-\s+Address:\s+([^\n]+)\n\s+-\s+Phone:\s+([^\n]+)\n\s+-\s+Google Maps:\s+\[View on Google Maps\]\(([^)]+)\)/g;
@@ -105,6 +111,9 @@ const renderMessageContent = (content: string) => {
   const renderedLines: React.ReactNode[] = [];
   let mapsQuery: string | null = null;
 
+  // scan the raw (pre-split) content for the first google maps search link so we can render
+  // a live embedded preview below the message - URL() parsing is wrapped in a fallback string
+  // split in case the link ever comes through malformed
   const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
   let linkMatch;
   while ((linkMatch = linkRegex.exec(content)) !== null) {
@@ -127,6 +136,7 @@ const renderMessageContent = (content: string) => {
     }
   }
 
+  // replaces markdown [label](url) links in one line with real <a> tags, styling maps links as pill buttons
   const parseLinks = (lineText: string, lineKey: string) => {
     const parts: React.ReactNode[] = [];
     let lastIndex = 0;
@@ -194,10 +204,12 @@ const renderMessageContent = (content: string) => {
     return parts.length > 0 ? parts : lineText;
   };
 
+  // minimal markdown renderer: only handles ###/####/##### headers, --- dividers, and blank
+  // lines - anything else is rendered as a plain line with its links parsed out
   lines.forEach((line, index) => {
     const lineKey = `line-${index}`;
     const trimmed = line.trim();
-    
+
     if (trimmed.startsWith('### ')) {
       const headerText = trimmed.replace('### ', '');
       renderedLines.push(
@@ -378,8 +390,11 @@ const renderMessageContent = (content: string) => {
   );
 };
 
+// `form` (the CKD calculator values) is only used to pre-fill the patient-context sidebar
+// defaults below - the chat itself sends whatever's currently in those editable fields, not `form` directly
 export function ChatbotPage({ showPage, user, form }: ChatbotPageProps) {
   const userName = user ? user.name : 'there'
+  // builds the first bot message for a given language - called on mount and whenever language changes
   const makeWelcome = (lang: string) => {
     const msg = (WELCOME_MESSAGES[lang] || WELCOME_MESSAGES['en']).replace('{name}', userName)
     return { role: 'assistant' as const, content: msg, assessment: msg, timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
@@ -397,6 +412,7 @@ export function ChatbotPage({ showPage, user, form }: ChatbotPageProps) {
   const [voiceError, setVoiceError] = useState<string | null>(null)
   const recognitionRef = useRef<any>(null)
 
+  // SpeechRecognition needs full BCP-47 locale tags, not just our 2-letter language codes
   const LANG_TO_BCP47: Record<string, string> = {
     en: 'en-IN', hi: 'hi-IN', ta: 'ta-IN', te: 'te-IN',
     kn: 'kn-IN', ml: 'ml-IN', mr: 'mr-IN', gu: 'gu-IN',
@@ -404,6 +420,7 @@ export function ChatbotPage({ showPage, user, form }: ChatbotPageProps) {
   }
 
   const startListening = () => {
+    // Chrome/Edge only ship the webkit-prefixed version
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
     if (!SpeechRecognition) {
       setVoiceError('Voice input is not supported in this browser. Try Chrome or Edge.')
@@ -497,7 +514,8 @@ export function ChatbotPage({ showPage, user, form }: ChatbotPageProps) {
     return () => window.removeEventListener('nephrocare_language_change', handler)
   }, [])
   
-  // Custom context editable state
+  // Custom context editable state - seeded from the calculator's `form` where available,
+  // then freely editable so the user can ask "what if" questions without redoing the calculator
   const [customAge, setCustomAge] = useState<string>(form.age ? form.age.toString() : '48')
   const [customGender, setCustomGender] = useState<string>(form.sex || 'female')
   const [customEgfr, setCustomEgfr] = useState<string>('60')
@@ -512,6 +530,8 @@ export function ChatbotPage({ showPage, user, form }: ChatbotPageProps) {
   const [locationError, setLocationError] = useState<string | null>(null)
   const [locationInput, setLocationInput] = useState('')
 
+  // sends the user's coordinates as a normal chat message - the backend geocodes/searches from
+  // the lat/lng embedded in the text rather than a dedicated location field on the api
   const handleAutolocate = () => {
     console.log("Autolocate button clicked...")
     if (!navigator.geolocation) {

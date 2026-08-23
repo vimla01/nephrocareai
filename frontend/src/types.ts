@@ -1,5 +1,7 @@
+// every route App.tsx can render - keep in sync with the showPage() calls scattered across pages
 export type Page = 'home' | 'ckd-prediction' | 'food-tools' | 'login' | 'signup' | 'dashboard' | 'ultrasound' | 'doctor-summary' | 'alerts' | 'lab-report' | 'chatbot' | 'settings' | 'voice-assist'
 
+// values are '' until the user fills the calculator in, hence number | ''
 export type PredictionForm = {
   age: number | ''
   sex: string
@@ -15,6 +17,7 @@ export type PredictionForm = {
   diabetes_mellitus: string
 }
 
+// shape returned by /api/predict - echoes the input back alongside the computed risk/stage
 export type PredictionResult = {
   input: PredictionForm
   model: { source: string; trained_model_available: boolean; model_error?: string | null }
@@ -25,6 +28,7 @@ export type PredictionResult = {
   recommendations: string[]
 }
 
+// one scanned/looked-up food item with its kidney-relevant nutrients and a safety verdict
 export type FoodAnalysis = {
   food_name: string
   display_name?: string
@@ -40,17 +44,20 @@ export type FoodAnalysis = {
   image_url?: string
 }
 
+// result of scanning a photo of a plate - may detect multiple foods at once
 export type FoodScanResponse = {
   detected_foods: string[]
   analyses: FoodAnalysis[]
   warning?: string | null
 }
 
+// stage-aware "foods you can eat" list from /api/food-recommendations
 export type FoodPlanResponse = {
   stage: string
   recommendations: FoodAnalysis[]
 }
 
+// a full day's suggested meals, grouped by slot
 export type MealPlanResponse = {
   breakfast: FoodAnalysis[]
   lunch: FoodAnalysis[]
@@ -59,6 +66,7 @@ export type MealPlanResponse = {
   notes: string[]
 }
 
+// hybrid CNN + LLM ultrasound read - cnn_* fields are only present when the CNN model ran successfully
 export type UltrasoundScanResult = {
   image_quality: string
   observations: string[]
@@ -80,6 +88,7 @@ export type UltrasoundScanResult = {
 
 export type ToastType = 'danger' | 'warning' | 'info' | 'success' | 'whatsapp';
 
+// a single popup notification; action is optional (e.g. "open whatsapp web" link)
 export type Toast = {
   id: string
   type: ToastType
@@ -88,6 +97,7 @@ export type Toast = {
   action?: { label: string; url: string }
 }
 
+// one row in the alerts page's notification history log
 export type WhatsAppLog = {
   timestamp: string;
   title: string;
@@ -95,6 +105,7 @@ export type WhatsAppLog = {
   status: 'Sent' | 'Simulated' | 'Failed';
 }
 
+// forward-looking eGFR/stage forecast from /api/predict-stage (XGBoost stage + DNN decline rate)
 export type StageProgressionResult = {
   current_stage: string
   stage_probabilities: Record<string, number>

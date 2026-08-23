@@ -20,15 +20,18 @@ export type AuthContextType = {
   clearError: () => void
 }
 
+// undefined default forces consumers through useAuth() below, which throws outside the provider
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
+// wraps the whole app (see main.tsx) - owns the current user and the JWT in localStorage
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  // note: duplicated from constants.ts's API_BASE_URL rather than imported, and only checks one env var name here
   const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'
-  
+
   // Log API URL for debugging
   useEffect(() => {
     console.log('Auth API URL:', API_BASE_URL)
@@ -47,12 +50,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             const userData: User = await response.json()
             setUser(userData)
           } else {
+            // token expired/invalid server-side - drop it so the app treats this as logged out
             localStorage.removeItem('auth_token')
           }
         }
       } catch (err) {
         console.error('Auth check failed:', err)
       } finally {
+        // flips the initial "checking session" spinner off, success or not
         setIsLoading(false)
       }
     }
@@ -84,7 +89,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const message = err instanceof Error ? err.message : 'Login failed'
       console.error('Login error:', message, err)
       setError(message)
-      throw err
+      throw err // re-thrown so the caller's form (AuthPage) can show its own inline error state too
     } finally {
       setIsLoading(false)
     }
@@ -121,6 +126,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  // token here is the Google-issued credential (see AuthPage's GSI callback), not our own JWT
   const loginWithGoogle = async (token: string) => {
     setError(null)
     setIsLoading(true)
@@ -148,6 +154,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  // just clears local state/token - App.tsx's onLogout also wipes the cached history localStorage keys
   const logout = () => {
     localStorage.removeItem('auth_token')
     setUser(null)

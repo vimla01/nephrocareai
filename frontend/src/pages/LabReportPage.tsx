@@ -10,6 +10,8 @@ type LabReportPageProps = {
   showPage: (page: Page) => void
 }
 
+// thin upload UI - the actual OCR/extraction happens in App.tsx's handleReportUpload,
+// this page just shows the file picker and the resulting status/extracted-field list
 export function LabReportPage({
   handleReportUpload,
   uploadStatus,
@@ -38,6 +40,7 @@ export function LabReportPage({
           {uploadStatus && (
             <p className="upload-status" style={{ padding: '16px', background: '#f8fafc', borderRadius: '8px' }}>
               {uploadStatus}
+              {/* map raw field keys (e.g. serum_creatinine) back to their human label for display */}
               {extractedFields.length ? ` Extracted: ${extractedFields.map(field => labInputLabels[field as keyof PredictionForm] ?? field).join(', ')}.` : ''}
             </p>
           )}
